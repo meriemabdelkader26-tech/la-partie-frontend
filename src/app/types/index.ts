@@ -1,0 +1,120 @@
+export type Category = {
+  id: string;
+  name: string;
+  description?: string;
+  isActive?: boolean;
+  created?: string;
+  modified?: string;
+};
+
+export type InstagramReel = {
+  id: string;
+  code: string;
+  videoUrl: string;
+  thumbnailUrl: string;
+  postName: string;
+  duration: number;
+  takenAt: string;
+  likes: number;
+  comments: number;
+  views: number;
+  username: string;
+  hashtags?: string[];
+};
+
+export type InstagramPost = {
+  id: string;
+  code: string;
+  mediaType: "image" | "carousel" | "video";
+  imageUrl: string;
+  thumbnailUrl: string;
+  postName: string;
+  takenAt: string;
+  likes: number;
+  comments: number;
+  username: string;
+  carouselMedia?: {
+    id: string;
+    imageUrl: string;
+    thumbnailUrl: string;
+    isVideo: boolean;
+  }[];
+  hashtags?: string[];
+};
+
+export type Influencer = {
+  id: string;
+  user?: User;
+  pseudo: string;
+  instagramUsername: string;
+  biography: string;
+  localisation?: string;
+  profileImage?: string;
+  images: ImageType[];
+  disponibiliteCollaboration?: string;
+  langues: string[];
+  typeContenu: string[];
+  reseauxSociaux: InfluencerReseauxSociaux[];
+  selectedCategories: Category[];
+  instagramPosts: InstagramPost[];
+  instagramReels: InstagramReel[];
+  statistiquesGlobales?: StatistiquesGlobalesInfluencer;
+};
+
+export type ImageType = {
+  id: string;
+  url: string;
+  isDefault: boolean;
+  isPublic: boolean;
+};
+
+export type StatistiquesGlobalesInfluencer = {
+  croissanceMensuelle: number;
+  engagementMoyenGlobal: number;
+  followersTotaux: number;
+};
+
+export type InfluencerReseauxSociaux = {
+  plateforme: string;
+  nombreAbonnes: number;
+  tauxEngagement: number;
+  moyenneLikes: number;
+  moyenneCommentaires?: number;
+  frequencePublication?: string;
+  urlProfil?: string;
+};
+
+export type User = {
+  id: string;
+  email: string;
+  name: string;
+  phoneNumber: string | null;
+  phoneNumberVerified: boolean;
+  emailVerified: boolean;
+  verifiedAt: string | null;
+  role: string;
+  isVerifyByAdmin: boolean;
+  isCompletedProfile: boolean;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type Offer = {
+  id: string;
+  title: string;
+  objectif: string;
+  influencerNumber: number;
+  minBudget: string;
+  maxBudget: string;
+  startDate: string;
+  endDate: string;
+  requirement: string;
+  createdAt: string;
+  createdBy: User;
+  applications?: OfferApplication[];
+};
+
+export type OfferApplication = {
+  id: string;
+  user: User;
+};

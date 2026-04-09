@@ -1,0 +1,1382 @@
+{
+  "Ariana": [
+    {
+      "city": "Ariana",
+      "zone": "La Soukra"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Ettadhamen"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Kalaât El Andalous"
+    },
+    {
+      "city": "Ariana",
+      "zone": "El Mnihla"
+    },
+    {
+      "city": "Ariana",
+      "zone": "L'Ariana Ville"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Sidi Thabet"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Raoued"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Borj Louzir"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Charguia"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Chotrana 1"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Chotrana 2"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Chotrana 3"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Cité Ennkhilet"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Cité Ennasr 1"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Cité Ennasr 2"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Cité Hedi Nouira"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Dar Fadhal"
+    },
+    {
+      "city": "Ariana",
+      "zone": "El Menzah 5"
+    },
+    {
+      "city": "Ariana",
+      "zone": "El Menzah 6"
+    },
+    {
+      "city": "Ariana",
+      "zone": "El Menzah 7"
+    },
+    {
+      "city": "Ariana",
+      "zone": "El Menzah 8"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Ghazela"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Jardins El Menzah 1"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Jardins El Menzah 2"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Nouvelle Ariana"
+    },
+    {
+      "city": "Ariana",
+      "zone": "Riadh Andalous"
+    }
+  ],
+  "Beja": [
+    {
+      "city": "Beja",
+      "zone": "Teboursouk"
+    },
+    {
+      "city": "Beja",
+      "zone": "Tibar"
+    },
+    {
+      "city": "Beja",
+      "zone": "Goubellat"
+    },
+    {
+      "city": "Beja",
+      "zone": "Béja Sud"
+    },
+    {
+      "city": "Beja",
+      "zone": "Testour"
+    },
+    {
+      "city": "Beja",
+      "zone": "Medjez El Bab"
+    },
+    {
+      "city": "Beja",
+      "zone": "Nefza"
+    },
+    {
+      "city": "Beja",
+      "zone": "Amdoun"
+    },
+    {
+      "city": "Beja",
+      "zone": "Béja Nord"
+    }
+  ],
+  "Ben arous": [
+    {
+      "city": "Ben arous",
+      "zone": "Mohamedia"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Hammam Chôtt"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Mornag"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Fouchana"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Hammam Lif"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Bou Mhel"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "El Mourouj"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Medina Jedida"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Megrine"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Ezzahra"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Ben Arous"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Radès"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Borj Cedria"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "El Mourouj 1"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "El Mourouj 2"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "El Mourouj 3"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "El Mourouj 4"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "El Mourouj 5"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "El Mourouj 6"
+    },
+    {
+      "city": "Ben arous",
+      "zone": "Sidi Rezig"
+    }
+  ],
+  "Bizerte": [
+    {
+      "city": "Bizerte",
+      "zone": "Djoumine"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Mateur"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Utique"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Menzel Bourguiba"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Tinja"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Ghezala"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Ghar El Meleh"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "El Alia"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Menzel Djemil"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Ras Djebel"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Zarzouna"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Sedjnane"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Bizerte Nord"
+    },
+    {
+      "city": "Bizerte",
+      "zone": "Bizerte Sud"
+    }
+  ],
+  "Gafsa": [
+    {
+      "city": "Gafsa",
+      "zone": "Mdhila"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Metlaoui"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "El Guetar"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Redeyef"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "El Ksar"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Belkhir"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Zannouch"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Oum El Araies"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Gafsa Sud"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Sned"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Gafsa Nord"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Sidi Boubaker"
+    },
+    {
+      "city": "Gafsa",
+      "zone": "Sidi Aïch"
+    }
+  ],
+  "Gabes": [
+    {
+      "city": "Gabes",
+      "zone": "Dkhilet Toujen"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Nouvelle Matmata"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Matmata"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Mareth"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Ghanouch"
+    },
+    {
+      "city": "Gabes",
+      "zone": "El Hamma"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Gabes Sud"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Gabes Medina"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Gabes Ouest"
+    },
+    {
+      "city": "Gabes",
+      "zone": "El Metouia"
+    },
+    {
+      "city": "Gabes",
+      "zone": "El Hamma Ouest"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Ouedhref"
+    },
+    {
+      "city": "Gabes",
+      "zone": "Menzel El Habib"
+    }
+  ],
+  "Jendouba": [
+    {
+      "city": "Jendouba",
+      "zone": "Oued Meliz"
+    },
+    {
+      "city": "Jendouba",
+      "zone": "Jendouba"
+    },
+    {
+      "city": "Jendouba",
+      "zone": "Jendouba Nord"
+    },
+    {
+      "city": "Jendouba",
+      "zone": "Ghardimaou"
+    },
+    {
+      "city": "Jendouba",
+      "zone": "Balta - Bou Aouane"
+    },
+    {
+      "city": "Jendouba",
+      "zone": "Bou Salem"
+    },
+    {
+      "city": "Jendouba",
+      "zone": "Fernana"
+    },
+    {
+      "city": "Jendouba",
+      "zone": "Tabarka"
+    },
+    {
+      "city": "Jendouba",
+      "zone": "Ain Draham"
+    }
+  ],
+  "Kebili": [
+    {
+      "city": "Kebili",
+      "zone": "Douz Sud"
+    },
+    {
+      "city": "Kebili",
+      "zone": "Rgim Maàtoug"
+    },
+    {
+      "city": "Kebili",
+      "zone": "Douz Nord"
+    },
+    {
+      "city": "Kebili",
+      "zone": "Kebili Sud"
+    },
+    {
+      "city": "Kebili",
+      "zone": "Faouar"
+    },
+    {
+      "city": "Kebili",
+      "zone": "Souk El Ahed"
+    },
+    {
+      "city": "Kebili",
+      "zone": "Kebili Nord"
+    }
+  ],
+  "Kasserine": [
+    {
+      "city": "Kasserine",
+      "zone": "Majel Bel Abbès"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Ezzouhour"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Hassi Ferid"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Feriana"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Kasserine Nord"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Kasserine Sud"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Sbeitla"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Foussana"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "El Ayoun"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Sbiba"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Hidra"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Thala"
+    },
+    {
+      "city": "Kasserine",
+      "zone": "Djedeliane"
+    }
+  ],
+  "Kairouan": [
+    {
+      "city": "Kairouan",
+      "zone": "Echrarda"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Nasrallah"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Menzel Mhiri"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Bouhajla"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Hajeb El Ayoun"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Echebika"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Kairouan Sud"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "El Alâa"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Haffouz"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Kairouan Nord"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Ain Jloula"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "El Ouslatia"
+    },
+    {
+      "city": "Kairouan",
+      "zone": "Sbikha"
+    }
+  ],
+  "Le kef": [
+    {
+      "city": "Le kef",
+      "zone": "Kalâat Khasbah"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Djerissa"
+    },
+    {
+      "city": "Le kef",
+      "zone": "El Ksour"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Kalâat Snan"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Dahmani"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Tajerouine"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Le Sers"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Kef Ouest"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Kef Est"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Sakiet Sidi Youssef"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Touiref"
+    },
+    {
+      "city": "Le kef",
+      "zone": "Nebeur"
+    }
+  ],
+  "Mednine": [
+    {
+      "city": "Mednine",
+      "zone": "Ben Guerdane"
+    },
+    {
+      "city": "Mednine",
+      "zone": "Beni Khedech"
+    },
+    {
+      "city": "Mednine",
+      "zone": "Medenine Nord"
+    },
+    {
+      "city": "Mednine",
+      "zone": "Medenine Sud"
+    },
+    {
+      "city": "Mednine",
+      "zone": "Zarzis"
+    },
+    {
+      "city": "Mednine",
+      "zone": "Sidi Makhloulf"
+    },
+    {
+      "city": "Mednine",
+      "zone": "Djerba Ajim"
+    },
+    {
+      "city": "Mednine",
+      "zone": "Djerba Midoun"
+    },
+    {
+      "city": "Mednine",
+      "zone": "Djerba Houmet Souk"
+    }
+  ],
+  "Mahdia": [
+    {
+      "city": "Mahdia",
+      "zone": "Chebba"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Rejiche"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Melloulech"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Chorbane"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "El Bradaa"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "El Djem"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Hebira"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Sidi Alouane"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Ksour Essef"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Bou Merdès"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Essouassi"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Mahdia"
+    },
+    {
+      "city": "Mahdia",
+      "zone": "Ouled Chamekh"
+    }
+  ],
+  "Monastir": [
+    {
+      "city": "Monastir",
+      "zone": "Ouerdanine"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Teboulba"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Ksar Helal"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Beni Hassen"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Bekalta"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Sayada-Lamta Bou-Hajar"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Zermadine"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Moknine"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Jammel"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Sahline"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Monastir"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Ksibet El Mediouni"
+    },
+    {
+      "city": "Monastir",
+      "zone": "Bembla"
+    }
+  ],
+  "Manouba": [
+    {
+      "city": "Manouba",
+      "zone": "Borj Amri"
+    },
+    {
+      "city": "Manouba",
+      "zone": "Mornaguia"
+    },
+    {
+      "city": "Manouba",
+      "zone": "Mannouba"
+    },
+    {
+      "city": "Manouba",
+      "zone": "El Battane"
+    },
+    {
+      "city": "Manouba",
+      "zone": "Douar Hicher"
+    },
+    {
+      "city": "Manouba",
+      "zone": "Oued Ellil"
+    },
+    {
+      "city": "Manouba",
+      "zone": "Jedeida"
+    },
+    {
+      "city": "Manouba",
+      "zone": "Tebourba"
+    },
+    {
+      "city": "Manouba",
+      "zone": "Denden"
+    }
+  ],
+  "Nabeul": [
+    {
+      "city": "Nabeul",
+      "zone": "Hammamet"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Nabeul"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Dar Châabane El Fehri"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Beni Khiar"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Bou Argoub"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Beni Khalled"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Grombalia"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Korba"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "El Mida"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Menzel Bouzelfa"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Soliman"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Hammam El Guezaz"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "El Haouaria"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Menzel Temime"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Takelsa"
+    },
+    {
+      "city": "Nabeul",
+      "zone": "Kelibia"
+    }
+  ],
+  "Sfax": [
+    {
+      "city": "Sfax",
+      "zone": "Sfax Ouest"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Sakiet Eddaïer"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Skhira"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Ghraiba"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Mahres"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Kerkenah"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Tina"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Sfax Ville"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Agareb"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Sfax Sud"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Sakiet Ezzit"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Bir ali Ben Kelifa"
+    },
+    {
+      "city": "Sfax",
+      "zone": "El Amra"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Djebeniana"
+    },
+    {
+      "city": "Sfax",
+      "zone": "Menzel Chaker"
+    },
+    {
+      "city": "Sfax",
+      "zone": "El Hencha"
+    }
+  ],
+  "Sousse": [
+    {
+      "city": "Sousse",
+      "zone": "Sousse Medina"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Zaouia-Khsiba-Thrayate"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Sousse Sidi Abdelhamid"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Sousse Riadh"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Msaken"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Sidi El Héni"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Kalaâ Seghira"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Sousse Jawhara"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Hammam Sousse"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Kalaâ Kebira"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Akouda"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Sidi Bou Ali"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Kondar"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Hergla"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Enfidha"
+    },
+    {
+      "city": "Sousse",
+      "zone": "Bouficha"
+    }
+  ],
+  "Siliana": [
+    {
+      "city": "Siliana",
+      "zone": "Bourouis"
+    },
+    {
+      "city": "Siliana",
+      "zone": "Er-Rouhia"
+    },
+    {
+      "city": "Siliana",
+      "zone": "Kesra"
+    },
+    {
+      "city": "Siliana",
+      "zone": "Makthar"
+    },
+    {
+      "city": "Siliana",
+      "zone": "Siliana Sud"
+    },
+    {
+      "city": "Siliana",
+      "zone": "Siliana Nord"
+    },
+    {
+      "city": "Siliana",
+      "zone": "Bargou"
+    },
+    {
+      "city": "Siliana",
+      "zone": "Gaâfour"
+    },
+    {
+      "city": "Siliana",
+      "zone": "Bou Arada"
+    },
+    {
+      "city": "Siliana",
+      "zone": "El Krib"
+    },
+    {
+      "city": "Siliana",
+      "zone": "El Aroussa"
+    }
+  ],
+  "Sidi bouzid": [
+    {
+      "city": "Sidi bouzid",
+      "zone": "Mezzouna"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Menzel Bouzaïenne"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Meknassy"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Souk Jedid"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Sidi Ali Ben Aoûn"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "El Hichria"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Regueb"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Bir El Hafey"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Essaïda"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Sidi Bouzid Ouest"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Ouled Haffouz"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Jilma"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Sidi Bouzid Est"
+    },
+    {
+      "city": "Sidi bouzid",
+      "zone": "Cebalet Ouled Asker"
+    }
+  ],
+  "Tozeur": [
+    {
+      "city": "Tozeur",
+      "zone": "Degach"
+    },
+    {
+      "city": "Tozeur",
+      "zone": "Hazoua"
+    },
+    {
+      "city": "Tozeur",
+      "zone": "Nefta"
+    },
+    {
+      "city": "Tozeur",
+      "zone": "Tozeur"
+    },
+    {
+      "city": "Tozeur",
+      "zone": "Hammet Jrid"
+    },
+    {
+      "city": "Tozeur",
+      "zone": "Tameghza"
+    }
+  ],
+  "Tunis": [
+    {
+      "city": "Tunis",
+      "zone": "La Medina"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Bab Souika"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Omrane Supérieur"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Djebel Djelloud"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Ouardia"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Sidi Hassine"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Kabaria"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Sidi El Béchir"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Ezzouhour"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Sijoumi"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Hrairia"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Bab Bhar"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Omrane"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Le Bardo"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Ettahrir"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Menzah"
+    },
+    {
+      "city": "Tunis",
+      "zone": "La Goulette"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Le Kram"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Cité El Khadra"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Carthage"
+    },
+    {
+      "city": "Tunis",
+      "zone": "La Marsa"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Ain Zaghouane Nord"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Ain Zaghouane Sud"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Aouina"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Centre Urbain Nord"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Cité Jardins"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Cité Olympique"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Haraïria"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Menzah 1"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Menzah 4"
+    },
+    {
+      "city": "Tunis",
+      "zone": "El Menzah 9"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Gammarth"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Jardins De Carthage"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Khaznadar"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Kheireddine Pacha"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Ksar Said"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Lac 1"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Lac 2"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Lafayette Centre Ville"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Manar 1"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Manar 2"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Montfleury"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Montplaisir"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Mutuelleville"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Sidi Bou Said"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Sidi Daoud"
+    },
+    {
+      "city": "Tunis",
+      "zone": "Tunis Belvédère"
+    }
+  ],
+  "Tataouine": [
+    {
+      "city": "Tataouine",
+      "zone": "Dhehiba"
+    },
+    {
+      "city": "Tataouine",
+      "zone": "Remada"
+    },
+    {
+      "city": "Tataouine",
+      "zone": "Béni Méhira"
+    },
+    {
+      "city": "Tataouine",
+      "zone": "Tataouine Sud"
+    },
+    {
+      "city": "Tataouine",
+      "zone": "Smâr"
+    },
+    {
+      "city": "Tataouine",
+      "zone": "Ghomrassen"
+    },
+    {
+      "city": "Tataouine",
+      "zone": "Tataouine Nord"
+    },
+    {
+      "city": "Tataouine",
+      "zone": "Bir Lahmar"
+    }
+  ],
+  "Zaghouan": [
+    {
+      "city": "Zaghouan",
+      "zone": "En-Nadhour"
+    },
+    {
+      "city": "Zaghouan",
+      "zone": "Saouaf"
+    },
+    {
+      "city": "Zaghouan",
+      "zone": "Ez-Zeriba"
+    },
+    {
+      "city": "Zaghouan",
+      "zone": "El Fahs"
+    },
+    {
+      "city": "Zaghouan",
+      "zone": "Zaghouan"
+    },
+    {
+      "city": "Zaghouan",
+      "zone": "Bir Mchergua"
+    }
+  ]
+}
