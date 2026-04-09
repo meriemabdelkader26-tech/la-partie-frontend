@@ -4,7 +4,7 @@ import { APP_NAME, FOOTER_SECTIONS } from "@/constant";
 export default function HomeFooter() {
   const year = new Date().getFullYear();
   return (
-    <footer className="bg-rose-50 border-t border-rose-200 text-rose-500 py-12 px-4">
+    <footer className="bg-slate-900 border-t border-slate-700 text-slate-400 py-12 px-4">
       <div className="max-w-7xl mx-auto">
         <div className="grid md:grid-cols-4 gap-8 mb-8">
           {FOOTER_SECTIONS.map((section, index) => (
@@ -19,7 +19,7 @@ export default function HomeFooter() {
                     <li key={linkIndex}>
                       <Link
                         href={link.href}
-                        className="hover:text-pink-400 transition-colors"
+                        className="hover:text-green-400 transition-colors"
                       >
                         {link.label}
                       </Link>
@@ -30,7 +30,7 @@ export default function HomeFooter() {
             </div>
           ))}
         </div>
-        <div className="border-t border-rose-200 pt-8 text-center text-sm">
+        <div className="border-t border-slate-700 pt-8 text-center text-sm">
           <p>
             &copy; {year} {APP_NAME}. All rights reserved.
           </p>

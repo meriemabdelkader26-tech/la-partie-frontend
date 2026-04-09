@@ -11,8 +11,8 @@ const HomeService = () => {
           Our Services
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-linear-to-br from-pink-900/20 to-pink-800/10 rounded-lg p-8 border border-pink-500/30 hover:border-pink-500/60 transition-colors">
-            <div className="w-12 h-12 bg-pink-600 rounded-lg flex items-center justify-center mb-4">
+          <div className="bg-linear-to-br from-green-900/20 to-green-800/10 rounded-lg p-8 border border-green-500/30 hover:border-green-500/60 transition-colors">
+            <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
               <Users className="text-white" size={24} />
             </div>
             <h3 className="text-2xl font-bold text-white mb-4">
@@ -22,39 +22,39 @@ const HomeService = () => {
               {INFLUENCER_SERVICES.map((service, idx) => (
                 <li key={idx} className="flex items-start gap-3">
                   <CheckCircle2
-                    className="text-pink-400 shrink-0 mt-1"
+                    className="text-green-400 shrink-0 mt-1"
                     size={20}
                   />
-                  <span className="text-rose-600">{service}</span>
+                  <span className="text-slate-300">{service}</span>
                 </li>
               ))}
             </ul>
 
             <Link href="/register?role=influencer">
-              <Button className="w-full bg-pink-600 hover:bg-pink-700 text-white">
+              <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
                 Join as Influencer
               </Button>
             </Link>
           </div>
 
-          <div className="bg-linear-to-br from-rose-100 to-rose-200/50 rounded-lg p-8 border border-rose-300 hover:border-rose-400 transition-colors">
-            <div className="w-12 h-12 bg-rose-300 rounded-lg flex items-center justify-center mb-4">
-              <TrendingUp className="text-pink-400" size={24} />
+          <div className="bg-linear-to-br from-slate-800 to-slate-700/50 rounded-lg p-8 border border-slate-600 hover:border-slate-500 transition-colors">
+            <div className="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center mb-4">
+              <TrendingUp className="text-green-400" size={24} />
             </div>
             <h3 className="text-2xl font-bold text-white mb-4">For Brands</h3>
             <ul className="space-y-3 mb-6">
               {BRAND_SERVICES.map((service, idx) => (
                 <li key={idx} className="flex items-start gap-3">
                   <CheckCircle2
-                    className="text-pink-400 shrink-0 mt-1"
+                    className="text-green-400 shrink-0 mt-1"
                     size={20}
                   />
-                  <span className="text-rose-600">{service}</span>
+                  <span className="text-slate-300">{service}</span>
                 </li>
               ))}
             </ul>
             <Link href="/register?role=company">
-              <Button className="w-full bg-rose-300 hover:bg-rose-400 text-white">
+              <Button className="w-full bg-slate-600 hover:bg-slate-500 text-white">
                 Join as Brand
               </Button>
             </Link>

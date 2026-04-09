@@ -25,12 +25,12 @@ const HomeTrendingInfluencer = () => {
   });
 
   return (
-    <section className="py-20 px-4 border-t border-rose-200">
+    <section className="py-20 px-4 border-t border-slate-700">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-white mb-4">
           Trending Influencers
         </h2>
-        <p className="text-center text-rose-500 mb-16 text-lg">
+        <p className="text-center text-slate-400 mb-16 text-lg">
           Discover top creators in various categories
         </p>
         <Carousel
@@ -61,7 +61,7 @@ const HomeTrendingInfluencer = () => {
       </div>
       <div className="flex items-center justify-center mt-10">
         <Button
-          className="bg-pink-600 hover:bg-pink-700 text-white font-medium py-2 disabled:bg-pink-500/50 w-full lg:w-1/4"
+          className="bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 disabled:bg-emerald-500/50 w-full lg:w-1/4"
           onClick={() => router.push("/recommendation")}
         >
           Load More

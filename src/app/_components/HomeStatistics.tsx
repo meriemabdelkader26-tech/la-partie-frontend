@@ -59,7 +59,7 @@ const Counter = ({ value, duration = 2 }: CounterProps) => {
   return (
     <motion.div
       ref={ref}
-      className="text-4xl md:text-5xl font-bold text-pink-400 mb-2"
+      className="text-4xl md:text-5xl font-bold text-green-400 mb-2"
     >
       {rounded}
     </motion.div>
@@ -68,7 +68,7 @@ const Counter = ({ value, duration = 2 }: CounterProps) => {
 
 const HomeStatistics = () => {
   return (
-    <section className="py-20 px-4 border-t border-rose-200">
+    <section className="py-20 px-4 border-t border-slate-700">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-bold text-center text-white mb-16">
           By The Numbers
@@ -82,7 +82,7 @@ const HomeStatistics = () => {
           ].map((stat, idx) => (
             <div key={idx} className="text-center">
               <Counter value={stat.number} duration={2.5} />
-              <p className="text-rose-600">{stat.label}</p>
+              <p className="text-slate-300">{stat.label}</p>
             </div>
           ))}
         </div>
