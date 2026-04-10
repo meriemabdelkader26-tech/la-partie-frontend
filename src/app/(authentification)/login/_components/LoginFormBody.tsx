@@ -12,7 +12,6 @@ import { useState } from "react";
 import { useSessionStore } from "@/stores/use-session-store";
 import { useMutation } from "@tanstack/react-query";
 import { graphqlClient, handleGraphQLError } from "@/lib/graphql-client";
-import { getRedirectAfterAuth } from "@/lib/auth-redirect";
 import {
   COOKIE_REFRESH_TOKEN_KEY,
   COOKIE_TOKEN_KEY,
@@ -20,8 +19,6 @@ import {
 } from "@/config";
 import ErrorTriangle from "@/components/shared/ErrorTriangle";
 import { toast } from "sonner";
-import { useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 
 const LOGIN_MUTATION = `
     mutation Login($email: String!, $password: String!) {
@@ -38,7 +35,6 @@ const LOGIN_MUTATION = `
                 isStaff
                 name
                 role
-                isCompletedProfile
             }
         }
     }
@@ -62,7 +58,6 @@ interface LoginMutationResult {
       isStaff: boolean;
       name: string;
       role: string;
-      isCompletedProfile: boolean;
     };
   };
 }
@@ -77,7 +72,6 @@ const cookieOptions = (exp: number) => ({
 const LoginFormBody = () => {
   const [error, setError] = useState<string | null>(null);
   const { setLoggedIn, setCurrentUser } = useSessionStore();
-  const searchParams = useSearchParams();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     mode: "all",
     resolver: zodResolver(LoginFormSchema),
@@ -86,13 +80,6 @@ const LoginFormBody = () => {
       password: "",
     },
   });
-
-  useEffect(() => {
-    const emailFromQuery = searchParams.get("email");
-    if (emailFromQuery) {
-      form.setValue("email", emailFromQuery, { shouldValidate: true });
-    }
-  }, [form, searchParams]);
 
   const mutation = useMutation<
     LoginMutationResult,
@@ -135,14 +122,22 @@ const LoginFormBody = () => {
 
       if (redirectTo) {
         window.location.href = redirectTo;
+      } else if (user.isStaff) {
+        window.location.href = "/admin/category";
+      } else if (user.role === "INFLUENCER") {
+        if (!user.isVerifyByAdmin) {
+          window.location.href = "/influencer/complete-profile";
+        } else {
+          window.location.href = "/influencer";
+        }
+      } else if (user.role === "COMPANY") {
+        if (!user.isVerifyByAdmin) {
+          window.location.href = "/company/complete-profile";
+        } else {
+          window.location.href = "/company";
+        }
       } else {
-        // Utilise la logique centralisée avec type casting
-        const redirectPath = getRedirectAfterAuth({
-          role: user.role as "COMPANY" | "INFLUENCER" | "ADMIN",
-          isCompletedProfile: user.isCompletedProfile,
-          isVerifyByAdmin: user.isVerifyByAdmin,
-        });
-        window.location.href = redirectPath;
+        window.location.href = "/";
       }
     },
     onError: (error) => {

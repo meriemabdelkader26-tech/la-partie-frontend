@@ -11,7 +11,6 @@ import { useState } from "react";
 import { useSessionStore } from "@/stores/use-session-store";
 import { useMutation } from "@tanstack/react-query";
 import { graphqlClient, handleGraphQLError } from "@/lib/graphql-client";
-import { getRedirectAfterAuth } from "@/lib/auth-redirect";
 import ErrorTriangle from "@/components/shared/ErrorTriangle";
 import { toast } from "sonner";
 import { RoleEnum } from "@/app/enums";
@@ -75,17 +74,12 @@ const RegisterFormBody = () => {
     },
     onSuccess: (data, variables) => {
       toast.success(
-        data.registerUser.message || "Registration successful! Redirecting..."
+        data.registerUser.message ||
+          "Registration successful! Please verify your email."
       );
-
-      // Après enregistrement, rediriger vers complete-profile
-      // Nouveau compte = profil incomplet par défaut
-      const redirectPath = getRedirectAfterAuth({
-        role: (variables.role || RoleEnum.INFLUENCER) as "COMPANY" | "INFLUENCER",
-        isCompletedProfile: false, // Nouveau compte = profil incomplet
-      });
-      
-      window.location.href = redirectPath;
+      window.location.href = `/verify-email/pending?email=${encodeURIComponent(
+        variables.email
+      )}`;
     },
     onError: (error) => {
       setError(handleGraphQLError(error).message);
