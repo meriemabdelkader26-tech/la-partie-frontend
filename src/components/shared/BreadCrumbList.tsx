@@ -24,7 +24,7 @@ const BreadCrumbList = ({ breadCrumbs }: Props) => {
               <BreadcrumbLink
                 href={item.href}
                 className={cn(
-                  "font-normal text-sm text-slate-400 hover:text-emerald-400 transition-colors",
+                  "font-normal text-sm text-slate-400 hover:text-primary transition-colors",
                   index == 0 && "font-medium text-slate-300"
                 )}
               >

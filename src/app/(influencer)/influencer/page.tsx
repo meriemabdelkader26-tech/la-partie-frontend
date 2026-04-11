@@ -47,29 +47,29 @@ const InfluencerDashboard = () => {
     <div className="space-y-6">
       {/* Header */}
       <div className="space-y-2">
-        <h1 className="text-3xl font-bold text-white">Welcome back! 👋</h1>
-        <p className="text-rose-500">
+        <h1 className="text-3xl font-bold text-pastel-dark-blue">Welcome back! 👋</h1>
+        <p className="text-pastel-blue">
           Here's what's happening with your campaigns today
         </p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
+        {stats.map((stat, idx) => (
           <Card
             key={stat.title}
-            className="bg-rose-100/50 border-rose-200 hover:border-pink-500/30 transition-colors"
+            className="bg-white/70 border-pastel-blue hover:border-pastel-dark-blue transition-colors shadow-md"
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-lg bg-pink-500/10 flex items-center justify-center">
-                  <stat.icon className="w-6 h-6 text-pink-400" />
+                <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${idx % 2 === 0 ? 'bg-pastel-red/20' : 'bg-pastel-blue/20'}`}> 
+                  <stat.icon className={`w-6 h-6 ${idx % 2 === 0 ? 'text-pastel-red' : 'text-pastel-blue'}`} />
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="text-rose-500 text-sm">{stat.title}</p>
-                <p className="text-2xl font-bold text-white">{stat.value}</p>
-                <p className="text-xs text-pink-400">{stat.change}</p>
+                <p className="text-pastel-dark-blue text-sm">{stat.title}</p>
+                <p className="text-2xl font-bold text-pastel-dark-blue">{stat.value}</p>
+                <p className="text-xs text-pastel-blue">{stat.change}</p>
               </div>
             </div>
           </Card>
@@ -79,23 +79,23 @@ const InfluencerDashboard = () => {
       {/* Recent Activity */}
       <div className="grid gap-4 md:grid-cols-2">
         {/* Active Campaigns */}
-        <Card className="bg-rose-100/50 border-rose-200">
+        <Card className="bg-white/70 border-pastel-blue">
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-white">
+              <h2 className="text-xl font-semibold text-pastel-dark-blue">
                 Active Campaigns
               </h2>
-              <Calendar className="w-5 h-5 text-pink-400" />
+              <Calendar className="w-5 h-5 text-pastel-blue" />
             </div>
             <div className="space-y-4">
               {[1, 2, 3].map((item) => (
                 <div
                   key={item}
-                  className="flex items-center justify-between p-3 bg-rose-200/50 rounded-lg hover:bg-rose-200 transition-colors"
+                  className="flex items-center justify-between p-3 bg-pastel-green/10 rounded-lg hover:bg-pastel-green/20 transition-colors"
                 >
                   <div className="space-y-1">
-                    <p className="text-white font-medium">Campaign #{item}</p>
-                    <p className="text-rose-500 text-sm">
+                    <p className="text-pastel-dark-blue font-medium">Campaign #{item}</p>
+                    <p className="text-pastel-red text-sm">
                       {item === 1
                         ? "Fashion Brand - Summer Collection"
                         : item === 2
@@ -104,10 +104,10 @@ const InfluencerDashboard = () => {
                     </p>
                   </div>
                   <div className="text-right">
-                    <p className="text-pink-400 font-semibold">
+                    <p className="text-pastel-blue font-semibold">
                       ${(item * 1000).toLocaleString()}
                     </p>
-                    <p className="text-rose-400 text-xs">In Progress</p>
+                    <p className="text-pastel-dark-blue text-xs">In Progress</p>
                   </div>
                 </div>
               ))}
@@ -116,73 +116,52 @@ const InfluencerDashboard = () => {
         </Card>
 
         {/* Recent Messages */}
-        <Card className="bg-rose-100/50 border-rose-200">
+        <Card className="bg-white/70 border-pastel-blue">
           <div className="p-6">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-xl font-semibold text-white">
+              <h2 className="text-xl font-semibold text-pastel-dark-blue">
                 Recent Messages
               </h2>
-              <MessageSquare className="w-5 h-5 text-pink-400" />
+              <MessageSquare className="w-5 h-5 text-pastel-blue" />
             </div>
             <div className="space-y-4">
               {[1, 2, 3].map((item) => (
                 <div
                   key={item}
-                  className="flex items-start gap-3 p-3 bg-rose-200/50 rounded-lg hover:bg-rose-200 transition-colors cursor-pointer"
+                  className="flex items-start gap-3 p-3 bg-pastel-red/10 rounded-lg hover:bg-pastel-red/20 transition-colors cursor-pointer"
                 >
-                  <div className="w-10 h-10 rounded-full bg-pink-500/20 flex items-center justify-center shrink-0">
-                    <Users className="w-5 h-5 text-pink-400" />
+                  <div className="w-10 h-10 rounded-full bg-pastel-red/20 flex items-center justify-center shrink-0">
+                    <Users className="w-5 h-5 text-pastel-red" />
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className="text-white font-medium truncate">
+                    <p className="text-pastel-dark-blue font-medium truncate">
                       Brand {item}
                     </p>
-                    <p className="text-rose-500 text-sm truncate">
+                    <p className="text-pastel-red text-sm truncate">
                       New campaign opportunity available...
                     </p>
-                    <p className="text-rose-400 text-xs mt-1">
+                    <p className="text-xs text-pastel-blue mt-1">
                       {item} hour{item > 1 ? "s" : ""} ago
                     </p>
                   </div>
                 </div>
               ))}
             </div>
+
+          </div>
+          {/* Harmonisation pastel : boutons d'action */}
+          <div className="flex flex-col gap-2 mt-4">
+            <button className="p-4 bg-pastel-red/10 rounded-lg hover:bg-pastel-red/20 hover:border-pastel-red/30 border border-transparent transition-all text-left">
+              <p className="text-pastel-dark-blue font-medium">View Analytics</p>
+              <p className="text-pastel-red text-sm mt-1">Track your performance</p>
+            </button>
+            <button className="p-4 bg-pastel-red/10 rounded-lg hover:bg-pastel-red/20 hover:border-pastel-red/30 border border-transparent transition-all text-left">
+              <p className="text-pastel-dark-blue font-medium">Check Earnings</p>
+              <p className="text-pastel-red text-sm mt-1">Review your income</p>
+            </button>
           </div>
         </Card>
       </div>
-
-      {/* Quick Actions */}
-      <Card className="bg-rose-100/50 border-rose-200">
-        <div className="p-6">
-          <h2 className="text-xl font-semibold text-white mb-4">
-            Quick Actions
-          </h2>
-          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <button className="p-4 bg-rose-200/50 rounded-lg hover:bg-pink-500/10 hover:border-pink-500/30 border border-transparent transition-all text-left">
-              <p className="text-white font-medium">Update Profile</p>
-              <p className="text-rose-500 text-sm mt-1">
-                Keep your info current
-              </p>
-            </button>
-            <button className="p-4 bg-rose-200/50 rounded-lg hover:bg-pink-500/10 hover:border-pink-500/30 border border-transparent transition-all text-left">
-              <p className="text-white font-medium">Browse Campaigns</p>
-              <p className="text-rose-500 text-sm mt-1">
-                Find new opportunities
-              </p>
-            </button>
-            <button className="p-4 bg-rose-200/50 rounded-lg hover:bg-pink-500/10 hover:border-pink-500/30 border border-transparent transition-all text-left">
-              <p className="text-white font-medium">View Analytics</p>
-              <p className="text-rose-500 text-sm mt-1">
-                Track your performance
-              </p>
-            </button>
-            <button className="p-4 bg-rose-200/50 rounded-lg hover:bg-pink-500/10 hover:border-pink-500/30 border border-transparent transition-all text-left">
-              <p className="text-white font-medium">Check Earnings</p>
-              <p className="text-rose-500 text-sm mt-1">Review your income</p>
-            </button>
-          </div>
-        </div>
-      </Card>
     </div>
   );
 };

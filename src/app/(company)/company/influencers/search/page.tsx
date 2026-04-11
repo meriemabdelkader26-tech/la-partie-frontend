@@ -51,8 +51,8 @@ const InfluencerCard = ({ influencer }: { influencer: Influencer }) => {
   };
 
   return (
-    <Card className="bg-slate-900 border-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300 overflow-hidden group">
-      <div className="relative h-48 bg-linear-to-br from-emerald-500/20 to-blue-500/20">
+    <Card className="bg-slate-900 border-primary/10 hover:border-primary/30 transition-all duration-300 overflow-hidden group">
+      <div className="relative h-48 bg-linear-to-br from-primary/20 to-blue-500/20">
         {influencer.instagramData?.profile_pic_url ? (
           <Image
             src={influencer.instagramData.profile_pic_url}
@@ -69,7 +69,7 @@ const InfluencerCard = ({ influencer }: { influencer: Influencer }) => {
           <Badge
             className={`${
               influencer.disponibiliteCollaboration === "DISPONIBLE"
-                ? "bg-emerald-500/90 text-white"
+                ? "bg-primary/90 text-white"
                 : influencer.disponibiliteCollaboration === "PARTIELLEMENT_DISPONIBLE"
                 ? "bg-yellow-500/90 text-white"
                 : "bg-red-500/90 text-white"
@@ -111,7 +111,7 @@ const InfluencerCard = ({ influencer }: { influencer: Influencer }) => {
               <Badge
                 key={category.id}
                 variant="outline"
-                className="border-emerald-500/30 text-emerald-400 text-xs"
+                className="border-primary/30 text-primary text-xs"
               >
                 {category.name}
               </Badge>
@@ -130,7 +130,7 @@ const InfluencerCard = ({ influencer }: { influencer: Influencer }) => {
         {/* Location */}
         {influencer.localisation && (
           <div className="flex items-center gap-2 text-sm text-slate-300">
-            <MapPin className="w-4 h-4 text-emerald-400" />
+            <MapPin className="w-4 h-4 text-primary" />
             <span>{influencer.localisation}</span>
           </div>
         )}
@@ -139,7 +139,7 @@ const InfluencerCard = ({ influencer }: { influencer: Influencer }) => {
         {stats && (
           <div className="grid grid-cols-3 gap-3 pt-3 border-t border-slate-800">
             <div className="text-center">
-              <div className="flex items-center justify-center gap-1 text-emerald-400 font-semibold">
+              <div className="flex items-center justify-center gap-1 text-primary font-semibold">
                 <Users className="w-4 h-4" />
                 <span className="text-sm">{formatNumber(stats.nombreAbonnes)}</span>
               </div>
@@ -176,7 +176,7 @@ const InfluencerCard = ({ influencer }: { influencer: Influencer }) => {
           </Button>
           <Button
             size="sm"
-            className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white"
+            className="flex-1 bg-primary hover:bg-primary-dark text-white"
             onClick={() => setShowProposalModal(true)}
           >
             <Send className="w-4 h-4 mr-2" />
@@ -298,7 +298,7 @@ const InfluencerSearchPage = () => {
             Trouvez les meilleurs influenceurs pour vos campagnes
           </p>
         </div>
-        <Badge variant="outline" className="text-emerald-400 border-emerald-500/30">
+        <Badge variant="outline" className="text-primary border-primary/30">
           {filteredInfluencers.length} résultat{filteredInfluencers.length > 1 ? "s" : ""}
         </Badge>
       </div>

@@ -64,16 +64,16 @@ const AnalyticsPage = () => {
         {stats.map((stat) => (
           <Card
             key={stat.title}
-            className="bg-slate-800/50 border-slate-700 hover:border-emerald-500/30 transition-colors"
+            className="bg-slate-800/50 border-slate-700 hover:border-primary/30 transition-colors"
           >
             <div className="p-6">
               <div className="flex items-center justify-between mb-4">
-                <div className="w-12 h-12 rounded-lg bg-emerald-500/10 flex items-center justify-center">
-                  <stat.icon className="w-6 h-6 text-emerald-400" />
+                <div className="w-12 h-12 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <stat.icon className="w-6 h-6 text-primary" />
                 </div>
                 <div
                   className={`flex items-center gap-1 text-sm ${
-                    stat.trending === "up" ? "text-green-400" : "text-red-400"
+                    stat.trending === "up" ? "text-primary-dark" : "text-red-400"
                   }`}
                 >
                   {stat.trending === "up" ? (
@@ -116,7 +116,7 @@ const AnalyticsPage = () => {
                     </div>
                     <div className="w-full bg-slate-700 rounded-full h-3">
                       <div
-                        className="bg-linear-to-r from-emerald-600 to-emerald-400 h-3 rounded-full transition-all"
+                        className="bg-linear-to-r from-primary-dark to-primary h-3 rounded-full transition-all"
                         style={{ width: `${(data.reach / 300) * 100}%` }}
                       />
                     </div>
@@ -197,8 +197,8 @@ const AnalyticsPage = () => {
                 className="flex items-center justify-between p-4 bg-slate-700/50 rounded-lg hover:bg-slate-700 transition-colors"
               >
                 <div className="flex items-center gap-4 flex-1">
-                  <div className="w-16 h-16 bg-emerald-500/10 rounded-lg flex items-center justify-center">
-                    <span className="text-emerald-400 font-bold">#{item}</span>
+                  <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <span className="text-primary font-bold">#{item}</span>
                   </div>
                   <div className="flex-1">
                     <h4 className="text-white font-medium mb-1">

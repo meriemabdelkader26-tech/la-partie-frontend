@@ -12,7 +12,7 @@ const TextLinkButton = ({ label, subLabel, href }: Props) => {
       {label}{" "}
       <Link
         href={`${href}`}
-        className="text-emerald-400 hover:text-emerald-300 font-medium"
+        className="text-primary hover:text-primary-dark font-medium"
       >
         {subLabel}
       </Link>

@@ -98,7 +98,7 @@ const AdvancedPagination: React.FC<AdvancedPaginationProps> = ({
                 className={cn(
                   "size-10! rounded-md",
                   pageIndex === (page as number)
-                    ? `${ModulePaginationColor} text-white hover:bg-emerald-600`
+                    ? `${ModulePaginationColor} text-white hover:bg-primary-dark`
                     : "border border-slate-600 bg-slate-700 text-white hover:bg-slate-600"
                 )}
               >

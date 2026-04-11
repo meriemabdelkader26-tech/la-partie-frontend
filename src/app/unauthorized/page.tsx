@@ -26,7 +26,7 @@ export default function UnauthorizedPage() {
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link
             href="/login"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-green-600 hover:bg-green-700 text-white rounded-lg font-medium transition-colors"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-lg font-medium transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
             Go to Login
@@ -44,7 +44,7 @@ export default function UnauthorizedPage() {
           If you think this is an error, please{" "}
           <a
             href="mailto:support@example.com"
-            className="text-green-500 hover:text-green-400 underline"
+            className="text-primary hover:text-primary-dark underline"
           >
             contact support
           </a>

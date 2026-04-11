@@ -7,54 +7,54 @@ const HomeService = () => {
   return (
     <section className="py-20 px-4">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-bold text-center text-white mb-16">
+        <h2 className="text-4xl font-bold text-center text-pastel-dark-blue mb-16">
           Our Services
         </h2>
         <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-linear-to-br from-green-900/20 to-green-800/10 rounded-lg p-8 border border-green-500/30 hover:border-green-500/60 transition-colors">
-            <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
-              <Users className="text-white" size={24} />
+          <div className="bg-linear-to-br from-pastel-green/20 to-pastel-green/10 rounded-lg p-8 border border-pastel-green/30 hover:border-pastel-green/60 transition-colors">
+            <div className="w-12 h-12 bg-pastel-green rounded-lg flex items-center justify-center mb-4">
+              <Users className="text-pastel-dark-blue" size={24} />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">
+            <h3 className="text-2xl font-bold text-pastel-dark-blue mb-4">
               For Influencers
             </h3>
             <ul className="space-y-3 mb-6">
               {INFLUENCER_SERVICES.map((service, idx) => (
                 <li key={idx} className="flex items-start gap-3">
                   <CheckCircle2
-                    className="text-green-400 shrink-0 mt-1"
+                    className="text-pastel-green shrink-0 mt-1"
                     size={20}
                   />
-                  <span className="text-slate-300">{service}</span>
+                  <span className="text-pastel-blue">{service}</span>
                 </li>
               ))}
             </ul>
 
             <Link href="/register?role=influencer">
-              <Button className="w-full bg-green-600 hover:bg-green-700 text-white">
+              <Button className="w-full bg-pastel-green hover:bg-pastel-red text-pastel-dark-blue">
                 Join as Influencer
               </Button>
             </Link>
           </div>
 
-          <div className="bg-linear-to-br from-slate-800 to-slate-700/50 rounded-lg p-8 border border-slate-600 hover:border-slate-500 transition-colors">
-            <div className="w-12 h-12 bg-slate-600 rounded-lg flex items-center justify-center mb-4">
-              <TrendingUp className="text-green-400" size={24} />
+          <div className="bg-linear-to-br from-pastel-blue to-pastel-dark-blue/50 rounded-lg p-8 border border-pastel-blue hover:border-pastel-dark-blue transition-colors">
+            <div className="w-12 h-12 bg-pastel-blue rounded-lg flex items-center justify-center mb-4">
+              <TrendingUp className="text-pastel-green" size={24} />
             </div>
-            <h3 className="text-2xl font-bold text-white mb-4">For Brands</h3>
+            <h3 className="text-2xl font-bold text-pastel-dark-blue mb-4">For Brands</h3>
             <ul className="space-y-3 mb-6">
               {BRAND_SERVICES.map((service, idx) => (
                 <li key={idx} className="flex items-start gap-3">
                   <CheckCircle2
-                    className="text-green-400 shrink-0 mt-1"
+                    className="text-pastel-green shrink-0 mt-1"
                     size={20}
                   />
-                  <span className="text-slate-300">{service}</span>
+                  <span className="text-pastel-blue">{service}</span>
                 </li>
               ))}
             </ul>
             <Link href="/register?role=company">
-              <Button className="w-full bg-slate-600 hover:bg-slate-500 text-white">
+              <Button className="w-full bg-pastel-blue hover:bg-pastel-dark-blue text-pastel-dark-blue">
                 Join as Brand
               </Button>
             </Link>

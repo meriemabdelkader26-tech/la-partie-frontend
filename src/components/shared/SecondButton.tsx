@@ -23,7 +23,7 @@ const SecondButton = ({
       size="sm"
       disabled={isLoading}
       className={cn(
-        "bg-transparent border-emerald-600 text-emerald-400 hover:bg-emerald-600/10 hover:text-emerald-400 disabled:opacity-50",
+        "bg-transparent border-pastel-green text-pastel-green hover:bg-pastel-green/10 hover:text-pastel-green disabled:opacity-50",
         className
       )}
     >

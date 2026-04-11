@@ -34,21 +34,21 @@ interface StatCardProps {
 
 const StatCard = ({ title, value, icon, description, trend }: StatCardProps) => {
   return (
-    <Card className="bg-slate-900 border-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300">
+    <Card className="bg-pastel-dark-blue border-pastel-green/10 hover:border-pastel-green/30 transition-all duration-300">
       <CardHeader className="flex flex-row items-center justify-between pb-2">
-        <CardTitle className="text-sm font-medium text-slate-300">
+        <CardTitle className="text-sm font-medium text-pastel-blue">
           {title}
         </CardTitle>
-        <div className="text-emerald-400">{icon}</div>
+        <div className="text-pastel-green">{icon}</div>
       </CardHeader>
       <CardContent>
-        <div className="text-3xl font-bold text-white mb-1">{value}</div>
+        <div className="text-3xl font-bold text-pastel-dark-blue mb-1">{value}</div>
         {description && (
-          <p className="text-xs text-slate-400">{description}</p>
+          <p className="text-xs text-pastel-blue">{description}</p>
         )}
         {trend && (
           <div className={`text-xs flex items-center gap-1 mt-2 ${
-            trend.isPositive ? "text-emerald-400" : "text-red-400"
+            trend.isPositive ? "text-pastel-green" : "text-pastel-red"
           }`}>
             <TrendingUp className="w-3 h-3" />
             <span>{trend.value}% depuis le mois dernier</span>
@@ -65,19 +65,19 @@ const OfferCard = ({ offer }: { offer: any }) => {
   );
 
   return (
-    <Card className="bg-slate-900 border-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300">
+    <Card className="bg-pastel-dark-blue border-pastel-green/10 hover:border-pastel-green/30 transition-all duration-300">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <CardTitle className="text-white text-lg mb-2">{offer.title}</CardTitle>
-            <CardDescription className="text-slate-400">
+            <CardTitle className="text-pastel-dark-blue text-lg mb-2">{offer.title}</CardTitle>
+            <CardDescription className="text-pastel-blue">
               Budget: ${offer.minBudget} - ${offer.maxBudget}
             </CardDescription>
           </div>
           <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
             daysUntilStart > 0 
-              ? "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20" 
-              : "bg-blue-500/10 text-blue-400 border border-blue-500/20"
+              ? "bg-pastel-green/10 text-pastel-green border border-pastel-green/20" 
+              : "bg-pastel-blue/10 text-pastel-blue border border-pastel-blue/20"
           }`}>
             {daysUntilStart > 0 ? `Dans ${daysUntilStart}j` : "En cours"}
           </div>
@@ -85,19 +85,19 @@ const OfferCard = ({ offer }: { offer: any }) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-3">
-          <div className="flex items-center gap-2 text-sm text-slate-300">
-            <Calendar className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 text-sm text-pastel-blue">
+            <Calendar className="w-4 h-4 text-pastel-green" />
             <span>
               {new Date(offer.startDate).toLocaleDateString("fr-FR")} - {" "}
               {new Date(offer.endDate).toLocaleDateString("fr-FR")}
             </span>
           </div>
-          <div className="flex items-center gap-2 text-sm text-slate-300">
-            <Users className="w-4 h-4 text-emerald-400" />
+          <div className="flex items-center gap-2 text-sm text-pastel-blue">
+            <Users className="w-4 h-4 text-pastel-green" />
             <span>{offer.influencerNumber} influenceurs recherchés</span>
           </div>
           <Link href={`/company/campaigns/${offer.id}`}>
-            <Button variant="outline" size="sm" className="w-full mt-2 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10">
+            <Button variant="outline" size="sm" className="w-full mt-2 border-pastel-green/20 text-pastel-green hover:bg-pastel-green/10">
               Voir les détails
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
@@ -110,21 +110,21 @@ const OfferCard = ({ offer }: { offer: any }) => {
 
 const ApplicationCard = ({ application }: { application: any }) => {
   const statusConfig = {
-    Pending: { color: "text-yellow-400", bg: "bg-yellow-500/10", border: "border-yellow-500/20", label: "En attente" },
-    Approved: { color: "text-emerald-400", bg: "bg-emerald-500/10", border: "border-emerald-500/20", label: "Approuvé" },
-    Rejected: { color: "text-red-400", bg: "bg-red-500/10", border: "border-red-500/20", label: "Rejeté" },
-    Withdraw: { color: "text-slate-400", bg: "bg-slate-500/10", border: "border-slate-500/20", label: "Retiré" },
+    Pending: { color: "text-pastel-blue", bg: "bg-pastel-blue/10", border: "border-pastel-blue/20", label: "En attente" },
+    Approved: { color: "text-pastel-green", bg: "bg-pastel-green/10", border: "border-pastel-green/20", label: "Approuvé" },
+    Rejected: { color: "text-pastel-red", bg: "bg-pastel-red/10", border: "border-pastel-red/20", label: "Rejeté" },
+    Withdraw: { color: "text-pastel-dark-blue", bg: "bg-pastel-dark-blue/10", border: "border-pastel-dark-blue/20", label: "Retiré" },
   };
 
   const status = statusConfig[application.status as keyof typeof statusConfig] || statusConfig.Pending;
 
   return (
-    <Card className="bg-slate-900 border-emerald-500/10 hover:border-emerald-500/30 transition-all duration-300">
+    <Card className="bg-pastel-dark-blue border-pastel-green/10 hover:border-pastel-green/30 transition-all duration-300">
       <CardHeader>
         <div className="flex items-start justify-between">
           <div className="flex-1">
-            <CardTitle className="text-white text-base mb-1">{application.offer.title}</CardTitle>
-            <CardDescription className="text-slate-400 text-sm">
+            <CardTitle className="text-pastel-blue text-base mb-1">{application.offer.title}</CardTitle>
+            <CardDescription className="text-pastel-blue text-sm">
               {application.user.name} - {application.user.email}
             </CardDescription>
           </div>
@@ -135,15 +135,15 @@ const ApplicationCard = ({ application }: { application: any }) => {
       </CardHeader>
       <CardContent>
         <div className="space-y-2">
-          <div className="text-sm text-slate-300">
-            <span className="text-slate-400">Prix demandé:</span>{" "}
-            <span className="font-semibold text-emerald-400">${application.askingPrice}</span>
+          <div className="text-sm text-pastel-blue">
+            <span className="text-pastel-dark-blue">Prix demandé:</span>{" "}
+            <span className="font-semibold text-pastel-green">${application.askingPrice}</span>
           </div>
-          <div className="text-xs text-slate-400">
+          <div className="text-xs text-pastel-blue">
             Soumis le {new Date(application.submittedAt).toLocaleDateString("fr-FR")}
           </div>
           <Link href={`/company/campaigns/applications/${application.id}`}>
-            <Button variant="outline" size="sm" className="w-full mt-2 border-emerald-500/20 text-emerald-400 hover:bg-emerald-500/10">
+            <Button variant="outline" size="sm" className="w-full mt-2 border-pastel-green/20 text-pastel-green hover:bg-pastel-green/10">
               Voir la proposition
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
@@ -218,15 +218,15 @@ const DashboardPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-white mb-2">
+          <h1 className="text-3xl font-bold text-pastel-blue mb-2">
             Bienvenue, {company?.companyName || "Entreprise"} 👋
           </h1>
-          <p className="text-slate-400">
+          <p className="text-pastel-blue">
             Voici un aperçu de vos campagnes et propositions
           </p>
         </div>
         <Link href="/company/campaigns/new">
-          <Button className="bg-emerald-500 hover:bg-emerald-600 text-white">
+          <Button className="bg-pastel-green hover:bg-pastel-red text-pastel-dark-blue">
             <Briefcase className="w-4 h-4 mr-2" />
             Nouvelle Campagne
           </Button>
@@ -263,33 +263,33 @@ const DashboardPage = () => {
 
       {/* Secondary Stats */}
       <div className="grid gap-4 md:grid-cols-2">
-        <Card className="bg-slate-900 border-emerald-500/10">
+        <Card className="bg-pastel-dark-blue border-pastel-green/10">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <CheckCircle className="w-5 h-5 text-emerald-400" />
+            <CardTitle className="text-pastel-blue flex items-center gap-2">
+              <CheckCircle className="w-5 h-5 text-pastel-green" />
               Propositions Approuvées
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-emerald-400">
+            <div className="text-4xl font-bold text-pastel-green">
               {stats?.approvedApplications || 0}
             </div>
-            <p className="text-slate-400 text-sm mt-2">Collaborations confirmées</p>
+            <p className="text-pastel-blue text-sm mt-2">Collaborations confirmées</p>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900 border-emerald-500/10">
+        <Card className="bg-pastel-dark-blue border-pastel-green/10">
           <CardHeader>
-            <CardTitle className="text-white flex items-center gap-2">
-              <XCircle className="w-5 h-5 text-red-400" />
+            <CardTitle className="text-pastel-blue flex items-center gap-2">
+              <XCircle className="w-5 h-5 text-pastel-red" />
               Propositions Rejetées
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-4xl font-bold text-red-400">
+            <div className="text-4xl font-bold text-pastel-red">
               {stats?.rejectedApplications || 0}
             </div>
-            <p className="text-slate-400 text-sm mt-2">Non retenues</p>
+            <p className="text-pastel-blue text-sm mt-2">Non retenues</p>
           </CardContent>
         </Card>
       </div>
@@ -297,9 +297,9 @@ const DashboardPage = () => {
       {/* Recent Offers */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-white">Campagnes Récentes</h2>
+          <h2 className="text-2xl font-bold text-pastel-blue">Campagnes Récentes</h2>
           <Link href="/company/campaigns">
-            <Button variant="ghost" className="text-emerald-400 hover:text-emerald-300">
+            <Button variant="ghost" className="text-pastel-green hover:text-pastel-red">
               Voir tout
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
@@ -313,14 +313,14 @@ const DashboardPage = () => {
             ))}
           </div>
         ) : (
-          <Card className="bg-slate-900 border-emerald-500/10">
+          <Card className="bg-pastel-dark-blue border-pastel-green/10">
             <CardContent className="flex flex-col items-center justify-center py-10">
-              <Briefcase className="w-12 h-12 text-slate-600 mb-4" />
-              <p className="text-slate-400 text-center mb-4">
+              <Briefcase className="w-12 h-12 text-pastel-blue mb-4" />
+              <p className="text-pastel-blue text-center mb-4">
                 Aucune campagne pour le moment
               </p>
               <Link href="/company/campaigns/new">
-                <Button className="bg-emerald-500 hover:bg-emerald-600 text-white">
+                <Button className="bg-pastel-green hover:bg-pastel-red text-pastel-dark-blue">
                   Créer votre première campagne
                 </Button>
               </Link>
@@ -332,9 +332,9 @@ const DashboardPage = () => {
       {/* Recent Applications */}
       <div>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-2xl font-bold text-white">Propositions Récentes</h2>
+          <h2 className="text-2xl font-bold text-pastel-blue">Propositions Récentes</h2>
           <Link href="/company/campaigns">
-            <Button variant="ghost" className="text-emerald-400 hover:text-emerald-300">
+            <Button variant="ghost" className="text-pastel-green hover:text-pastel-red">
               Voir tout
               <ArrowRight className="w-4 h-4 ml-2" />
             </Button>
@@ -348,10 +348,10 @@ const DashboardPage = () => {
             ))}
           </div>
         ) : (
-          <Card className="bg-slate-900 border-emerald-500/10">
+          <Card className="bg-pastel-dark-blue border-pastel-green/10">
             <CardContent className="flex flex-col items-center justify-center py-10">
-              <Users className="w-12 h-12 text-slate-600 mb-4" />
-              <p className="text-slate-400 text-center">
+              <Users className="w-12 h-12 text-pastel-blue mb-4" />
+              <p className="text-pastel-blue text-center">
                 Aucune proposition reçue pour le moment
               </p>
             </CardContent>

@@ -26,9 +26,9 @@ const MobileSidebar = () => {
         <Button
           size="icon"
           variant="secondary"
-          className="lg:hidden bg-slate-800 border-emerald-500/30 hover:bg-slate-700 hover:border-emerald-500"
+          className="lg:hidden bg-slate-800 border-primary/30 hover:bg-slate-700 hover:border-primary"
         >
-          <MenuIcon className="size-4 text-emerald-400" />
+          <MenuIcon className="size-4 text-primary" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">

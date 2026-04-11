@@ -23,15 +23,11 @@ const MobileSidebar = () => {
   return (
     <Sheet modal={false} open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
-        <Button
-          size="icon"
-          variant="secondary"
-          className="lg:hidden bg-slate-800 border-emerald-500/30 hover:bg-slate-700 hover:border-emerald-500"
-        >
-          <MenuIcon className="size-4 text-emerald-400" />
-        </Button>
+          <Button variant="ghost" size="icon" className="mr-2">
+            <MenuIcon className="w-6 h-6 text-pastel-dark-blue" />
+          </Button>
       </SheetTrigger>
-      <SheetContent side="left" className="p-0">
+        <SheetContent side="left" className="p-0 bg-pastel-blue border-r border-pastel-dark-blue/20">
         <SheetTitle className="sr-only">Navigation Menu</SheetTitle>
         <Sidebar />
       </SheetContent>

@@ -147,7 +147,7 @@ export function DataTable<TData>({
               <TableCell key={cellIndex} className="p-4">
                 <div className="flex items-center space-x-2">
                   {column.id === "select" && (
-                    <div className="h-5 w-5 rounded bg-emerald-500/20" />
+                    <div className="h-5 w-5 rounded bg-primary/20" />
                   )}
                   <div
                     className={cn(
@@ -242,7 +242,7 @@ export function DataTable<TData>({
                 <TableRow
                   key={row.id}
                   className={cn(`transition-colors relative ${moduleColor}`, {
-                    "bg-emerald-500/20 hover:bg-emerald-500/30":
+                    "bg-primary/20 hover:bg-primary/30":
                       row.getIsSelected(),
                   })}
                 >
@@ -260,7 +260,7 @@ export function DataTable<TData>({
                 </TableRow>
               ))
             ) : (
-              <TableRow className={`hover:bg-emerald-500/10 ${moduleColor}`}>
+              <TableRow className={`hover:bg-primary/10 ${moduleColor}`}>
                 <TableCell
                   colSpan={columns.length}
                   className="h-24 text-center text-[#F7F1ED]/80"

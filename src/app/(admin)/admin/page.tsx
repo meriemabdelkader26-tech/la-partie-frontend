@@ -28,21 +28,15 @@ const page = () => {
       try {
         setLoading(true);
         const data = await graphqlClient.request(GET_DASHBOARD_STATS);
-
+        
         const totalUsers = data.allUsers?.edges?.length || 0;
-
-        // Correction : toujours obtenir un tableau d'influenceurs
-        const influencersArray = Array.isArray(data.allInfluencers)
-          ? data.allInfluencers
-          : data.allInfluencers?.edges?.map((edge: any) => edge.node) || [];
-
-        const totalInfluencers = influencersArray.length;
+        const totalInfluencers = data.allInfluencers?.length || 0;
         const activeCategories = data.allCategories?.edges?.filter(
           (edge: any) => edge.node.isActive
         ).length || 0;
-        const verifiedInfluencers = influencersArray.filter(
+        const verifiedInfluencers = data.allInfluencers?.filter(
           (inf: any) => inf.user?.emailVerified
-        ).length;
+        ).length || 0;
 
         setStats({
           totalUsers,

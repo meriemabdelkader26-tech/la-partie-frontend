@@ -18,7 +18,7 @@ const CompleteProfileButtonSelector = ({
       className={cn(
         "px-4 py-2 rounded-lg font-medium transition-colors",
         isSelected
-          ? "bg-emerald-600 text-white"
+          ? "bg-primary text-white"
           : "bg-slate-700 text-white hover:bg-slate-600"
       )}
     >

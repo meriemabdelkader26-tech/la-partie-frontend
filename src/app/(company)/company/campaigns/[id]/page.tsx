@@ -177,7 +177,7 @@ export default function OfferDetailsPage() {
   const getStatusBadge = (status: string) => {
     const statusConfig = {
       PENDING: { label: "En attente", className: "bg-yellow-500" },
-      APPROVED: { label: "Approuvée", className: "bg-green-500" },
+      APPROVED: { label: "Approuvée", className: "bg-primary" },
       REJECTED: { label: "Rejetée", className: "bg-red-500" },
       WITHDRAW: { label: "Retirée", className: "bg-gray-500" },
     };
@@ -193,7 +193,7 @@ export default function OfferDetailsPage() {
   const getStatusIcon = (status: string) => {
     switch (status) {
       case "APPROVED":
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
+        return <CheckCircle className="h-5 w-5 text-primary" />;
       case "REJECTED":
         return <XCircle className="h-5 w-5 text-red-500" />;
       case "WITHDRAW":

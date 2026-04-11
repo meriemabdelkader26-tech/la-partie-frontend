@@ -18,7 +18,7 @@ export default function DescriptionTooltip({ title, description }: Props) {
       <Tooltip>
         <TooltipTrigger asChild>
           <Button variant="ghost" size="icon" className="p-3!">
-            <InfoIcon className="size-4 text-emerald-400" />
+            <InfoIcon className="size-4 text-primary" />
           </Button>
         </TooltipTrigger>
         <TooltipContent className="py-3 bg-slate-700 border-slate-600 w-[300px]">

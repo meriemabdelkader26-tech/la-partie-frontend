@@ -4,7 +4,7 @@ export const APP_NAME: string = "influBridge";
 export const APP_DESCRIPTION: string =
   "Connect, collaborate, and grow your creative business";
 
-export const APP_COLOR: string = "#2F365F";
+export const APP_COLOR: string = "#CE6A6B";
 
 export const CATEGORIES_LIST_KEY = "categories_list";
 

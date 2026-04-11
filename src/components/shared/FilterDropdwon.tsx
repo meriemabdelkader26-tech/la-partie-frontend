@@ -47,7 +47,7 @@ export const FilterSection = (props: Props) => {
               {opt.label}
 
               {isActive && (
-                <CheckCircle2 className="ml-auto h-4 w-4 text-green-400" />
+                <CheckCircle2 className="ml-auto h-4 w-4 text-primary" />
               )}
             </DropdownMenuItem>
           );

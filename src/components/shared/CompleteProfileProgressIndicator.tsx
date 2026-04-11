@@ -21,7 +21,7 @@ const CompleteProfileProgressIndicator = (pros: Props) => {
               className={cn(
                 "size-10 rounded-full flex items-center justify-center font-semibold transition-colors",
                 step >= stepItem.number
-                  ? "bg-emerald-600 text-white"
+                  ? "bg-primary text-white"
                   : "bg-slate-700 text-slate-400"
               )}
             >
@@ -31,7 +31,7 @@ const CompleteProfileProgressIndicator = (pros: Props) => {
               <div
                 className={cn(
                   "flex-1 h-1 mx-2 transition-colors",
-                  step > stepItem.number ? "bg-emerald-600" : "bg-slate-700"
+                  step > stepItem.number ? "bg-primary" : "bg-slate-700"
                 )}
               />
             )}

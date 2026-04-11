@@ -22,7 +22,7 @@ const SubmitButton = ({
       disabled={isLoading || disabled}
       className={
         className ??
-        "w-full bg-emerald-600 hover:bg-emerald-700 text-white font-medium py-2 disabled:bg-emerald-500/50"
+        "w-full bg-primary hover:bg-primary-dark text-primary-foreground font-medium py-2 disabled:bg-primary/50"
       }
     >
       {isLoading ? (
