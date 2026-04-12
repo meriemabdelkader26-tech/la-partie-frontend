@@ -41,8 +41,9 @@ export default function PostSelector({
         const response = await fetchInstagramPosts(username);
         const simplifiedPosts = simplifyPostsData(response);
         setPosts(simplifiedPosts);
-      } catch (err) {
-        setError("Failed to load Instagram posts");
+      } catch (err: any) {
+        // Affiche le message d'erreur explicite si fourni
+        setError(err?.message || "Erreur inconnue lors du chargement des posts Instagram");
         console.error(err);
       } finally {
         setLoading(false);
@@ -158,11 +159,17 @@ export default function PostSelector({
               <CardContent className="p-0">
                 {/* Post Image */}
                 <div className="relative aspect-square">
-                  <img
-                    src={post.imageUrl}
-                    alt={post.postName}
-                    className="w-full h-full object-cover"
-                  />
+                  {post.imageUrl ? (
+                    <img
+                      src={post.imageUrl}
+                      alt={post.postName}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-slate-800 flex items-center justify-center text-slate-400 text-xs">
+                      No image
+                    </div>
+                  )}
 
                   {/* Media Type Badge */}
                   <div className="absolute top-2 right-2">

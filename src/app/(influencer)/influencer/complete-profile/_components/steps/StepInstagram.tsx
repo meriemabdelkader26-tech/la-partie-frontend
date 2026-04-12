@@ -11,6 +11,7 @@ import SubmitButton from "@/components/shared/SubmitButton";
 import ErrorTriangle from "@/components/shared/ErrorTriangle";
 import { ProfileFormData } from "../types";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { fetchInstagramPosts, fetchInstagramReels, simplifyReelsData } from "@/lib/instagram-api";
 import apiClient from "@/lib/api_client";
 import SecondButton from "@/components/shared/SecondButton";
 import { TriangleAlertIcon } from "lucide-react";
@@ -64,39 +65,84 @@ export default function StepInstagram({ formData, onUpdate, onNext }: Props) {
     setLoading(true);
     setError("");
     try {
-      const response = await apiClient.get(
-        `/info?username_or_id_or_url=${username}`
-      );
+      const userInfoResponse = await apiClient.post("/userInfo", { username });
+      // Log du JSON brut reçu
+      console.log("[INSTAGRAM] userInfoResponse:", JSON.stringify(userInfoResponse.data, null, 2));
 
-      // Check if data exists in response
-      if (response.data && response.data.data) {
-        const data = response.data.data;
 
-        // Auto-fill form data from Instagram API
+      // Supporte tous les formats de réponse RapidAPI (data, graphql, result[0].user, etc)
+      let userInfo = userInfoResponse.data || {};
+      // Format: { result: [ { user: {...} } ] }
+      if (Array.isArray(userInfo.result) && userInfo.result.length > 0 && userInfo.result[0].user) {
+        userInfo = userInfo.result[0].user;
+      }
+      if (userInfo.data) userInfo = userInfo.data;
+      if (userInfo.graphql && userInfo.graphql.user) userInfo = userInfo.graphql.user;
+
+      // Extraction ultra-robuste des valeurs (tente toutes les variantes connues)
+      const follower_count =
+        userInfo.follower_count ||
+        userInfo.followers ||
+        userInfo.edge_followed_by?.count ||
+        userInfo.counts?.followed_by ||
+        userInfo.counts?.followers ||
+        userInfo.followed_by ||
+        userInfo.edge_followed_by_count ||
+        userInfo.graphql?.user?.edge_followed_by?.count ||
+        0;
+      const following_count =
+        userInfo.following_count ||
+        userInfo.following ||
+        userInfo.edge_follow?.count ||
+        userInfo.counts?.follows ||
+        userInfo.counts?.following ||
+        userInfo.edge_follow_count ||
+        userInfo.graphql?.user?.edge_follow?.count ||
+        0;
+      const media_count =
+        userInfo.media_count ||
+        userInfo.posts ||
+        userInfo.counts?.media ||
+        userInfo.edge_owner_to_timeline_media?.count ||
+        userInfo.media ||
+        userInfo.graphql?.user?.edge_owner_to_timeline_media?.count ||
+        0;
+
+      // Si toutes les valeurs sont à 0, afficher un message d'erreur explicite
+      if (follower_count === 0 && following_count === 0 && media_count === 0) {
+        setError("Aucune donnée trouvée pour ce compte. Vérifiez que le compte est public et existe. Regardez la console pour le JSON brut reçu, puis contactez le support si besoin.");
+        return;
+      }
+
+      // 2. Récupérer les posts et reels
+      const postsResponse = await fetchInstagramPosts(username);
+      const reelsResponse = await fetchInstagramReels(username);
+
+      // Normalisation des reels pour éviter toute erreur de parsing côté Next.js
+      const simplifiedReels = simplifyReelsData(reelsResponse);
+
+      // 3. On considère qu'on a des données si au moins un post ou reel existe
+      if ((postsResponse.data.items && postsResponse.data.items.length > 0) ||
+          (simplifiedReels && simplifiedReels.length > 0)) {
         onUpdate({
-          instagramUsername: data.username,
-          pseudo: data.full_name || "",
-          instagramData: data,
-          // Step 2 - Personal Info
-          biography: data.biography || "",
-          siteWeb: data.external_url || "",
-          // Step 4 - Social Networks (Instagram)
-          reseauxSociaux: [
-            {
-              plateforme: "INSTAGRAM",
-              urlProfil: `https://instagram.com/${data.username}`,
-              nombreAbonnes: String(data.follower_count || 0),
-              tauxEngagement: "0", // Will need to be calculated or entered manually
-              moyenneVues: "",
-              moyenneLikes: "",
-              moyenneCommentaires: "",
-              frequencePublication: "HEBDOMADAIRE", // Default value
-            },
-          ],
+          instagramUsername: username,
+          instagramData: {
+            username: userInfo.username || username,
+            full_name: userInfo.full_name || userInfo.name || "",
+            biography: userInfo.biography || userInfo.bio || "",
+            profile_pic_url: userInfo.profile_pic_url || userInfo.profile_picture || userInfo.profile_pic_url_hd || "",
+            follower_count,
+            following_count,
+            media_count,
+            public_email: userInfo.public_email || "",
+            ...userInfo,
+          },
+          posts: postsResponse.data.items,
+          reels: simplifiedReels,
         });
         setTimeout(onNext, 1000);
       } else {
-        setError("Failed to fetch Instagram data");
+        setError("No public posts or reels found for this account.");
       }
     } catch (err) {
       console.error("Instagram fetch error:", err);
