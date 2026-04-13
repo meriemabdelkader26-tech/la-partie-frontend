@@ -136,3 +136,7 @@
     border: 1px solid #BED3C3;
   }
 }
+
+.navbar-logo-gradient {
+  background: linear-gradient(135deg, #BED3C3 0%, #4A919E 100%);
+}

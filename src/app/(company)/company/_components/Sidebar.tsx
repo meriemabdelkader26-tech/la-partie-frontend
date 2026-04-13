@@ -4,15 +4,15 @@ import { APP_NAME } from "@/constant";
 
 const Sidebar = () => {
   return (
-    <aside className="h-full bg-slate-900 w-full border-r border-primary/10 shadow-xl">
-      <div className="p-4 border-b border-primary/10">
+    <aside className="sidebar-bg h-full w-full border-r shadow-none rounded-tr-2xl rounded-br-2xl">
+      <div className="p-4 border-b border-border">
         <Link href="/company" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-lg bg-linear-to-br from-primary-light to-primary-dark flex items-center justify-center transition-transform group-hover:scale-105">
-            <span className="text-white font-bold text-lg">B</span>
+          <div className="w-10 h-10 rounded-xl logo-gradient flex items-center justify-center">
+            <span className="text-navy font-bold text-lg">B</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-white font-semibold text-sm">{APP_NAME}</span>
-            <span className="text-primary text-xs">Company Portal</span>
+            <span className="text-navy font-semibold text-base tracking-wide">{APP_NAME}</span>
+            <span className="text-teal text-xs">Company Portal</span>
           </div>
         </Link>
       </div>

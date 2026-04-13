@@ -28,13 +28,16 @@ const page = () => {
       try {
         setLoading(true);
         const data = await graphqlClient.request(GET_DASHBOARD_STATS);
-        
+
         const totalUsers = data.allUsers?.edges?.length || 0;
-        const totalInfluencers = data.allInfluencers?.length || 0;
+        // Correction : allInfluencers est un objet avec edges
+        const influencerEdges = data.allInfluencers?.edges || [];
+        const influencerNodes = influencerEdges.map((edge: any) => edge.node);
+        const totalInfluencers = influencerNodes.length;
         const activeCategories = data.allCategories?.edges?.filter(
           (edge: any) => edge.node.isActive
         ).length || 0;
-        const verifiedInfluencers = data.allInfluencers?.filter(
+        const verifiedInfluencers = influencerNodes.filter(
           (inf: any) => inf.user?.emailVerified
         ).length || 0;
 
@@ -99,11 +102,11 @@ const page = () => {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 min-h-screen pb-10">
       {/* Header */}
       <div className="flex items-center gap-3">
-        <div className="w-1 h-10 bg-linear-to-b from-emerald-400 to-emerald-600 rounded-full" />
-        <h1 className="text-3xl font-semibold text-white">Admin Dashboard</h1>
+        <div className="w-1 h-10 bg-blue-600 rounded-full" />
+        <h1 className="text-3xl font-extrabold text-blue-900 drop-shadow">Admin Dashboard</h1>
       </div>
 
       {/* Stats Grid */}
@@ -112,22 +115,24 @@ const page = () => {
           const Icon = stat.icon;
           return (
             <Link key={stat.title} href={stat.href}>
-              <Card className="bg-slate-900 border-emerald-500/10 hover:border-emerald-500/30 transition-all cursor-pointer group">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                  <CardTitle className="text-sm font-medium text-slate-400">
+              <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10 transition-all group cursor-pointer rounded-2xl">
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-none bg-transparent">
+                  <CardTitle className="text-sm font-bold text-white">
                     {stat.title}
                   </CardTitle>
-                  <Icon className="h-4 w-4 text-emerald-400 group-hover:text-emerald-300 transition-colors" />
+                  <Icon className="h-5 w-5 text-green-400 group-hover:text-green-500 transition-colors" />
                 </CardHeader>
                 <CardContent>
-                  <div className="text-2xl font-bold text-white">
+                  <div className="text-3xl font-extrabold text-white">
                     {stat.value}
                   </div>
                   <p
-                    className={`text-xs mt-1 ${
+                    className={`text-xs mt-1 font-semibold ${
                       stat.changeType === "positive"
-                        ? "text-emerald-400"
-                        : "text-slate-400"
+                        ? "text-green-400"
+                        : stat.changeType === "neutral"
+                        ? "text-slate-300"
+                        : "text-red-400"
                     }`}
                   >
                     {stat.change}
@@ -141,76 +146,68 @@ const page = () => {
 
       {/* Quick Actions */}
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="bg-slate-900 border-emerald-500/10">
+        <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm rounded-2xl shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-white">Quick Actions</CardTitle>
+            <CardTitle className="text-lg font-bold text-[#212E53]">Quick Actions</CardTitle>
           </CardHeader>
           <CardContent className="space-y-2">
             <Link
               href="/admin/user"
-              className="block p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-slate-300 hover:text-white"
+              className="block p-3 rounded-lg bg-[#BED3C3] hover:bg-[#4A919E]/10 transition-colors text-[#212E53] font-semibold shadow"
             >
               Manage Users
             </Link>
             <Link
               href="/admin/influencer"
-              className="block p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-slate-300 hover:text-white"
+              className="block p-3 rounded-lg bg-[#BED3C3] hover:bg-[#4A919E]/10 transition-colors text-[#212E53] font-semibold shadow"
             >
               Manage Influencers
             </Link>
             <Link
               href="/admin/category"
-              className="block p-3 rounded-lg bg-slate-800 hover:bg-slate-700 transition-colors text-slate-300 hover:text-white"
+              className="block p-3 rounded-lg bg-[#BED3C3] hover:bg-[#4A919E]/10 transition-colors text-[#212E53] font-semibold shadow"
             >
               Manage Categories
             </Link>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900 border-emerald-500/10">
+        <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm rounded-2xl shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-white">
-              Recent Activity
-            </CardTitle>
+            <CardTitle className="text-lg font-bold text-[#212E53]">Recent Activity</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-slate-400">
+          <CardContent className="space-y-2 text-sm text-[#212E53] font-semibold">
             <div className="flex items-center justify-between">
               <span>New user registered</span>
-              <span className="text-xs">2h ago</span>
+              <span className="text-xs text-blue-500">2h ago</span>
             </div>
             <div className="flex items-center justify-between">
               <span>Category updated</span>
-              <span className="text-xs">5h ago</span>
+              <span className="text-xs text-green-600">5h ago</span>
             </div>
             <div className="flex items-center justify-between">
               <span>Influencer approved</span>
-              <span className="text-xs">1d ago</span>
+              <span className="text-xs text-blue-700">1d ago</span>
             </div>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-900 border-emerald-500/10">
+        <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm rounded-2xl shadow-md">
           <CardHeader>
-            <CardTitle className="text-lg text-white">System Status</CardTitle>
+            <CardTitle className="text-lg font-bold text-[#212E53]">System Status</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Database</span>
-              <span className="text-emerald-400 text-sm font-medium">
-                Online
-              </span>
+              <span className="text-[#212E53] font-semibold">Database</span>
+              <span className="text-green-600 text-sm font-bold">Online</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">API</span>
-              <span className="text-emerald-400 text-sm font-medium">
-                Online
-              </span>
+              <span className="text-[#212E53] font-semibold">API</span>
+              <span className="text-green-600 text-sm font-bold">Online</span>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-slate-400">Storage</span>
-              <span className="text-emerald-400 text-sm font-medium">
-                72% used
-              </span>
+              <span className="text-[#212E53] font-semibold">Storage</span>
+              <span className="text-[#4A919E] text-sm font-bold">72% used</span>
             </div>
           </CardContent>
         </Card>

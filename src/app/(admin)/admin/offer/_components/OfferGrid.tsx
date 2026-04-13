@@ -26,9 +26,9 @@ export const OfferGrid = ({
 
   if (offers.length === 0) {
     return (
-      <Card className="bg-slate-800/50 border-slate-700/50 p-12 text-center backdrop-blur-sm">
-        <p className="text-slate-400 text-lg">No offers found</p>
-        <p className="text-slate-500 text-sm mt-2">
+      <Card className="bg-[#EBACA2] border-[#CE6A6B] p-12 text-center backdrop-blur-sm">
+        <p className="text-[#212E53] text-lg font-semibold">No offers found</p>
+        <p className="text-[#4A919E] text-sm mt-2">
           Try adjusting your filters or search query
         </p>
       </Card>

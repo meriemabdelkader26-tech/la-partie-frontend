@@ -45,7 +45,7 @@ export const OfferSearchBar = ({ value, onChange }: OfferSearchBarProps) => {
             fieldType={FormFieldType.INPUT}
             name="search"
             placeholder="Search offers by title..."
-            inputClassName="bg-slate-800/50 border-slate-700/50 text-white placeholder:text-slate-500 rounded-lg focus:border-green-500/50"
+            inputClassName="bg-slate-800/50 border-slate-700/50 text-black placeholder:text-black rounded-lg focus:border-green-500/50"
           />
         </div>
       </div>

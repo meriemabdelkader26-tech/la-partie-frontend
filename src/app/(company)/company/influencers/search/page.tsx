@@ -223,6 +223,10 @@ const InfluencerSearchPage = () => {
   };
 
   const applyFilters = () => {
+    if (!Array.isArray(influencers)) {
+      setFilteredInfluencers([]);
+      return;
+    }
     let filtered = [...influencers];
 
     // Search term filter
@@ -365,7 +369,8 @@ const InfluencerSearchPage = () => {
                     <SelectValue placeholder="Toutes" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">Toutes</SelectItem>
+                    {/* L'option 'Toutes' est gérée par le placeholder, pas besoin de value="" */}
+                                        {/* Le placeholder 'Toutes' s'affiche quand aucune valeur n'est sélectionnée */}
                     <SelectItem value="DISPONIBLE">Disponible</SelectItem>
                     <SelectItem value="PARTIELLEMENT_DISPONIBLE">
                       Partiellement disponible

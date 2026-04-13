@@ -4,15 +4,15 @@ import { APP_NAME } from "@/constant";
 
 const Sidebar = () => {
   return (
-    <aside className="h-full bg-slate-900 w-full border-r border-emerald-500/10 shadow-xl">
-      <div className="p-4 border-b border-emerald-500/10">
+    <aside className="h-full w-full border-r shadow-none rounded-tr-2xl rounded-br-2xl bg-pastel-dark-blue/80" style={{}}>
+      <div className="p-4 border-b border-border">
         <Link href="/admin" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-lg bg-linear-to-br from-emerald-400 to-emerald-600 flex items-center justify-center transition-transform group-hover:scale-105">
-            <span className="text-white font-bold text-lg">B</span>
+          <div className="w-10 h-10 rounded-xl logo-gradient flex items-center justify-center">
+            <span className="text-navy font-bold text-lg">I</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-white font-semibold text-sm">{APP_NAME}</span>
-            <span className="text-emerald-400 text-xs">Admin Panel</span>
+            <span className="text-navy font-semibold text-base tracking-wide">{APP_NAME}</span>
+            <span className="text-teal text-xs">Admin Panel</span>
           </div>
         </Link>
       </div>

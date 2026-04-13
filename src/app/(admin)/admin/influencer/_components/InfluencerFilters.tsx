@@ -2,7 +2,7 @@ import BreadCrumbList from "@/components/shared/BreadCrumbList";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { SlidersHorizontal, X } from "lucide-react";
-import { InfluencerSearchBar } from "./InfluencerSearchBar";
+import { InfluencerSearchBar } from "./influencerSearchBar";
 import InfluencerSheet from "./InfluencerSheet";
 
 interface Props {
