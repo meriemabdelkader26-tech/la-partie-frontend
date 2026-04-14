@@ -42,7 +42,7 @@ const MUTATION_BATCH_DELETE_CATEGORY = `
 export function BatchDeleteCategoryDialog({
   open,
   onOpenChange,
-  categoriesToDelete,
+  categoriesToDelete = [],
   onSuccess,
 }: DeleteCategoryDialogProps) {
   const queryClient = useQueryClient();
@@ -85,8 +85,8 @@ export function BatchDeleteCategoryDialog({
           <AlertDialogDescription className="text-slate-300">
             This action cannot be undone. This will permanently delete{" "}
             <span className="font-semibold text-emerald-400">
-              {categoriesToDelete.length} categor
-              {categoriesToDelete.length === 1 ? "y" : "ies"}
+              {(categoriesToDelete?.length ?? 0)} categor
+              {(categoriesToDelete?.length ?? 0) === 1 ? "y" : "ies"}
             </span>{" "}
             from the database.
           </AlertDialogDescription>

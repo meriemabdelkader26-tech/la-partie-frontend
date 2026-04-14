@@ -7,6 +7,7 @@ import { graphqlClient } from "@/lib/graphql-client";
 import { GET_DASHBOARD_STATS } from "@/lib/queries/admin-queries";
 import { toast } from "sonner";
 
+
 interface DashboardStats {
   totalUsers: number;
   totalInfluencers: number;
@@ -14,7 +15,7 @@ interface DashboardStats {
   verifiedInfluencers: number;
 }
 
-const page = () => {
+export default function AdminDashboardPage() {
   const [stats, setStats] = useState<DashboardStats>({
     totalUsers: 0,
     totalInfluencers: 0,
@@ -30,7 +31,6 @@ const page = () => {
         const data = await graphqlClient.request(GET_DASHBOARD_STATS);
 
         const totalUsers = data.allUsers?.edges?.length || 0;
-        // Correction : allInfluencers est un objet avec edges
         const influencerEdges = data.allInfluencers?.edges || [];
         const influencerNodes = influencerEdges.map((edge: any) => edge.node);
         const totalInfluencers = influencerNodes.length;
@@ -54,7 +54,6 @@ const page = () => {
         setLoading(false);
       }
     };
-
     fetchStats();
   }, []);
 
@@ -64,8 +63,9 @@ const page = () => {
       value: stats.totalUsers.toString(),
       icon: Users,
       href: "/admin/user",
-      change: "+12%",
+      change: "+14%",
       changeType: "positive" as const,
+      color: "",
     },
     {
       title: "Total Influencers",
@@ -74,14 +74,16 @@ const page = () => {
       href: "/admin/influencer",
       change: `${stats.verifiedInfluencers} verified`,
       changeType: "positive" as const,
+      color: "",
     },
     {
       title: "Active Campaigns",
       value: "0",
       icon: TrendingUp,
-      href: "/admin/campaigns",
+      href: "#",
       change: "Coming soon",
       changeType: "neutral" as const,
+      color: "",
     },
     {
       title: "Categories",
@@ -89,7 +91,8 @@ const page = () => {
       icon: FolderOpen,
       href: "/admin/category",
       change: "Active",
-      changeType: "neutral" as const,
+      changeType: "positive" as const,
+      color: "",
     },
   ];
 
@@ -102,118 +105,84 @@ const page = () => {
   }
 
   return (
-    <div className="space-y-6 min-h-screen pb-10">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <div className="w-1 h-10 bg-blue-600 rounded-full" />
-        <h1 className="text-3xl font-extrabold text-blue-900 drop-shadow">Admin Dashboard</h1>
+    <div className="min-h-screen p-8 bg-background">
+      <div className="flex items-center justify-between mb-8">
+        <h1 className="text-2xl font-semibold text-title">Admin Dashboard</h1>
+        <Link href="/admin/category">
+          <button className="flex items-center gap-2 px-5 py-2 rounded-lg bg-primary text-white font-medium shadow-soft hover:bg-primary-light transition border border-transparent">
+            <span className="text-base">+ Add Category</span>
+          </button>
+        </Link>
+      </div>
+      {/* Stat Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        {statCards.map((card, idx) => (
+          <Card
+            key={idx}
+            className="rounded-[16px] border border-border bg-[linear-gradient(135deg,_#F7FAF9_0%,_#EAF3EF_100%)] shadow-soft flex flex-col justify-between transition-shadow duration-200"
+            style={{ minHeight: 120 }}
+          >
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-lg font-semibold text-title flex items-center gap-2">
+                <card.icon className="w-6 h-6" />
+                {card.title}
+              </CardTitle>
+              <span className="text-2xl font-bold text-title">{card.value}</span>
+            </CardHeader>
+            <CardContent className="flex items-center justify-between pt-0">
+              <span className="text-sm font-medium text-muted">{card.change}</span>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {statCards.map((stat) => {
-          const Icon = stat.icon;
-          return (
-            <Link key={stat.title} href={stat.href}>
-              <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10 transition-all group cursor-pointer rounded-2xl">
-                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2 border-none bg-transparent">
-                  <CardTitle className="text-sm font-bold text-white">
-                    {stat.title}
-                  </CardTitle>
-                  <Icon className="h-5 w-5 text-green-400 group-hover:text-green-500 transition-colors" />
-                </CardHeader>
-                <CardContent>
-                  <div className="text-3xl font-extrabold text-white">
-                    {stat.value}
-                  </div>
-                  <p
-                    className={`text-xs mt-1 font-semibold ${
-                      stat.changeType === "positive"
-                        ? "text-green-400"
-                        : stat.changeType === "neutral"
-                        ? "text-slate-300"
-                        : "text-red-400"
-                    }`}
-                  >
-                    {stat.change}
-                  </p>
-                </CardContent>
-              </Card>
-            </Link>
-          );
-        })}
-      </div>
-
-      {/* Quick Actions */}
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm rounded-2xl shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-bold text-[#212E53]">Quick Actions</CardTitle>
+      {/* Quick Actions & Recent Activity (alignés sur une ligne) */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+        {/* Quick Actions */}
+        <Card className="rounded-[16px] border border-border bg-[linear-gradient(135deg,_#F7FAF9_0%,_#EAF3EF_100%)] shadow-soft flex flex-col justify-between p-0">
+          <CardHeader className="pb-2 px-6 pt-6">
+            <CardTitle className="text-title text-base font-semibold">Quick Actions</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2">
-            <Link
-              href="/admin/user"
-              className="block p-3 rounded-lg bg-[#BED3C3] hover:bg-[#4A919E]/10 transition-colors text-[#212E53] font-semibold shadow"
-            >
-              Manage Users
+          <CardContent className="flex flex-col gap-3 pt-0 px-6 pb-6">
+            <Link href="/admin/user">
+              <button className="w-full flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-title font-medium hover:bg-primary/10 transition border border-transparent">
+                <Users className="w-5 h-5" /> Manage Users
+              </button>
             </Link>
-            <Link
-              href="/admin/influencer"
-              className="block p-3 rounded-lg bg-[#BED3C3] hover:bg-[#4A919E]/10 transition-colors text-[#212E53] font-semibold shadow"
-            >
-              Manage Influencers
+            <Link href="/admin/influencer">
+              <button className="w-full flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-title font-medium hover:bg-info/10 transition border border-transparent">
+                <UserCheck className="w-5 h-5" /> Manage Influencers
+              </button>
             </Link>
-            <Link
-              href="/admin/category"
-              className="block p-3 rounded-lg bg-[#BED3C3] hover:bg-[#4A919E]/10 transition-colors text-[#212E53] font-semibold shadow"
-            >
-              Manage Categories
+            <Link href="/admin/category">
+              <button className="w-full flex items-center gap-2 px-4 py-2 rounded-lg bg-white text-title font-medium hover:bg-success/10 transition border border-transparent">
+                <FolderOpen className="w-5 h-5" /> Manage Categories
+              </button>
             </Link>
           </CardContent>
         </Card>
 
-        <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm rounded-2xl shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-bold text-[#212E53]">Recent Activity</CardTitle>
+        {/* Recent Activity */}
+        <Card className="rounded-[16px] border border-border bg-[linear-gradient(135deg,_#F7FAF9_0%,_#EAF3EF_100%)] shadow-soft flex flex-col justify-between p-0">
+          <CardHeader className="pb-2 px-6 pt-6">
+            <CardTitle className="text-title text-base font-semibold">Recent Activity</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 text-sm text-[#212E53] font-semibold">
-            <div className="flex items-center justify-between">
+          <CardContent className="flex flex-col gap-3 pt-0 px-6 pb-6">
+            <div className="flex items-center justify-between text-sm text-title">
               <span>New user registered</span>
-              <span className="text-xs text-blue-500">2h ago</span>
+              <span className="text-muted">3h ago</span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between text-sm text-title">
               <span>Category updated</span>
-              <span className="text-xs text-green-600">5h ago</span>
+              <span className="text-muted">5h ago</span>
             </div>
-            <div className="flex items-center justify-between">
+            <div className="flex items-center justify-between text-sm text-title">
               <span>Influencer approved</span>
-              <span className="text-xs text-blue-700">1d ago</span>
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm rounded-2xl shadow-md">
-          <CardHeader>
-            <CardTitle className="text-lg font-bold text-[#212E53]">System Status</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex items-center justify-between">
-              <span className="text-[#212E53] font-semibold">Database</span>
-              <span className="text-green-600 text-sm font-bold">Online</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-[#212E53] font-semibold">API</span>
-              <span className="text-green-600 text-sm font-bold">Online</span>
-            </div>
-            <div className="flex items-center justify-between">
-              <span className="text-[#212E53] font-semibold">Storage</span>
-              <span className="text-[#4A919E] text-sm font-bold">72% used</span>
+              <span className="text-muted">6d ago</span>
             </div>
           </CardContent>
         </Card>
       </div>
     </div>
   );
-};
-
-export default page;
+}

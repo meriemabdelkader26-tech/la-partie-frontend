@@ -37,15 +37,10 @@ export default function DataTableCategory({
   const [categoriesToDelete, setCategoriesToDelete] = useState<Category[]>([]);
   const [resetSelection, setResetSelection] = useState(false);
 
+  // Callbacks
   const onSelectedRowsChange = useCallback((rows: Category[]) => {
     setSelectedIds(rows.map((item) => item.id.toString()));
   }, []);
-
-  const onSelectedCardsChange = useCallback((ids: string[]) => {
-    setSelectedIds(ids);
-  }, []);
-
-  const columns = createColumns(orderBy, onOrderChange);
 
   const handleDeleteSelected = useCallback((rows: Category[]) => {
     setCategoriesToDelete(rows);
@@ -66,8 +61,11 @@ export default function DataTableCategory({
     }
   }, []);
 
+  const columns = createColumns(orderBy, onOrderChange);
+
   return (
-    <div className="mt-3 w-full">
+       <div className="mt-3 w-full">
+         <div className="rounded-[16px] shadow-soft bg-white overflow-x-auto">
       {error && <ErrorTriangle message={error} />}
 
       <DataTable
@@ -77,16 +75,18 @@ export default function DataTableCategory({
         columns={columns ?? []}
         data={items ?? []}
         isLoading={isLoading}
-        moduleColor="hover:bg-emerald-500/10"
-        ModulePaginationColor="bg-emerald-500"
+        moduleColor="hover:bg-primary-light/10"
+        ModulePaginationColor="bg-primary"
         resetSelection={resetSelection}
+        className="rounded-xl bg-surface border border-muted shadow-soft"
       />
-
+         </div>
       <BatchDeleteCategoryDialog
         open={showDeleteDialog}
         onOpenChange={handleDialogOpenChange}
-        categoriesToDelete={categoriesToDelete}
-        onSuccess={handleDeleteSuccess}
+        categories={categoriesToDelete}
+        onDeleteSuccess={handleDeleteSuccess}
+        setError={setError}
       />
     </div>
   );

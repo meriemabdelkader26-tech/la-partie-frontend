@@ -46,75 +46,71 @@
 
 :root {
   --radius: 0.625rem;
-  /* Palette Pastel Personnalisée */
-  --mainColor: #CE6A6B; /* Rose principal */
-  --background: #BED3C3; /* Vert pastel clair */
-  --foreground: #212E53; /* Bleu nuit profond */
-  --card: #EBACA2; /* Rose pâle */
-  --card-foreground: #212E53;
-  --popover: #BED3C3;
-  --popover-foreground: #212E53;
-  --primary: #CE6A6B; /* Rose principal */
-  --primary-foreground: #212E53;
-  --secondary: #4A919E; /* Bleu-vert pastel */
-  --secondary-foreground: #BED3C3;
-  --muted: #EBACA2; /* Rose pâle */
-  --muted-foreground: #212E53;
-  --accent: #4A919E; /* Bleu-vert pastel */
-  --accent-foreground: #BED3C3;
-  --destructive: #CE6A6B; /* Rose principal (ou choisir une teinte plus vive si besoin) */
-  --border: #212E53; /* Bleu nuit profond */
-  --input: #BED3C3;
-  --ring: #4A919E;
-  /* Pour les graphiques ou éléments secondaires */
-  --chart-1: #CE6A6B;
-  --chart-2: #EBACA2;
-  --chart-3: #BED3C3;
-  --chart-4: #4A919E;
-  --chart-5: #212E53;
-  --sidebar: #BED3C3;
-  --sidebar-foreground: #212E53;
-  --sidebar-primary: #CE6A6B;
-  --sidebar-primary-foreground: #212E53;
-  --sidebar-accent: #4A919E;
-  --sidebar-accent-foreground: #BED3C3;
-  --sidebar-border: #212E53;
-  --sidebar-ring: #4A919E;
+  /* Palette fidèle à l'image 1 */
+  --primary: #3D5A5B;
+  --primary-light: #5F7D7E;
+  --background: #F7FAF9;
+  --surface: #FFFFFF;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
+  --title: #1F2937;
+  --text: #3D5A5B;
+  --muted: #A0B1AA;
+  --border: #D1E3DB;
+  --shadow-soft: 0 2px 8px 0 rgba(60,60,60,0.07);
+  /* Sidebar */
+  --sidebar-bg: #EAF3EF;
+  --sidebar-text: #3D5A5B;
+  --sidebar-hover: #D1E3DB;
+  --sidebar-active-bg: #FFFFFF;
+  --sidebar-active-text: #3D5A5B;
+  --sidebar-active-border: #3D5A5B;
+  /* Topbar */
+  --topbar-bg: #FFFFFF;
+  --topbar-shadow: 0 2px 8px 0 rgba(60,60,60,0.07);
+  /* Cards */
+  --card-bg: linear-gradient(135deg, #F7FAF9 0%, #EAF3EF 100%);
+  --card-radius: 16px;
+  /* Button */
+  --button-bg: #3D5A5B;
+  --button-text: #FFFFFF;
+  --button-hover-bg: #5F7D7E;
+  /* Charts */
+  --chart-1: #3D5A5B;
+  --chart-2: #5F7D7E;
+  --chart-3: #22C55E;
+  --chart-4: #F59E0B;
+  --chart-5: #3B82F6;
 }
 
 .dark {
-  --mainColor: #EBACA2; /* Rose pâle pour le dark */
-  --background: #212E53; /* Bleu nuit profond */
-  --foreground: #BED3C3; /* Vert pastel clair */
-  --card: #4A919E; /* Bleu-vert pastel */
-  --card-foreground: #BED3C3;
-  --popover: #212E53;
-  --popover-foreground: #BED3C3;
-  --primary: #EBACA2;
-  --primary-foreground: #212E53;
-  --secondary: #CE6A6B;
-  --secondary-foreground: #BED3C3;
-  --muted: #4A919E;
-  --muted-foreground: #BED3C3;
-  --accent: #BED3C3;
-  --accent-foreground: #212E53;
-  --destructive: #CE6A6B;
-  --border: #BED3C3;
-  --input: #212E53;
-  --ring: #EBACA2;
-  --chart-1: #CE6A6B;
-  --chart-2: #EBACA2;
-  --chart-3: #BED3C3;
-  --chart-4: #4A919E;
-  --chart-5: #212E53;
-  --sidebar: #212E53;
-  --sidebar-foreground: #BED3C3;
-  --sidebar-primary: #EBACA2;
-  --sidebar-primary-foreground: #212E53;
-  --sidebar-accent: #BED3C3;
-  --sidebar-accent-foreground: #212E53;
-  --sidebar-border: #BED3C3;
-  --sidebar-ring: #EBACA2;
+  --primary: #3D5A5B;
+  --primary-light: #5F7D7E;
+  --background: #1F2937;
+  --surface: #23272F;
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
+  --title: #F5F7F6;
+  --text: #E5E7EB;
+  --muted: #6B7280;
+  --border: #374151;
+  --shadow-soft: 0 2px 8px 0 rgba(20,20,20,0.12);
+  --sidebar-bg: #23272F;
+  --sidebar-text: #F5F7F6;
+  --sidebar-hover: #3D5A5B;
+  --topbar-bg: #23272F;
+  --topbar-shadow: 0 2px 8px 0 rgba(20,20,20,0.12);
+  --card-bg: #23272F;
+  --card-radius: 16px;
+  --chart-1: #3D5A5B;
+  --chart-2: #5F7D7E;
+  --chart-3: #22C55E;
+  --chart-4: #F59E0B;
+  --chart-5: #3B82F6;
 }
 
 @layer base {

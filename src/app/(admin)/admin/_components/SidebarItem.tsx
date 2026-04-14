@@ -25,24 +25,25 @@ export const SidebarItem = ({ icon: Icon, label, href }: Props) => {
       onClick={onclick}
       type="button"
       className={cn(
-        "flex items-center gap-x-2 text-[#212E53] text-base font-medium pl-6 transition-all rounded-xl hover:text-[#4A919E] hover:bg-[#E3F6F8]/60 h-12",
-        isActive &&
-          "text-[#CE6A6B] bg-[#FDECEF]/80 hover:bg-[#FDECEF] hover:text-[#CE6A6B]"
+        "flex items-center gap-x-2 text-[var(--sidebar-text)] text-base font-medium pl-6 pr-2 transition-all rounded-xl h-12 relative group",
+        isActive
+          ? "bg-[var(--sidebar-active-bg)] text-[var(--sidebar-active-text)] border-l-4 border-[var(--sidebar-active-border)] shadow-soft"
+          : "hover:bg-[var(--sidebar-hover)] hover:text-primary"
       )}
+      style={{ boxShadow: isActive ? "0 2px 8px 0 rgba(60,60,60,0.07)" : undefined }}
     >
       <div className="flex items-center gap-x-2 py-4">
-          <Icon
-            size={22}
-            className={cn("text-[#212E53]", isActive && "text-[#CE6A6B]")}
+        <Icon
+          size={22}
+          className={cn(
+            isActive ? "text-primary" : "text-[var(--sidebar-text)] group-hover:text-primary"
+          )}
         />
         {label}
       </div>
-      <div
-        className={cn(
-          "ml-auto opacity-0 border-2 h-full transition-all rounded-xl",
-          isActive && "opacity-100 border-[#CE6A6B]"
-        )}
-      />
+      {isActive && (
+        <span className="absolute left-0 top-0 h-full w-1 bg-primary rounded-r-xl" />
+      )}
     </button>
   );
 };

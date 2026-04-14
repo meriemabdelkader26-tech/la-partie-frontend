@@ -93,8 +93,8 @@ export const createColumns = (
   },
   {
     accessorKey: "id",
-    header: () => <div className="text-base">ID</div>,
-    cell: ({ row }) => <p className="text-sm">{row.original.id}</p>,
+    header: () => <span className="text-base font-semibold text-title">ID</span>,
+    cell: ({ row }) => <span className="text-base text-text">{row.original.id}</span>,
   },
   {
     accessorKey: "name",
@@ -107,19 +107,16 @@ export const createColumns = (
       />
     ),
     cell: ({ row }) => {
-      return <div className="text-sm">{row.original.name}</div>;
+      return <span className="text-base font-semibold text-title flex items-center gap-2">{row.original.name}</span>;
     },
   },
 
   {
     accessorKey: "description",
-    header: () => <div className="text-base">Description</div>,
+    header: () => <span className="text-base font-semibold text-title">Description</span>,
     cell: ({ row }) => {
       return (
-        <DescriptionTooltip
-          title="Description"
-          description={row.original.description!}
-        />
+        <span className="text-base text-muted">{row.original.description || '-'}</span>
       );
     },
   },
@@ -140,10 +137,11 @@ export const createColumns = (
   //   },
   {
     accessorKey: "isActive",
-    header: () => <div className="text-base">Active</div>,
+    header: () => <span className="text-base font-semibold text-title">Active</span>,
     cell: ({ row }) => {
+      // Harmonisation badge pill
       return (
-        <StatusButton id={row.original.id} isActive={row.original.isActive!} />
+        <span className={`text-xs font-semibold px-4 py-1 rounded-full border shadow-sm ${row.original.isActive ? 'bg-[#EAFBF3] text-[#22C55E] border-[#B6EFD7]' : 'bg-[#FFF9E6] text-[#F59E0B] border-[#FDE9B6]'}`} style={{ fontFamily: 'inherit', letterSpacing: 0.2 }}>{row.original.isActive ? 'Active' : 'Inactive'}</span>
       );
     },
   },
@@ -159,15 +157,15 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       return (
-        <div className="text-sm">
+        <span className="text-base text-muted">
           {formatDate(new Date(row.original.created!), "dd-MM-yyyy HH:mm")}
-        </div>
+        </span>
       );
     },
   },
   {
     id: "actions",
-    header: () => <div>Actions</div>,
+    header: () => <span className="text-base font-semibold text-title">Actions</span>,
     cell: ({ row }) => {
       return <ActionsButtons data={row.original} />;
     },

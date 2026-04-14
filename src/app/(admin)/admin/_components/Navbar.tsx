@@ -17,13 +17,13 @@ const Navbar = () => {
 
 
   return (
-    <nav className="p-4 border-b h-full flex items-center shadow-sm bg-pastel-dark-blue/80 backdrop-blur border-b border-pastel-blue">
+    <nav className="w-full flex items-center justify-between px-6 h-16 bg-white shadow-none border-none">
       {/* Brand/Logo area */}
-      <div className="flex items-center gap-2 ml-4">
-        <div className="w-8 h-8 rounded-xl logo-gradient flex items-center justify-center">
-          <span className="text-navy font-bold text-base">B</span>
+      <div className="flex items-center gap-3">
+        <div className="w-8 h-8 rounded-xl bg-primary-light flex items-center justify-center">
+          <span className="text-white font-bold text-base">I</span>
         </div>
-        <span className="text-navy font-semibold hidden md:block tracking-wide text-lg">
+        <span className="font-semibold hidden md:block tracking-wide text-lg text-title">
           {APP_NAME}
         </span>
       </div>

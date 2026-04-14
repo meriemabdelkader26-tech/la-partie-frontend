@@ -108,7 +108,7 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       return (
-        <p className="text-sm font-medium text-white">{row.original.name}</p>
+        <span className="text-base font-semibold text-title">{row.original.name}</span>
       );
     },
   },
@@ -125,11 +125,11 @@ export const createColumns = (
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-2">
-          <p className="text-sm text-slate-300">{row.original.email}</p>
+          <span className="text-base text-text">{row.original.email}</span>
           {row.original.emailVerified ? (
-            <CheckCircle2 className="size-4 text-green-500" />
+            <CheckCircle2 className="size-4 text-success" />
           ) : (
-            <Clock className="size-4 text-yellow-500" />
+            <Clock className="size-4 text-warning" />
           )}
         </div>
       );
@@ -137,17 +137,17 @@ export const createColumns = (
   },
   {
     accessorKey: "phoneNumber",
-    header: () => <p className="text-sm font-semibold text-white">Phone</p>,
+    header: () => <span className="text-base font-semibold text-title">Phone</span>,
     cell: ({ row }) => {
       return (
         <div className="flex items-center gap-2 h-14">
-          <p className="text-sm text-slate-300">
+          <span className="text-base text-text">
             {row.original.phoneNumber ?? "N/A"}
-          </p>
+          </span>
           {row.original.phoneNumberVerified ? (
-            <CheckCircle2 className="size-4 text-green-500" />
+            <CheckCircle2 className="size-4 text-success" />
           ) : (
-            <Clock className="size-4 text-yellow-500" />
+            <Clock className="size-4 text-warning" />
           )}
         </div>
       );
@@ -165,16 +165,15 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       const role = row.original.role === "COMPANY" ? "Company" : "Influencer";
-      const bgColor =
-        row.original.role === "COMPANY" ? "bg-blue-500/20" : "bg-purple-500/20";
-      const textColor =
-        row.original.role === "COMPANY" ? "text-blue-400" : "text-purple-400";
+      const badgeColor =
+        row.original.role === "COMPANY"
+          ? "bg-info/10 text-info border border-info/30"
+          : "bg-purple-500/10 text-purple-500 border border-purple-500/30";
       return (
         <span
           className={cn(
-            "text-xs font-semibold px-3 py-1 rounded-full",
-            bgColor,
-            textColor
+            "text-xs font-semibold px-3 py-1 rounded-full shadow-soft transition-all duration-150",
+            badgeColor
           )}
         >
           {role}
@@ -184,16 +183,12 @@ export const createColumns = (
   },
   {
     accessorKey: "isCompletedProfile",
-    header: () => <p className="text-sm font-semibold text-white">Profile</p>,
+    header: () => <span className="text-base font-semibold text-title">Profile</span>,
     cell: ({ row }) => {
       return row.original.isCompletedProfile ? (
-        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-green-500/20 text-green-400">
-          Complete
-        </span>
+        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success border border-success/30 shadow-soft">Complete</span>
       ) : (
-        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-yellow-500/20 text-yellow-400">
-          Incomplete
-        </span>
+        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-warning/10 text-warning border border-warning/30 shadow-soft">Incomplete</span>
       );
     },
   },
@@ -212,15 +207,13 @@ export const createColumns = (
         <div className="flex items-center gap-2">
           {row.original.isVerifyByAdmin ? (
             <>
-              <CheckCircle2 className="size-4 text-green-500" />
-              <span className="text-xs text-green-400 font-medium">
-                Verified
-              </span>
+              <CheckCircle2 className="size-4 text-success" />
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success border border-success/30 shadow-soft">Verified</span>
             </>
           ) : (
             <>
-              <Shield className="size-4 text-red-500" />
-              <span className="text-xs text-red-400 font-medium">Pending</span>
+              <Shield className="size-4 text-danger" />
+              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-danger/10 text-danger border border-danger/30 shadow-soft">Pending</span>
             </>
           )}
         </div>
@@ -239,9 +232,9 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       return (
-        <div className="text-sm text-slate-400">
+        <span className="text-base text-muted">
           {formatDate(new Date(row.original.createdAt!), "MMM dd, yyyy")}
-        </div>
+        </span>
       );
     },
   },
@@ -257,16 +250,16 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       return (
-        <div className="text-sm text-slate-400">
+        <span className="text-base text-muted">
           {formatDate(new Date(row.original.updatedAt!), "MMM dd, yyyy")}
-        </div>
+        </span>
       );
     },
   },
   {
     id: "actions",
     header: () => (
-      <div className="text-sm font-semibold text-white">Actions</div>
+      <span className="text-base font-semibold text-title">Actions</span>
     ),
     cell: ({ row }) => {
       return <ActionButtons user={row.original} />;

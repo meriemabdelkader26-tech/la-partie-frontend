@@ -14,24 +14,24 @@ const ActionsButtons = ({ data }: Props) => {
   const router = useRouter();
 
   return (
-    <div className="flex items-center gap-1">
+    <div className="flex items-center gap-2">
       <Button
-        variant="outline"
         size="sm"
-        className="p-2! bg-slate-700 border-slate-600 text-emerald-400 hover:bg-slate-600 hover:text-emerald-300"
+        className="rounded-lg px-3 py-2 bg-primary text-white border-0 shadow-soft flex items-center justify-center transition-none opacity-100"
         onClick={() =>
           router.push(`/admin/category/update-category/${data.id}`)
         }
+        style={{ minWidth: 44, minHeight: 36, opacity: 1, visibility: 'visible' }}
       >
-        <PencilIcon />
+        <PencilIcon size={18} />
       </Button>
       <Button
-        variant="outline"
         size="sm"
-        className="p-2! bg-slate-700 border-slate-600 text-rose-400 hover:bg-slate-600 hover:text-rose-300"
+        className="rounded-lg px-3 py-2 bg-danger text-white border-0 shadow-soft flex items-center justify-center transition-none opacity-100"
         onClick={() => setOpenDelete(true)}
+        style={{ minWidth: 44, minHeight: 36, opacity: 1, visibility: 'visible' }}
       >
-        <TrashIcon />
+        <TrashIcon size={18} />
       </Button>
 
       <DeleteButton

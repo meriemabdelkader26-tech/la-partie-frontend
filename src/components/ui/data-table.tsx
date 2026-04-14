@@ -176,14 +176,14 @@ export function DataTable<TData>({
     <div className="">
       {/* Selection bar */}
       {selectedRowsCount > 0 && (
-        <div className="mb-2 bg-[#2F365F] border border-[#556B72] rounded-lg px-4 py-3 flex items-center justify-between">
-          <span className="text-[#F7F1ED] font-medium">
+        <div className="mb-2 bg-surface border border-muted rounded-xl px-4 py-3 flex items-center justify-between shadow-soft">
+          <span className="text-title font-medium">
             {selectedRowsCount} item{selectedRowsCount > 1 ? "s" : ""} selected
           </span>
           {onDeleteSelected && (
             <button
               onClick={handleDelete}
-              className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2 font-medium"
+              className="bg-danger hover:bg-danger/90 text-white px-4 py-2 rounded-xl transition-colors flex items-center gap-2 font-medium shadow-soft"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -202,26 +202,26 @@ export function DataTable<TData>({
           )}
         </div>
       )}
-      <div className={" flex items-center gap-2 mb-2 justify-end "}>
+      <div className="flex items-center gap-2 mb-2 justify-end">
         {children}
         {showColumnsFilter && (
           <DataTableViewOptions table={table} moduleColor={moduleColor} />
         )}
       </div>
-      <div className="rounded-md bg-slate-800 overflow-y-hidden border-slate-700 shadow-lg border">
+      <div className="rounded-xl bg-surface overflow-y-hidden border border-muted shadow-soft">
         <Table>
           <TableHeader className="relative">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className={cn(`transition-colors ${moduleColor}`, {
+                className={cn("transition-colors", {
                   "opacity-50": isLoading,
                 })}
               >
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="py-5 text-[#F7F1ED] text-base font-semibold"
+                    className="py-5 text-title text-base font-semibold border-b border-muted bg-background first:rounded-tl-xl last:rounded-tr-xl"
                   >
                     {header.isPlaceholder
                       ? null
@@ -241,15 +241,17 @@ export function DataTable<TData>({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className={cn(`transition-colors relative ${moduleColor}`, {
-                    "bg-primary/20 hover:bg-primary/30":
-                      row.getIsSelected(),
-                  })}
+                  className={cn(
+                    "transition-colors relative group hover:bg-primary-light/10 border-b border-muted last:border-0",
+                    {
+                      "bg-primary/10 hover:bg-primary/20 border-l-4 border-primary": row.getIsSelected(),
+                    }
+                  )}
                 >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
-                      className="text-base text-[#F7F1ED] w-fit"
+                      className="text-base text-text w-fit py-4 px-3"
                     >
                       {flexRender(
                         cell.column.columnDef.cell,
@@ -260,10 +262,10 @@ export function DataTable<TData>({
                 </TableRow>
               ))
             ) : (
-              <TableRow className={`hover:bg-primary/10 ${moduleColor}`}>
+              <TableRow className="hover:bg-primary/10">
                 <TableCell
                   colSpan={columns.length}
-                  className="h-24 text-center text-[#F7F1ED]/80"
+                  className="h-24 text-center text-muted"
                 >
                   No results found.
                 </TableCell>
@@ -271,7 +273,7 @@ export function DataTable<TData>({
             )}
           </TableBody>
         </Table>
-        <div className="h-16 border-t border-slate-700 flex">
+        <div className="h-16 border-t border-muted flex bg-background rounded-b-xl">
           <div className="flex items-center justify-between w-full px-5">
             {/* if advanced is not defined the pagination will use next and previous buttons  */}
             {!paginationProps?.advanced && paginationProps && (

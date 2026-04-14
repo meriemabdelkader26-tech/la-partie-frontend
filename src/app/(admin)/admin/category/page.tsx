@@ -70,64 +70,55 @@ export default function Page() {
   };
 
   return (
-    <section className="min-h-screen  flex flex-col items-start justify-start">
-      <div className="flex items-center justify-between w-full">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-1 h-10 bg-linear-to-b from-emerald-400 to-emerald-600 rounded-full" />
-          <h1 className="text-3xl font-semibold text-white">
-            Categories&nbsp;
-            <span className="text-sm font-medium text-emerald-400">
-              ({totalItems})
-            </span>
-          </h1>
-        </div>
+    <section className="min-h-screen w-full flex flex-col items-start justify-start bg-background p-0">
+      <div className="flex items-center justify-between w-full px-8 pt-8 pb-4">
+        <h1 className="text-2xl font-semibold text-title flex items-center gap-2">
+          <span>Categories</span>
+          <span className="text-base font-medium text-muted">({totalItems})</span>
+        </h1>
         <Button
           onClick={() => router.push("/admin/category/create-category")}
-          className="bg-emerald-500 hover:bg-emerald-600 text-white border-0"
+          className="bg-primary hover:bg-primary-light text-white rounded-lg px-5 py-2 font-medium shadow-soft border-0"
         >
           <Plus className="mr-2 h-4 w-4" />
           Add Category
         </Button>
       </div>
-      <BreadCrumbList
-        breadCrumbs={[
-          { label: "Dashboard", href: "/admin" },
-          { label: "Category", href: "/admin/category" },
-        ]}
-      />
-
-      <Filter
-        search={search}
-        setSearch={setSearch}
-        setPage={setPage}
-        isActiveFilter={isActiveFilter}
-        setIsActiveFilter={setIsActiveFilter}
-        hasActiveFilters={hasActiveFilters}
-        clearFilters={clearFilters}
-      />
-
-      <div className="flex items-center justify-between gap-2 w-full">
-        <DataTableCategory
-          isLoading={isFetching}
-          orderBy={orderBy}
-          onOrderChange={(newOrderBy) => {
-            setOrderBy(newOrderBy as "name" | "-name" | "created" | "-created");
-            setPage(1);
-          }}
-          paginationProps={{
-            advanced: {
-              totalItems,
-              onPageChange: setPage,
-              pageIndex: page,
-              itemsPerPage: ITEMS_PER_PAGE,
-            },
-            isNextDisabled: !hasNextPage,
-            isPreviousDisabled: !hasPreviousPage,
-            onNextClick: () => setPage(page + 1),
-            onPreviousClick: () => setPage(page - 1),
-          }}
-          items={data?.allCategories?.edges.map((edge) => edge.node) || []}
+      <div className="w-full px-8">
+        <Filter
+          search={search}
+          setSearch={setSearch}
+          setPage={setPage}
+          isActiveFilter={isActiveFilter}
+          setIsActiveFilter={setIsActiveFilter}
+          hasActiveFilters={hasActiveFilters}
+          clearFilters={clearFilters}
         />
+      </div>
+      <div className="w-full flex flex-col items-center px-8 pt-4">
+        <div className="w-full max-w-5xl bg-white rounded-[16px] shadow-soft p-0">
+          <DataTableCategory
+            isLoading={isFetching}
+            orderBy={orderBy}
+            onOrderChange={(newOrderBy) => {
+              setOrderBy(newOrderBy as "name" | "-name" | "created" | "-created");
+              setPage(1);
+            }}
+            paginationProps={{
+              advanced: {
+                totalItems,
+                onPageChange: setPage,
+                pageIndex: page,
+                itemsPerPage: ITEMS_PER_PAGE,
+              },
+              isNextDisabled: !hasNextPage,
+              isPreviousDisabled: !hasPreviousPage,
+              onNextClick: () => setPage(page + 1),
+              onPreviousClick: () => setPage(page - 1),
+            }}
+            items={data?.allCategories?.edges.map((edge) => edge.node) || []}
+          />
+        </div>
       </div>
     </section>
   );

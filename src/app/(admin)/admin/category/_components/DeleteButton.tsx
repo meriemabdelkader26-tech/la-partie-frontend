@@ -61,12 +61,14 @@ const DeleteButton = ({ data, open, onOpenChange }: Props) => {
         <AlertDialogFooter>
           <AlertDialogCancel
             disabled={isPending}
-            className="py-2 px-4 bg-slate-700 border-slate-600 text-white hover:bg-slate-600 hover:text-white"
+            className="py-2 px-4 bg-slate-700 border-slate-600 text-white focus:bg-slate-600 focus:text-white opacity-100 visible"
+            style={{ opacity: 1, visibility: 'visible' }}
           >
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-rose-500 hover:bg-rose-600 text-white py-2 px-4"
+            className="bg-rose-500 text-white py-2 px-4 opacity-100 visible"
+            style={{ opacity: 1, visibility: 'visible' }}
             disabled={isPending}
             onClick={() => mutate()}
           >

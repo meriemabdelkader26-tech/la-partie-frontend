@@ -14,12 +14,12 @@ const OfferCard = (props: Props) => {
   return (
     <div
       key={offer.id}
-      className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/10 transition-all group cursor-pointer rounded-2xl"
+      className="bg-surface border border-muted p-6 shadow-soft hover:shadow-lg hover:shadow-primary/10 transition-all group cursor-pointer rounded-2xl"
       onClick={() => router.push(`/admin/offer/detail/${offer.id}`)}
     >
       <div className="flex items-start justify-between mb-4">
-        <div className="inline-block bg-green-500/20 px-3 py-1 rounded-full">
-          <span className="text-xs font-semibold text-green-400">
+        <div className="inline-block bg-info/10 px-3 py-1 rounded-full border border-info/30 shadow-soft">
+          <span className="text-xs font-semibold text-info">
             {calculateBudgetRange(offer.minBudget, offer.maxBudget) ===
               "under-25k" && "Under $25K"}
             {calculateBudgetRange(offer.minBudget, offer.maxBudget) ===
@@ -32,25 +32,25 @@ const OfferCard = (props: Props) => {
         </div>
         <ActionsButtons data={offer} />
       </div>
-      <h3 className="text-lg font-bold text-white mb-3 group-hover:text-green-400 transition-colors line-clamp-1">
+      <h3 className="text-lg font-bold text-title mb-3 group-hover:text-primary transition-colors line-clamp-1">
         {offer.title}
       </h3>
-      <p className="text-xs uppercase text-slate-500 font-semibold mb-2">
+      <p className="text-xs uppercase text-muted font-semibold mb-2">
         Objective
       </p>
-      <p className="text-sm text-slate-300 mb-4 line-clamp-1">
+      <p className="text-base text-text mb-4 line-clamp-1">
         {offer.objectif}
       </p>
-      <div className="grid grid-cols-2 gap-3 mb-4 pb-4 border-b border-slate-700/50">
+      <div className="grid grid-cols-2 gap-3 mb-4 pb-4 border-b border-muted">
         <div>
-          <p className="text-xs text-slate-500 mb-1">Influencers Needed</p>
-          <p className="text-lg font-bold text-blue-400">
+          <p className="text-xs text-muted mb-1">Influencers Needed</p>
+          <p className="text-lg font-bold text-info">
             {offer.influencerNumber}
           </p>
         </div>
         <div>
-          <p className="text-xs text-slate-500 mb-1">Budget Range</p>
-          <p className="text-sm font-bold text-green-400">
+          <p className="text-xs text-muted mb-1">Budget Range</p>
+          <p className="text-base font-bold text-success">
             ${(Number.parseFloat(offer.minBudget) / 1000).toFixed(0)}K - $
             {(Number.parseFloat(offer.maxBudget) / 1000).toFixed(0)}K
           </p>
@@ -58,15 +58,15 @@ const OfferCard = (props: Props) => {
       </div>
 
       <div className="flex items-center justify-between">
-        <div className="text-xs text-slate-500">
+        <div className="text-xs text-muted">
           By{" "}
-          <span className="text-slate-400 font-medium">
+          <span className="text-title font-medium">
             {offer.createdBy.name}
           </span>
         </div>
         <div className="text-right">
-          <p className="text-xs text-slate-500 mb-1">Expires in</p>
-          <p className="text-sm font-bold text-yellow-400">
+          <p className="text-xs text-muted mb-1">Expires in</p>
+          <p className="text-base font-bold text-warning">
             {daysRemaining(offer.endDate)} days
           </p>
         </div>
