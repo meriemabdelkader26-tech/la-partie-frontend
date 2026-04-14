@@ -65,12 +65,12 @@ export const UserFilterBar = ({
       {/* Search */}
       {setSearchQuery && (
         <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
           <Input
             placeholder="Search by name or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-slate-700/50 border border-slate-600/50 text-white rounded-lg"
+            className="pl-10 bg-[#6B7280] border border-[#6B7280] text-white placeholder-white rounded-lg"
           />
         </div>
       )}
@@ -81,7 +81,7 @@ export const UserFilterBar = ({
           <Button
             variant="outline"
             className={cn(
-              "bg-slate-700/50 border border-slate-600/50 text-white rounded-lg flex items-center gap-2",
+              "bg-[#6B7280] border border-[#6B7280] text-white rounded-lg flex items-center gap-2",
               hasActiveFilters &&
                 "border-green-500/50 bg-green-500/10 text-green-300"
             )}

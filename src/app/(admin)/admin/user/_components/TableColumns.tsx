@@ -42,7 +42,7 @@ const SortableColumnHeader = ({
   return (
     <button
       onClick={handleClick}
-      className="flex items-center gap-2 text-sm font-semibold text-white hover:text-green-400 transition-colors"
+      className="flex items-center gap-2 text-sm font-semibold text-black hover:text-green-400 transition-colors"
     >
       {label}
       {isActive ? (
@@ -52,7 +52,7 @@ const SortableColumnHeader = ({
           <ArrowDown className="size-4 text-green-400" />
         )
       ) : (
-        <ArrowUpDown className="size-4 text-slate-500" />
+        <ArrowUpDown className="size-4 text-[#6B7280]" />
       )}
     </button>
   );
@@ -75,7 +75,7 @@ export const createColumns = (
         }
         onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
         aria-label="Select all"
-        className="ml-4"
+        className="ml-4 text-black border-[#6B7280]"
       />
     ),
     cell: ({ row }) => (
@@ -90,6 +90,7 @@ export const createColumns = (
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
+          className="text-black border-[#6B7280]"
         />
       </div>
     ),
@@ -185,11 +186,11 @@ export const createColumns = (
     accessorKey: "isCompletedProfile",
     header: () => <span className="text-base font-semibold text-title">Profile</span>,
     cell: ({ row }) => {
-      return row.original.isCompletedProfile ? (
-        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success border border-success/30 shadow-soft">Complete</span>
-      ) : (
-        <span className="text-xs font-semibold px-3 py-1 rounded-full bg-warning/10 text-warning border border-warning/30 shadow-soft">Incomplete</span>
-      );
+        return row.original.isCompletedProfile ? (
+          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success border border-success/30 shadow-soft">Complete</span>
+        ) : (
+          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-danger/10 text-danger border border-danger/30 shadow-soft">Incomplete</span>
+        );
     },
   },
   {
@@ -203,21 +204,31 @@ export const createColumns = (
       />
     ),
     cell: ({ row }) => {
-      return (
-        <div className="flex items-center gap-2">
-          {row.original.isVerifyByAdmin ? (
-            <>
-              <CheckCircle2 className="size-4 text-success" />
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success border border-success/30 shadow-soft">Verified</span>
-            </>
-          ) : (
-            <>
-              <Shield className="size-4 text-danger" />
-              <span className="text-xs font-semibold px-3 py-1 rounded-full bg-danger/10 text-danger border border-danger/30 shadow-soft">Pending</span>
-            </>
-          )}
-        </div>
-      );
+      // Correction stricte pour 3 états : Verified (vert), Pending (rouge), Rejected (rouge)
+      let badge = null;
+      if (row.original.isVerifyByAdmin === true) {
+        badge = (
+          <>
+            <CheckCircle2 className="size-4 text-success" />
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success border border-success/30 shadow-soft">Verified</span>
+          </>
+        );
+      } else if (row.original.isVerifyByAdmin === "rejected") {
+        badge = (
+          <>
+            <Shield className="size-4 text-danger" />
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-danger/10 text-danger border border-danger/30 shadow-soft">Rejected</span>
+          </>
+        );
+      } else {
+        badge = (
+          <>
+            <Shield className="size-4 text-danger" />
+            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-danger/10 text-danger border border-danger/30 shadow-soft">Pending</span>
+          </>
+        );
+      }
+      return <div className="flex items-center gap-2">{badge}</div>;
     },
   },
   {

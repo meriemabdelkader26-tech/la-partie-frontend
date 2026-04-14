@@ -61,38 +61,38 @@ export default function AdminDashboardPage() {
     {
       title: "Total Users",
       value: stats.totalUsers.toString(),
+      subLabel: "+14%",
       icon: Users,
+      iconColor: "text-emerald-400",
       href: "/admin/user",
-      change: "+14%",
-      changeType: "positive" as const,
-      color: "",
+      bg: "bg-gradient-to-br from-[#F7FAF9] to-[#EAF3EF]",
     },
     {
       title: "Total Influencers",
       value: stats.totalInfluencers.toString(),
+      subLabel: `${stats.verifiedInfluencers} verified`,
       icon: UserCheck,
+      iconColor: "text-emerald-400",
       href: "/admin/influencer",
-      change: `${stats.verifiedInfluencers} verified`,
-      changeType: "positive" as const,
-      color: "",
+      bg: "bg-gradient-to-br from-[#F7FAF9] to-[#EAF3EF]",
     },
     {
       title: "Active Campaigns",
       value: "0",
+      subLabel: "Coming soon",
       icon: TrendingUp,
+      iconColor: "text-emerald-400",
       href: "#",
-      change: "Coming soon",
-      changeType: "neutral" as const,
-      color: "",
+      bg: "bg-gradient-to-br from-[#F7FAF9] to-[#EAF3EF]",
     },
     {
       title: "Categories",
       value: stats.activeCategories.toString(),
+      subLabel: "Active",
       icon: FolderOpen,
+      iconColor: "text-emerald-400",
       href: "/admin/category",
-      change: "Active",
-      changeType: "positive" as const,
-      color: "",
+      bg: "bg-gradient-to-br from-[#F7FAF9] to-[#EAF3EF]",
     },
   ];
 
@@ -119,19 +119,19 @@ export default function AdminDashboardPage() {
         {statCards.map((card, idx) => (
           <Card
             key={idx}
-            className="rounded-[16px] border border-border bg-[linear-gradient(135deg,_#F7FAF9_0%,_#EAF3EF_100%)] shadow-soft flex flex-col justify-between transition-shadow duration-200"
+            className={`rounded-[16px] border border-border ${card.bg} shadow-soft flex flex-col justify-between transition-shadow duration-200 p-0`}
             style={{ minHeight: 120 }}
           >
-            <CardHeader className="flex flex-row items-center justify-between pb-2">
-              <CardTitle className="text-lg font-semibold text-title flex items-center gap-2">
-                <card.icon className="w-6 h-6" />
-                {card.title}
-              </CardTitle>
-              <span className="text-2xl font-bold text-title">{card.value}</span>
-            </CardHeader>
-            <CardContent className="flex items-center justify-between pt-0">
-              <span className="text-sm font-medium text-muted">{card.change}</span>
-            </CardContent>
+            <div className="flex flex-row items-center justify-between px-6 pt-6 pb-2">
+              <div className="flex flex-col gap-1">
+                <span className="text-title text-base font-semibold">{card.title}</span>
+                <span className="text-2xl font-bold text-title">{card.value}</span>
+                <span className="text-sm font-medium text-muted">{card.subLabel}</span>
+              </div>
+              <div className="flex items-center justify-center w-12 h-12 rounded-full bg-white/60 ml-2">
+                <card.icon className={`w-7 h-7 ${card.iconColor}`} />
+              </div>
+            </div>
           </Card>
         ))}
       </div>

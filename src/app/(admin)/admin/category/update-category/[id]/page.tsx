@@ -30,7 +30,7 @@ const page = () => {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
           <div className="w-1 h-10 bg-linear-to-b from-emerald-400 to-emerald-600 rounded-full" />
-          <h1 className="text-3xl font-semibold text-white">Update Category</h1>
+          <h1 className="text-3xl font-semibold text-black">Update Category</h1>
         </div>
       </div>
 
@@ -44,7 +44,7 @@ const page = () => {
 
       <Card className="bg-slate-900 border-emerald-500/10">
         <CardHeader>
-          <CardTitle className="text-white">Category Information</CardTitle>
+          <CardTitle className="text-black">Category Information</CardTitle>
         </CardHeader>
         <CardContent>
           <UpdateFormCategory

@@ -19,6 +19,13 @@ const LoginPage = () => {
             <p className="text-pastel-red">Sign in to your company account</p>
           </div>
           <LoginFormBody />
+          <div className="mt-4 mb-2 text-center">
+            <TextLinkButton
+              label="Mot de passe oublié ?"
+              subLabel="Réinitialiser"
+              href="/reset-password"
+            />
+          </div>
           <Separator className="mt-6 mb-4 border-t border-pastel-red/20 text-center" />
           <TextLinkButton
             label="Don't have an account?"

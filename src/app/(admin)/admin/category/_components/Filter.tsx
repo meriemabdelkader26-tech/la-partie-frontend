@@ -37,7 +37,7 @@ const Filter = ({
           setSearch(e.target.value);
           setPage(1);
         }}
-        className="max-w-sm bg-slate-700 border-emerald-500/30 text-white placeholder:text-slate-500 focus:border-emerald-500 focus:ring-emerald-500/20"
+        className="max-w-sm bg-[#6B7280] border border-[#6B7280] text-white placeholder-white focus:border-[#6B7280] focus:ring-[#6B7280]"
       />
 
       <Select
@@ -47,13 +47,13 @@ const Filter = ({
           setPage(1);
         }}
       >
-        <SelectTrigger className="w-[180px] bg-slate-700 border-emerald-500/30 text-white hover:border-emerald-500/50">
+        <SelectTrigger className="w-[180px] bg-[#6B7280] border border-[#6B7280] text-white hover:border-[#6B7280]">
           <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
-        <SelectContent className="bg-slate-700 border-emerald-500/30">
+        <SelectContent className="bg-[#6B7280] border border-[#6B7280]">
           <SelectItem
             value="all"
-            className="text-white hover:bg-emerald-500/10 focus:bg-emerald-500/10"
+            className="text-white hover:bg-[#6B7280]/10 focus:bg-[#6B7280]/10"
           >
             All
           </SelectItem>

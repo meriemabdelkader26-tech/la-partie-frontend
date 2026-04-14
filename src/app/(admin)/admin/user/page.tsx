@@ -108,7 +108,7 @@ const page = () => {
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-3 mb-3">
           <div className="w-1 h-10 bg-linear-to-b from-emerald-400 to-emerald-600 rounded-full" />
-          <h1 className="text-3xl font-semibold text-white">
+          <h1 className="text-3xl font-semibold text-black">
             Users&nbsp;
             <span className="text-sm font-medium text-emerald-400">
               ({totalItems})

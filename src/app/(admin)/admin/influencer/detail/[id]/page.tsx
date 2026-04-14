@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { graphqlClient } from "@/lib/graphql-client";
-import { DataType, QUERY } from "./_components/query";
+import { DataType, QUERY } from "../../_components/query";
 import Loading from "@/app/loading";
 import { useQueryState } from "nuqs";
 import InfluencerProfileHeaderSection from "./_components/InfluencerProfileHeaderSection";

@@ -114,6 +114,18 @@
 }
 
 @layer base {
+  /* Force action buttons in category table to always be visible */
+  .category-actions-always-visible,
+  .category-actions-always-visible button,
+  .category-actions-always-visible [data-slot="button"],
+  .category-actions-always-visible svg {
+    opacity: 1 !important;
+    visibility: visible !important;
+    display: inline-flex !important;
+    pointer-events: auto !important;
+    z-index: 10 !important;
+    position: relative !important;
+  }
   * {
     @apply border-border outline-ring/50;
   }
