@@ -63,7 +63,10 @@ const InputComponent = React.forwardRef<
   React.ComponentProps<"input">
 >(({ className, ...props }, ref) => (
   <Input
-    className={cn("rounded-e-lg rounded-s-none border-l-0", className)}
+    className={cn(
+      "h-12 rounded-e-xl rounded-s-none border-l-0 border-2 border-input bg-transparent text-foreground placeholder:text-muted-foreground focus:border-ring focus:ring-0 focus-visible:ring-0 transition-colors shadow-none",
+      className
+    )}
     {...props}
     ref={ref}
   />
@@ -102,7 +105,7 @@ const CountrySelect = ({
         <Button
           type="button"
           variant="outline"
-          className="flex gap-1 rounded-e-none rounded-s-lg border-r-0 px-3 focus:z-10 bg-slate-700 border-slate-600 text-white hover:bg-slate-600 hover:text-white"
+          className="h-12 flex gap-1 rounded-e-none rounded-s-xl border-r-0 border-2 border-input px-3 focus:z-10 bg-transparent text-foreground hover:bg-accent hover:text-accent-foreground hover:border-ring transition-colors shadow-none"
           disabled={disabled}
         >
           <FlagComponent
@@ -111,14 +114,14 @@ const CountrySelect = ({
           />
           <ChevronsUpDown
             className={cn(
-              "-mr-2 size-4 opacity-50",
+              "-mr-2 size-4 text-gray-600",
               disabled ? "hidden" : "opacity-100"
             )}
           />
         </Button>
       </PopoverTrigger>
-      <PopoverContent className="w-[300px] p-0 bg-slate-800 border-slate-700">
-        <Command className="bg-slate-800">
+      <PopoverContent className="w-[300px] p-0 bg-popover border-2 border-border shadow-large rounded-xl">
+        <Command className="bg-popover">
           <CommandInput
             value={searchValue}
             onValueChange={(value) => {
@@ -135,14 +138,14 @@ const CountrySelect = ({
               }, 0);
             }}
             placeholder="Search country..."
-            className="bg-transparent border-slate-600 text-white placeholder:text-slate-400"
+            className="bg-transparent border-border text-foreground placeholder:text-muted-foreground"
           />
-          <CommandList className="bg-slate-800">
-            <ScrollArea ref={scrollAreaRef} className="h-72 bg-slate-800">
-              <CommandEmpty className="text-slate-400">
+          <CommandList className="bg-popover">
+            <ScrollArea ref={scrollAreaRef} className="h-72 bg-popover">
+              <CommandEmpty className="text-muted-foreground py-6 text-center">
                 No country found.
               </CommandEmpty>
-              <CommandGroup className="bg-slate-800">
+              <CommandGroup className="bg-popover p-2">
                 {countryList.map(({ value, label }) =>
                   value ? (
                     <CountrySelectOption
@@ -184,16 +187,16 @@ const CountrySelectOption = ({
 
   return (
     <CommandItem
-      className="gap-2 text-white hover:bg-slate-700 aria-selected:bg-slate-700 cursor-pointer"
+      className="gap-2 text-foreground hover:bg-accent aria-selected:bg-accent cursor-pointer rounded-lg mx-1 transition-colors"
       onSelect={handleSelect}
     >
       <FlagComponent country={country} countryName={countryName} />
-      <span className="flex-1 text-sm">{countryName}</span>
-      <span className="text-sm text-slate-400">{`+${RPNInput.getCountryCallingCode(
+      <span className="flex-1 text-sm font-medium">{countryName}</span>
+      <span className="text-sm text-muted-foreground font-mono">{`+${RPNInput.getCountryCallingCode(
         country
       )}`}</span>
       <CheckIcon
-        className={`ml-auto size-4 ${
+        className={`ml-auto size-4 text-foreground transition-opacity ${
           country === selectedCountry ? "opacity-100" : "opacity-0"
         }`}
       />

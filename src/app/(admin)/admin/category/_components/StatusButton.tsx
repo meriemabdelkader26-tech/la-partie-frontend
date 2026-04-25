@@ -59,73 +59,61 @@ export default function StatusButton({ isActive, id }: Props) {
       );
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [CATEGORIES_KEY, id] });
-      toast.success("Successfully updated category!");
+      queryClient.invalidateQueries({ queryKey: [CATEGORIES_KEY] });
+      toast.success("Successfully updated category status!");
     },
     onError: () => {
       toast.error("Failed to update category status.");
     },
   });
 
-  const handleFilterChange = (value: boolean) => {
+  const handleStatusChange = (value: boolean) => {
     setSelectedValue(value);
     mutation.mutate({ isActive: value });
     setOpen(false);
   };
 
   return (
-    <div className="flex flex-col gap-4">
-      <Popover open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
-          <Button
-            size="icon"
-            className={cn(
-              "shadow-none w-10 h-11 transition-colors",
-              selectedValue
-                ? "bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20"
-                : "bg-rose-500/10 text-rose-400 hover:bg-rose-500/20"
-            )}
-            disabled={mutation.isPending}
-          >
-            {selectedValue ? (
-              <CheckCircle2 className="size-5 text-emerald-400" />
-            ) : (
-              <Ban className="size-5 text-rose-400" />
-            )}
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent className="w-36 p-1 bg-slate-700 border-slate-600">
-          <div className="space-y-1">
-            {options.map((option, index) => (
-              <button
-                key={index}
-                className={cn(
-                  "w-full h-10 flex items-center gap-2  px-3 rounded-md text-sm font-medium transition-colors",
-                  option.id
-                    ? "text-emerald-400 bg-emerald-500/10 hover:bg-emerald-500/20"
-                    : "text-rose-400 bg-rose-500/10 hover:bg-rose-500/20"
-                )}
-                disabled={mutation.isPending}
-                onClick={() => handleFilterChange(option.id)}
-              >
+    <Popover open={open} onOpenChange={setOpen}>
+      <PopoverTrigger asChild>
+        <button
+          disabled={mutation.isPending}
+          className={cn(
+            "text-[10px] font-bold px-2.5 py-1 rounded-md transition-all duration-150 uppercase tracking-widest border shadow-sm hover:shadow-md active:scale-95 disabled:opacity-50",
+            selectedValue
+              ? "bg-emerald-50 text-emerald-700 border-emerald-100 hover:bg-emerald-100"
+              : "bg-amber-50 text-amber-700 border-amber-100 hover:bg-amber-100"
+          )}
+        >
+          {selectedValue ? 'Active' : 'Inactive'}
+        </button>
+      </PopoverTrigger>
+      <PopoverContent className="w-40 p-1.5 bg-white border border-gray-100 rounded-xl shadow-xl animate-in fade-in zoom-in-95" align="start">
+        <div className="flex flex-col gap-1">
+          {options.map((option, index) => (
+            <button
+              key={index}
+              className={cn(
+                "w-full h-9 flex items-center justify-between px-3 rounded-lg text-xs font-bold transition-all",
+                selectedValue === option.id 
+                  ? "bg-gray-50 text-gray-900" 
+                  : "text-gray-500 hover:bg-gray-50 hover:text-gray-700"
+              )}
+              disabled={mutation.isPending}
+              onClick={() => handleStatusChange(option.id)}
+            >
+              <div className="flex items-center gap-2">
                 {option.icon}
-                {option.label}
-
-                {selectedValue === option.id && (
-                  <Check
-                    className={
-                      option.id
-                        ? "text-emerald-400 size-5 ml-auto"
-                        : "text-rose-400 size-5 ml-auto"
-                    }
-                  />
-                )}
-              </button>
-            ))}
-          </div>
-        </PopoverContent>
-      </Popover>
-    </div>
+                <span className="uppercase tracking-wider">{option.label}</span>
+              </div>
+              {selectedValue === option.id && (
+                <Check className="w-3.5 h-3.5 text-emerald-500" />
+              )}
+            </button>
+          ))}
+        </div>
+      </PopoverContent>
+    </Popover>
   );
 }
 

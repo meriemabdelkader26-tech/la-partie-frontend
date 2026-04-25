@@ -18,6 +18,10 @@ query offer($id: ID!) {
     title
     objectif
     endDate
+    isApplied
+    applicationStatus
+    applicationsCount
+    approvedApplicationsCount
     applications {
       id
       user {

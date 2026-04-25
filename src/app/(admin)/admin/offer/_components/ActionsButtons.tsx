@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { Offer } from "@/app/types";
@@ -30,42 +31,42 @@ const ActionsButtons = ({ data }: Props) => {
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            variant="outline"
+            variant="ghost"
             aria-label="Open menu"
-            size="icon-sm"
-            className="bg-slate-700 border-slate-600 text-white hover:bg-slate-600 hover:text-white"
+            size="icon"
+            className="h-8 w-8 rounded-lg hover:bg-gray-100 text-gray-500 hover:text-gray-900 transition-colors"
           >
-            <MoreHorizontalIcon className="size-4" />
+            <MoreHorizontalIcon className="w-4 h-4" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent
           align="end"
-          className="bg-slate-700 border-slate-600 text-white"
+          className="bg-white border border-gray-100 shadow-xl rounded-xl p-1.5 min-w-[160px] animate-in fade-in zoom-in-95 duration-200"
         >
           <DropdownMenuItem
-            onClick={() => router.push(`/admin/offer/update-offer/${data.id}`)}
-            className="cursor-pointer hover:bg-slate-600 focus:bg-slate-600 focus:text-emerald-300"
+            onClick={() => router.push(`/admin/offer/detail/${data.id}`)}
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 focus:bg-gray-50 text-gray-600 focus:text-emerald-600 transition-colors"
           >
-            <PencilIcon className="mr-2 size-4 text-emerald-400" />
-            <span className="text-white">Edit</span>
+            <EyeIcon className="w-4 h-4 text-emerald-500" />
+            <span className="text-xs font-bold uppercase tracking-wider">View Details</span>
           </DropdownMenuItem>
 
           <DropdownMenuItem
-            onClick={() => router.push(`/admin/offer/detail/${data.id}`)}
-            className="cursor-pointer hover:bg-slate-600 focus:bg-slate-600 focus:text-blue-300"
+            onClick={() => router.push(`/admin/offer/update-offer/${data.id}`)}
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer hover:bg-gray-50 focus:bg-gray-50 text-gray-600 focus:text-blue-600 transition-colors"
           >
-            <EyeIcon className="mr-2 size-4 text-blue-400" />
-            <span className="text-white">View Details</span>
+            <PencilIcon className="w-4 h-4 text-blue-500" />
+            <span className="text-xs font-bold uppercase tracking-wider">Edit Offer</span>
           </DropdownMenuItem>
 
-          <DropdownMenuSeparator className="bg-slate-600" />
+          <DropdownMenuSeparator className="bg-gray-50 my-1" />
 
           <DropdownMenuItem
             onClick={() => setOpenDelete(true)}
-            className="cursor-pointer hover:bg-slate-600 focus:bg-slate-600 focus:text-rose-300"
+            className="flex items-center gap-2.5 px-3 py-2 rounded-lg cursor-pointer hover:bg-rose-50 focus:bg-rose-50 text-gray-600 focus:text-rose-600 transition-colors"
           >
-            <TrashIcon className="mr-2 size-4 text-rose-400" />
-            <span className="text-white">Delete</span>
+            <TrashIcon className="w-4 h-4 text-rose-500" />
+            <span className="text-xs font-bold uppercase tracking-wider">Delete Offer</span>
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>

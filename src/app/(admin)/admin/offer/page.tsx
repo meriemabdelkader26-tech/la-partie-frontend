@@ -16,6 +16,7 @@ import { OfferSearchBar } from "./_components/OfferSearchBar";
 import { OfferGrid } from "./_components/OfferGrid";
 import OfferSheet from "./_components/OfferSheet";
 import { calculateBudgetRange } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 const ITEMS_PER_PAGE = 8;
 
@@ -116,20 +117,28 @@ export default function OffersPage() {
   ].filter(Boolean).length;
 
   return (
-    <section>
-      <div className="mx-auto px-6 py-8">
+    <motion.section
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="min-h-screen flex flex-col items-start justify-start w-full p-4 md:p-8"
+    >
+      <div className="w-full mb-6">
         <OfferFilters
           activeFiltersCount={activeFiltersCount}
           onClearAll={clearAllFilters}
+          totalItems={totalItems}
         />
+      </div>
 
-        <div className="flex items-center gap-4 mb-8">
-          <div className="flex-1">
-            <OfferSearchBar
-              value={searchQuery || ""}
-              onChange={handleSearchChange}
-            />
-          </div>
+      <div className="w-full bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-gray-100 shadow-sm mb-8 flex flex-col md:flex-row items-center gap-4">
+        <div className="flex-1 w-full">
+          <OfferSearchBar
+            value={searchQuery || ""}
+            onChange={handleSearchChange}
+          />
+        </div>
+        <div className="flex items-center gap-3 w-full md:w-auto">
           <OfferSheet
             activeFiltersCount={activeFiltersCount}
             filterBudgetRange={filterBudgetRange}
@@ -151,7 +160,9 @@ export default function OffersPage() {
             onClearAll={clearAllFilters}
           />
         </div>
+      </div>
 
+      <div className="w-full">
         <OfferGrid
           offers={currentOffers}
           isLoading={isFetching}
@@ -160,19 +171,22 @@ export default function OffersPage() {
       </div>
 
       {!isFetching && totalItems > 0 && (
-        <div className="h-16 border-t border-slate-700 flex">
-          <div className="flex items-center justify-between w-full px-5">
+        <div className="mt-8 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex flex-col md:flex-row items-center justify-between w-full gap-4">
+          <div className="text-sm font-medium text-gray-500">
+            Showing <span className="font-bold text-gray-900">{currentOffers.length}</span> of <span className="font-bold text-gray-900">{totalItems}</span> offers
+          </div>
+          <div className="flex items-center gap-2">
             <AdvancedPagination
               itemsPerPage={ITEMS_PER_PAGE}
               totalItems={totalItems}
               pageIndex={page}
               pageCount={totalPages}
               onPageChange={handlePageChange}
-              ModulePaginationColor="green"
+              ModulePaginationColor="bg-emerald-500"
             />
           </div>
         </div>
       )}
-    </section>
+    </motion.section>
   );
 }

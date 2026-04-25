@@ -11,6 +11,17 @@ import { PlayCircle, Heart, MessageCircle, Eye, ImageIcon } from "lucide-react";
 import { graphqlClient } from "@/lib/graphql-client";
 import { COMPLETE_INFLUENCER_PROFILE_MUTATION } from "../mutations/completeProfile";
 
+const FALLBACK_CATEGORIES: Category[] = [
+  { id: "1", name: "Fashion & Style" },
+  { id: "2", name: "Beauty & Makeup" },
+  { id: "3", name: "Fitness & Health" },
+  { id: "4", name: "Travel & Lifestyle" },
+  { id: "5", name: "Food & Cooking" },
+  { id: "6", name: "Technology & Gadgets" },
+  { id: "7", name: "Gaming & Esports" },
+  { id: "8", name: "Parenting & Family" },
+];
+
 interface Props {
   categories?: Category[];
   formData: ProfileFormData;
@@ -74,7 +85,7 @@ export default function StepReview({
           thumbnailUrl: reel.thumbnailUrl,
           postName: reel.postName,
           duration: Math.round(reel.duration), // Convert to integer
-          takenAt: reel.takenAt,
+          takenAt: String(reel.takenAt || ""), // Ensure string
           likes: reel.likes ?? 0,
           comments: reel.comments ?? 0,
           views: reel.views ?? 0,
@@ -88,7 +99,7 @@ export default function StepReview({
           imageUrl: post.imageUrl,
           thumbnailUrl: post.thumbnailUrl,
           postName: post.postName,
-          takenAt: post.takenAt,
+          takenAt: String(post.takenAt || ""), // Ensure string
           likes: post.likes ?? 0,
           comments: post.comments ?? 0,
           username: post.username,
@@ -129,10 +140,10 @@ export default function StepReview({
 
   if (success) {
     return (
-      <div className="text-center space-y-4">
-        <div className="w-16 h-16 bg-emerald-500/20 rounded-full flex items-center justify-center mx-auto">
+      <div className="text-center space-y-6 py-12 animate-fadeInUp">
+        <div className="w-24 h-24 bg-black rounded-full flex items-center justify-center mx-auto shadow-large animate-scaleIn">
           <svg
-            className="w-8 h-8 text-emerald-400"
+            className="w-12 h-12 text-white"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -140,58 +151,59 @@ export default function StepReview({
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeWidth={2}
+              strokeWidth={3}
               d="M5 13l4 4L19 7"
             />
           </svg>
         </div>
-        <h3 className="text-xl font-semibold text-white">Profile Completed!</h3>
-        <p className="text-slate-400">Redirecting to your dashboard...</p>
+        <h3 className="text-3xl font-bold text-black">Profile Completed!</h3>
+        <p className="text-gray-600 text-lg">Redirecting to your dashboard...</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
-      <div>
-        <h3 className="text-xl font-semibold text-white mb-2">
+    <form onSubmit={handleSubmit} className="space-y-8">
+      {/* Header */}
+      <div className="animate-fadeInUp">
+        <h2 className="text-2xl font-bold text-black mb-2">
           Review Your Profile
-        </h3>
-        <p className="text-slate-400 text-sm">
+        </h2>
+        <p className="text-gray-600">
           Please review your information before submitting
         </p>
       </div>
 
       {error && <ErrorTriangle message={error} />}
 
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Instagram Info */}
-        <Card className="bg-slate-700 border-slate-600 p-4">
-          <h3 className="font-semibold text-white mb-4">Instagram Account</h3>
-          <div className="space-y-3">
+        <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-100">
+          <h3 className="font-bold text-black text-xl mb-6">Instagram Account</h3>
+          <div className="space-y-6">
             {/* Username and Display Name */}
             <div className="flex items-start gap-3">
-              <div className="flex-1 space-y-2 text-sm">
-                <p className="text-slate-300">
-                  <span className="text-slate-400 font-medium">Username:</span>{" "}
-                  <span className="text-white">
+              <div className="flex-1 space-y-3 text-sm">
+                <p className="text-gray-700">
+                  <span className="text-gray-500 font-semibold">Username:</span>{" "}
+                  <span className="text-black font-bold">
                     @{formData.instagramUsername}
                   </span>
                 </p>
                 {formData.pseudo && (
-                  <p className="text-slate-300">
-                    <span className="text-slate-400 font-medium">
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">
                       Display Name:
                     </span>{" "}
-                    <span className="text-white">{formData.pseudo}</span>
+                    <span className="text-black font-bold">{formData.pseudo}</span>
                   </p>
                 )}
                 {formData.instagramData?.full_name && (
-                  <p className="text-slate-300">
-                    <span className="text-slate-400 font-medium">
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">
                       Full Name:
                     </span>{" "}
-                    <span className="text-white">
+                    <span className="text-black font-bold">
                       {formData.instagramData.full_name}
                     </span>
                   </p>
@@ -201,9 +213,9 @@ export default function StepReview({
 
             {/* Statistics */}
             {formData.instagramData && (
-              <div className="grid grid-cols-3 gap-3 py-3">
-                <div className="bg-slate-600 rounded-lg p-3 text-center">
-                  <p className="text-2xl font-bold text-emerald-400">
+              <div className="grid grid-cols-3 gap-4 py-4">
+                <div className="bg-black rounded-2xl p-4 text-center shadow-medium hover:scale-105 transition-transform duration-300">
+                  <p className="text-3xl font-bold text-white">
                     {formData.instagramData.follower_count >= 1000000
                       ? `${(
                           formData.instagramData.follower_count / 1000000
@@ -214,10 +226,10 @@ export default function StepReview({
                         ).toFixed(1)}K`
                       : formData.instagramData.follower_count}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">Followers</p>
+                  <p className="text-xs text-gray-300 mt-2 font-semibold">Followers</p>
                 </div>
-                <div className="bg-slate-600 rounded-lg p-3 text-center">
-                  <p className="text-2xl font-bold text-emerald-400">
+                <div className="bg-black rounded-2xl p-4 text-center shadow-medium hover:scale-105 transition-transform duration-300">
+                  <p className="text-3xl font-bold text-white">
                     {formData.instagramData.following_count >= 1000000
                       ? `${(
                           formData.instagramData.following_count / 1000000
@@ -228,17 +240,17 @@ export default function StepReview({
                         ).toFixed(1)}K`
                       : formData.instagramData.following_count}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">Following</p>
+                  <p className="text-xs text-gray-300 mt-2 font-semibold">Following</p>
                 </div>
-                <div className="bg-slate-600 rounded-lg p-3 text-center">
-                  <p className="text-2xl font-bold text-emerald-400">
+                <div className="bg-black rounded-2xl p-4 text-center shadow-medium hover:scale-105 transition-transform duration-300">
+                  <p className="text-3xl font-bold text-white">
                     {formData.instagramData.media_count >= 1000
                       ? `${(formData.instagramData.media_count / 1000).toFixed(
                           1
                         )}K`
                       : formData.instagramData.media_count}
                   </p>
-                  <p className="text-xs text-slate-400 mt-1">Posts</p>
+                  <p className="text-xs text-gray-300 mt-2 font-semibold">Posts</p>
                 </div>
               </div>
             )}
@@ -247,30 +259,30 @@ export default function StepReview({
             {(formData.instagramData?.public_email ||
               formData.instagramData?.biography_email ||
               formData.instagramData?.contact_phone_number) && (
-              <div className="border-t border-slate-600 pt-3 space-y-2 text-sm">
-                <p className="text-slate-400 font-medium mb-2">
+              <div className="border-t-2 border-black/5 pt-6 space-y-3 text-sm">
+                <p className="text-gray-600 font-bold mb-3">
                   Contact Information:
                 </p>
                 {formData.instagramData.public_email && (
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Public Email:</span>{" "}
-                    <span className="text-white">
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">Public Email:</span>{" "}
+                    <span className="text-black font-bold">
                       {formData.instagramData.public_email}
                     </span>
                   </p>
                 )}
                 {formData.instagramData.biography_email && (
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Biography Email:</span>{" "}
-                    <span className="text-white">
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">Biography Email:</span>{" "}
+                    <span className="text-black font-bold">
                       {formData.instagramData.biography_email}
                     </span>
                   </p>
                 )}
                 {formData.instagramData.contact_phone_number && (
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Phone:</span>{" "}
-                    <span className="text-white">
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">Phone:</span>{" "}
+                    <span className="text-black font-bold">
                       {formData.instagramData.contact_phone_number}
                     </span>
                   </p>
@@ -280,11 +292,11 @@ export default function StepReview({
 
             {/* Biography */}
             {formData.instagramData?.biography && (
-              <div className="border-t border-slate-600 pt-3">
-                <p className="text-slate-400 font-medium text-sm mb-2">
+              <div className="border-t-2 border-black/5 pt-6">
+                <p className="text-gray-600 font-bold text-sm mb-3">
                   Biography:
                 </p>
-                <p className="text-slate-300 text-sm whitespace-pre-line">
+                <p className="text-black text-sm whitespace-pre-line leading-relaxed">
                   {formData.instagramData.biography}
                 </p>
               </div>
@@ -292,14 +304,14 @@ export default function StepReview({
 
             {/* Website */}
             {formData.instagramData?.external_url && (
-              <div className="border-t border-slate-600 pt-3">
-                <p className="text-slate-300 text-sm">
-                  <span className="text-slate-400 font-medium">Website:</span>{" "}
+              <div className="border-t-2 border-black/5 pt-6">
+                <p className="text-gray-700 text-sm">
+                  <span className="text-gray-500 font-semibold">Website:</span>{" "}
                   <a
                     href={formData.instagramData.external_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-emerald-400 hover:text-emerald-300 underline"
+                    className="text-black hover:text-gray-700 underline font-bold"
                   >
                     {formData.instagramData.external_url}
                   </a>
@@ -311,15 +323,15 @@ export default function StepReview({
 
         {/* Instagram Posts */}
         {formData.selectedPosts && formData.selectedPosts.length > 0 && (
-          <Card className="bg-slate-700 border-slate-600 p-4">
-            <h3 className="font-semibold text-white mb-3">
+          <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-200">
+            <h3 className="font-bold text-black text-xl mb-6">
               Selected Posts ({formData.selectedPosts.length})
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
               {formData.selectedPosts.map((post) => (
                 <div
                   key={post.id}
-                  className="relative bg-slate-600 rounded-lg overflow-hidden aspect-square group"
+                  className="relative bg-white border-2 border-black/10 rounded-2xl overflow-hidden aspect-square group hover:border-black/30 hover:shadow-large transition-all duration-300"
                 >
                   <img
                     src={post.thumbnailUrl}
@@ -362,15 +374,15 @@ export default function StepReview({
 
         {/* Instagram Reels */}
         {formData.selectedReels && formData.selectedReels.length > 0 && (
-          <Card className="bg-slate-700 border-slate-600 p-4">
-            <h3 className="font-semibold text-white mb-3">
+          <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-300">
+            <h3 className="font-bold text-black text-xl mb-6">
               Selected Reels ({formData.selectedReels.length})
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {formData.selectedReels.map((reel) => (
                 <div
                   key={reel.id}
-                  className="relative bg-slate-600 rounded-lg overflow-hidden aspect-9/16 group"
+                  className="relative bg-white border-2 border-black/10 rounded-2xl overflow-hidden aspect-9/16 group hover:border-black/30 hover:shadow-large transition-all duration-300"
                 >
                   <img
                     src={reel.thumbnailUrl}
@@ -429,16 +441,16 @@ export default function StepReview({
 
         {/* Profile Images */}
         {formData.images && formData.images.length > 0 && (
-          <Card className="bg-slate-700 border-slate-600 p-4">
-            <h3 className="font-semibold text-white mb-3">
+          <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-400">
+            <h3 className="font-bold text-black text-xl mb-6">
               Profile Images ({formData.images.length})
             </h3>
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
               {formData.images.map((image, index) => (
                 <div
                   key={index}
-                  className={`relative bg-slate-600 rounded-lg overflow-hidden aspect-square ${
-                    image.isDefault ? "ring-2 ring-emerald-500" : ""
+                  className={`relative bg-white border-2 rounded-2xl overflow-hidden aspect-square hover:shadow-large transition-all duration-300 ${
+                    image.isDefault ? "ring-4 ring-black/20 border-black" : "border-black/10 hover:border-black/30"
                   }`}
                 >
                   <img
@@ -447,18 +459,18 @@ export default function StepReview({
                     className="w-full h-full object-cover"
                   />
                   {image.isDefault && (
-                    <div className="absolute top-2 left-2 bg-emerald-600 text-white px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
-                      <svg className="w-3 h-3 fill-white" viewBox="0 0 24 24">
+                    <div className="absolute top-3 left-3 bg-black text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-large">
+                      <svg className="w-3.5 h-3.5 fill-white" viewBox="0 0 24 24">
                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
                       </svg>
                       Avatar
                     </div>
                   )}
                   <div
-                    className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium ${
+                    className={`absolute top-3 right-3 px-3 py-1.5 rounded-xl text-xs font-bold shadow-large ${
                       image.isPublic
                         ? "bg-blue-600 text-white"
-                        : "bg-slate-600 text-slate-300"
+                        : "bg-gray-600 text-white"
                     }`}
                   >
                     {image.isPublic ? "Public" : "Private"}
@@ -470,34 +482,34 @@ export default function StepReview({
         )}
 
         {/* Profile Info */}
-        <Card className="bg-slate-700 border-slate-600 p-4">
-          <h3 className="font-semibold text-white mb-3">Profile Information</h3>
-          <div className="space-y-2 text-sm">
-            <p className="text-slate-300">
-              <span className="text-slate-400">Biography:</span>{" "}
-              {formData.biography}
+        <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-500">
+          <h3 className="font-bold text-black text-xl mb-6">Profile Information</h3>
+          <div className="space-y-4 text-sm">
+            <p className="text-gray-700">
+              <span className="text-gray-500 font-semibold">Biography:</span>{" "}
+              <span className="text-black font-medium">{formData.biography}</span>
             </p>
-            <p className="text-slate-300">
-              <span className="text-slate-400">Location:</span>{" "}
-              {formData.localisation}
+            <p className="text-gray-700">
+              <span className="text-gray-500 font-semibold">Location:</span>{" "}
+              <span className="text-black font-medium">{formData.localisation}</span>
             </p>
             {formData.siteWeb && (
-              <p className="text-slate-300">
-                <span className="text-slate-400">Website:</span>{" "}
+              <p className="text-gray-700">
+                <span className="text-gray-500 font-semibold">Website:</span>{" "}
                 <a
                   href={formData.siteWeb}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-emerald-400 hover:text-emerald-300"
+                  className="text-black hover:text-gray-700 underline font-bold"
                 >
                   {formData.siteWeb}
                 </a>
               </p>
             )}
             {formData.disponibiliteCollaboration && (
-              <p className="text-slate-300">
-                <span className="text-slate-400">Availability:</span>{" "}
-                {formData.disponibiliteCollaboration.replace(/_/g, " ")}
+              <p className="text-gray-700">
+                <span className="text-gray-500 font-semibold">Availability:</span>{" "}
+                <span className="text-black font-medium">{formData.disponibiliteCollaboration.replace(/_/g, " ")}</span>
               </p>
             )}
           </div>
@@ -505,18 +517,18 @@ export default function StepReview({
 
         {/* Languages & Content */}
         {formData.langues.length > 0 && (
-          <Card className="bg-slate-700 border-slate-600 p-4">
-            <h3 className="font-semibold text-white mb-3">
+          <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-600">
+            <h3 className="font-bold text-black text-xl mb-6">
               Languages & Content Types
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-6">
               <div>
-                <p className="text-slate-400 text-xs mb-2">Languages:</p>
-                <div className="flex flex-wrap gap-2">
+                <p className="text-gray-600 text-sm font-bold mb-3">Languages:</p>
+                <div className="flex flex-wrap gap-3">
                   {formData.langues.map((lang) => (
                     <span
                       key={lang}
-                      className="bg-blue-500/20 text-blue-400 text-xs px-2 py-1 rounded"
+                      className="bg-black text-white text-sm px-4 py-2 rounded-xl font-semibold shadow-soft"
                     >
                       {lang}
                     </span>
@@ -525,12 +537,12 @@ export default function StepReview({
               </div>
               {formData.typeContenu.length > 0 && (
                 <div>
-                  <p className="text-slate-400 text-xs mb-2">Content Types:</p>
-                  <div className="flex flex-wrap gap-2">
+                  <p className="text-gray-600 text-sm font-bold mb-3">Content Types:</p>
+                  <div className="flex flex-wrap gap-3">
                     {formData.typeContenu.map((type) => (
                       <span
                         key={type}
-                        className="bg-purple-500/20 text-purple-400 text-xs px-2 py-1 rounded"
+                        className="bg-gray-800 text-white text-sm px-4 py-2 rounded-xl font-semibold shadow-soft"
                       >
                         {type}
                       </span>
@@ -544,41 +556,41 @@ export default function StepReview({
 
         {/* Social Networks */}
         {formData.reseauxSociaux.length > 0 && (
-          <Card className="bg-slate-700 border-slate-600 p-4">
-            <h3 className="font-semibold text-white mb-3">Social Networks</h3>
-            <div className="space-y-3">
+          <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-700">
+            <h3 className="font-bold text-black text-xl mb-6">Social Networks</h3>
+            <div className="space-y-4">
               {formData.reseauxSociaux.map((network, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-600 rounded p-3 space-y-2 text-sm"
+                  className="bg-white border-2 border-black/10 rounded-2xl p-6 space-y-3 text-sm hover:border-black/30 hover:shadow-medium transition-all duration-300"
                 >
-                  <p className="text-white font-medium">
+                  <p className="text-black font-bold text-lg">
                     {network.plateforme.charAt(0).toUpperCase() +
                       network.plateforme.slice(1).toLowerCase()}
                   </p>
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Followers:</span>{" "}
-                    {Number(network.nombreAbonnes).toLocaleString()}
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">Followers:</span>{" "}
+                    <span className="text-black font-bold">{Number(network.nombreAbonnes).toLocaleString()}</span>
                   </p>
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Engagement Rate:</span>{" "}
-                    {network.tauxEngagement}%
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">Engagement Rate:</span>{" "}
+                    <span className="text-black font-bold">{network.tauxEngagement}%</span>
                   </p>
                   {network.moyenneVues && (
-                    <p className="text-slate-300">
-                      <span className="text-slate-400">Avg Views:</span>{" "}
-                      {Number(network.moyenneVues).toLocaleString()}
+                    <p className="text-gray-700">
+                      <span className="text-gray-500 font-semibold">Avg Views:</span>{" "}
+                      <span className="text-black font-bold">{Number(network.moyenneVues).toLocaleString()}</span>
                     </p>
                   )}
-                  <p className="text-slate-300">
-                    <span className="text-slate-400">Frequency:</span>{" "}
-                    {network.frequencePublication.replace(/_/g, " ")}
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">Frequency:</span>{" "}
+                    <span className="text-black font-bold">{network.frequencePublication.replace(/_/g, " ")}</span>
                   </p>
                   <a
                     href={network.urlProfil}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-emerald-400 hover:text-emerald-300 text-xs block truncate"
+                    className="text-black hover:text-gray-700 text-xs block truncate underline font-bold"
                   >
                     {network.urlProfil}
                   </a>
@@ -590,17 +602,18 @@ export default function StepReview({
 
         {/* Categories */}
         {formData.selectedCategories.length > 0 && (
-          <Card className="bg-slate-700 border-slate-600 p-4">
-            <h3 className="font-semibold text-white mb-3">Categories</h3>
-            <div className="flex flex-wrap gap-2">
+          <Card className="bg-linear-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-800">
+            <h3 className="font-bold text-black text-xl mb-6">Categories</h3>
+            <div className="flex flex-wrap gap-3">
               {formData.selectedCategories.map((categoryId) => {
-                const category = categories?.find(
-                  (cat) => cat.id === categoryId
+                const displayCategories = (!categories || categories.length === 0) ? FALLBACK_CATEGORIES : categories;
+                const category = displayCategories?.find(
+                  (cat) => String(cat.id) === String(categoryId)
                 );
                 return (
                   <span
                     key={categoryId}
-                    className="bg-emerald-500/20 text-emerald-400 text-xs px-2 py-1 rounded"
+                    className="bg-black text-white text-sm px-4 py-2 rounded-xl font-semibold shadow-soft"
                   >
                     {category ? category.name : categoryId}
                   </span>
@@ -612,15 +625,15 @@ export default function StepReview({
 
         {/* Centers of Interest */}
         {formData.centresInteret && formData.centresInteret.length > 0 && (
-          <Card className="bg-slate-700 border-slate-600 p-4">
-            <h3 className="font-semibold text-white mb-3">
+          <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-900">
+            <h3 className="font-bold text-black text-xl mb-6">
               Centers of Interest
             </h3>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {formData.centresInteret.map((interest, idx) => (
                 <span
                   key={idx}
-                  className="bg-cyan-500/20 text-cyan-400 border border-cyan-500/30 text-xs px-3 py-1.5 rounded-full"
+                  className="bg-gray-800 text-white border-2 border-gray-800 text-sm px-4 py-2 rounded-xl font-semibold shadow-soft"
                 >
                   {interest}
                 </span>
@@ -631,24 +644,25 @@ export default function StepReview({
 
         {/* Collaboration Offers */}
         {formData.offresCollaboration.length > 0 && (
-          <Card className="bg-slate-700 border-slate-600 p-4">
-            <h3 className="font-semibold text-white mb-3">
+          <Card className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-3xl p-8 shadow-soft hover:shadow-medium transition-all duration-300 animate-fadeInUp delay-1000">
+            <h3 className="font-bold text-black text-xl mb-6">
               Collaboration Offers
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {formData.offresCollaboration.map((offer, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-600 rounded p-3 space-y-1 text-sm"
+                  className="bg-white border-2 border-black/10 rounded-2xl p-6 space-y-3 text-sm hover:border-black/30 hover:shadow-medium transition-all duration-300"
                 >
-                  <p className="text-white font-medium">
+                  <p className="text-black font-bold text-lg">
                     {offer.typeCollaboration.replace(/_/g, " ")}
                   </p>
-                  <p className="text-slate-300">
-                    ${offer.tarifMinimum} - ${offer.tarifMaximum}
+                  <p className="text-gray-700">
+                    <span className="text-gray-500 font-semibold">Rate:</span>{" "}
+                    <span className="text-black font-bold">${offer.tarifMinimum} - ${offer.tarifMaximum}</span>
                   </p>
                   {offer.conditions && (
-                    <p className="text-slate-400 text-xs">{offer.conditions}</p>
+                    <p className="text-gray-600 text-xs leading-relaxed">{offer.conditions}</p>
                   )}
                 </div>
               ))}
@@ -657,9 +671,11 @@ export default function StepReview({
         )}
       </div>
 
-      <SubmitButton isLoading={loading} loadingText="Saving Profile...">
-        Complete Profile
-      </SubmitButton>
+      <div className="animate-fadeInUp delay-1100">
+        <SubmitButton isLoading={loading} loadingText="Saving Profile...">
+          Complete Profile
+        </SubmitButton>
+      </div>
     </form>
   );
 }

@@ -37,17 +37,15 @@ export const OfferSearchBar = ({ value, onChange }: OfferSearchBarProps) => {
 
   return (
     <Form {...form}>
-      <div className="flex items-center gap-2">
-        <Search className="size-4 text-slate-400" />
-        <div className="flex-1">
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldType.INPUT}
-            name="search"
-            placeholder="Search offers by title..."
-            inputClassName="bg-slate-800/50 border-slate-700/50 text-white placeholder:text-slate-500 rounded-lg focus:border-green-500/50"
-          />
-        </div>
+      <div className="flex-1 group">
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name="search"
+          placeholder="Search for your next collaboration..."
+          inputClassName="bg-gray-50 border-2 border-black/5 text-black placeholder:text-gray-400 rounded-2xl focus:border-black/20 focus:bg-white transition-all duration-300 shadow-inner-soft h-14"
+          icon={<Search className="size-5 text-gray-400 group-focus-within:text-black transition-colors" />}
+        />
       </div>
     </Form>
   );

@@ -11,6 +11,9 @@ export const GET_MY_CONVERSATIONS = gql`
         name
         email
         role
+        influencerProfile {
+          profilePicture
+        }
       }
       lastMessage {
         id
@@ -80,6 +83,19 @@ export const MARK_ALL_NOTIFICATIONS_READ = gql`
     markAllNotificationsRead {
       ok
       updatedCount
+    }
+  }
+`;
+
+export const SAVE_OFFER = gql`
+  mutation SaveOffer($offerId: ID!) {
+    saveOffer(offerId: $offerId) {
+      success
+      message
+      offer {
+        id
+        isSaved
+      }
     }
   }
 `;

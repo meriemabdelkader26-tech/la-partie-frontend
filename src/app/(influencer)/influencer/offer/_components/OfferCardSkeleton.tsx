@@ -4,7 +4,10 @@ const OfferCardSkeleton = () => {
   return (
     <div className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm rounded-2xl">
       <div className="flex items-start justify-between mb-4">
-        <Skeleton className="h-6 w-24 rounded-full" />
+        <div className="flex items-center gap-3">
+          <Skeleton className="h-8 w-8 rounded-xl" />
+          <Skeleton className="h-6 w-24 rounded-full" />
+        </div>
         <Skeleton className="h-4 w-6 rounded" />
       </div>
       <Skeleton className="h-7 w-3/4 mb-3" />

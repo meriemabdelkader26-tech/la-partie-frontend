@@ -8,6 +8,12 @@ query MyInfluencerProfile {
     createdAt
     centresInteret
     biography
+    profilePicture
+    user {
+      id
+      name
+      email
+    }
     images {
       createdAt
       id

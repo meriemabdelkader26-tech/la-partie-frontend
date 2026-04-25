@@ -1,64 +1,57 @@
 "use client";
 
-
-
 import { useSessionStore } from "@/stores/use-session-store";
-
 import MobileSidebar from "./MobileSidebar";
-
 import AvatarDropdown from "@/app/(admin)/admin/_components/AvatarDropdown";
-
+import NotificationsDropdown from "@/app/_components/NotificationsDropdown";
 import { APP_NAME } from "@/constant";
-
-
+import { Bell, Search } from "lucide-react";
 
 const Navbar = () => {
-
   const { currentUser } = useSessionStore();
 
-
-
   return (
+    <nav className="px-6 py-4 border-b border-black/5 h-full flex items-center justify-between bg-white/80 backdrop-blur-md sticky top-0 z-50">
+      <div className="flex items-center gap-4">
+        <MobileSidebar />
+        
+        {/* Brand/Logo area */}
+        <div className="flex items-center gap-3 ml-2 group cursor-pointer">
+          <div className="w-10 h-10 rounded-2xl bg-black flex items-center justify-center shadow-soft group-hover:scale-110 transition-all duration-500">
+            <span className="text-white font-black text-xl">B</span>
+          </div>
+          <div className="hidden md:flex flex-col">
+            <span className="text-black font-black text-lg tracking-tighter leading-none">
+              {APP_NAME}
+            </span>
+            <span className="text-[10px] text-gray-400 font-black uppercase tracking-[0.2em] mt-1.5">
+              Portal
+            </span>
+          </div>
+        </div>
+      </div>
 
-    <nav className="p-4 border-b border-pastel-dark-blue/20 h-full flex items-center bg-pastel-dark-blue/90 backdrop-blur-sm shadow-lg shadow-pastel-dark-blue/10">
-
-      <MobileSidebar />
-
-
-
-      {/* Brand/Logo area */}
-
-      <div className="flex items-center gap-2 ml-4">
-
-        <div className="w-8 h-8 rounded-lg" style={{background: 'linear-gradient(135deg, #BED3C3 0%, #4A919E 100%)'}}>
-
-          <span className="text-pastel-dark-blue font-bold text-sm">B</span>
-
+      <div className="flex items-center gap-4">
+        <div className="hidden md:flex items-center bg-gray-50 border border-black/5 rounded-2xl px-4 py-2 w-64 focus-within:bg-white focus-within:border-black/20 transition-all duration-300">
+          <Search className="w-4 h-4 text-gray-400 mr-2" />
+          <input 
+            type="text" 
+            placeholder="Search..." 
+            className="bg-transparent border-none outline-none text-sm font-medium w-full"
+          />
         </div>
 
-        <span className="text-pastel-green font-semibold hidden md:block">
+        <NotificationsDropdown />
 
-          {APP_NAME}
+        <div className="w-px h-8 bg-black/5 mx-2"></div>
 
-        </span>
-
+        <AvatarDropdown 
+          email={currentUser?.email!} 
+          name={currentUser?.name || "User"} 
+        />
       </div>
-
-
-
-      <div className="flex flex-1 justify-end">
-
-        <AvatarDropdown email={currentUser?.email!} name={currentUser?.role!} />
-
-      </div>
-
     </nav>
-
   );
-
 };
 
-
-
 export default Navbar;
-

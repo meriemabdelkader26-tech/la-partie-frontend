@@ -4,12 +4,15 @@ import { persist } from "zustand/middleware";
 
 interface ProfileFormState {
   formData: ProfileFormData;
+  currentStep: number;
   setFormData: (data: Partial<ProfileFormData>) => void;
   updateFormData: (updates: Partial<ProfileFormData>) => void;
+  setCurrentStep: (step: number) => void;
   clearFormData: () => void;
 }
 
 const initialFormData: ProfileFormData = {
+  // ... initial form data
   instagramUsername: "",
   pseudo: "",
   instagramData: null,
@@ -34,6 +37,7 @@ export const useProfileFormStore = create<ProfileFormState>()(
   persist(
     (set) => ({
       formData: initialFormData,
+      currentStep: 1,
 
       setFormData: (data) => set({ formData: { ...initialFormData, ...data } }),
 
@@ -48,8 +52,10 @@ export const useProfileFormStore = create<ProfileFormState>()(
           },
         })),
 
+      setCurrentStep: (step) => set({ currentStep: step }),
+
       clearFormData: () => {
-        set({ formData: initialFormData });
+        set({ formData: initialFormData, currentStep: 1 });
         // Also clear from localStorage to ensure clean state
         if (typeof window !== "undefined") {
           localStorage.removeItem("profile-form-storage");
@@ -58,15 +64,17 @@ export const useProfileFormStore = create<ProfileFormState>()(
     }),
     {
       name: "profile-form-storage",
-      version: 1, // Increment version to trigger migration
+      version: 2, // Increment version to trigger migration
       partialize: (state) => ({
         formData: state.formData,
+        currentStep: state.currentStep,
       }),
       migrate: (persistedState: any, version: number) => {
         // Ensure selectedPosts exists in persisted state
         if (persistedState && persistedState.formData) {
           return {
             ...persistedState,
+            currentStep: persistedState.currentStep || 1,
             formData: {
               ...persistedState.formData,
               selectedPosts: persistedState.formData.selectedPosts || [],

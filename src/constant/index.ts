@@ -54,14 +54,46 @@ export const TESTIMONIALS = [
 ];
 
 export const TOP_COMPANIES = [
-  { name: "Nike", logo: "🏃" },
-  { name: "Adidas", logo: "⚽" },
-  { name: "Puma", logo: "🐆" },
-  { name: "Gucci", logo: "👜" },
-  { name: "Zara", logo: "👗" },
-  { name: "H&M", logo: "🛍️" },
-  { name: "Sephora", logo: "💄" },
-  { name: "Starbucks", logo: "☕" },
+  { 
+    name: "Nike", 
+    logo: "/logos/nike.svg",
+    description: "Global athletic brand"
+  },
+  { 
+    name: "Adidas", 
+    logo: "/logos/adidas.svg",
+    description: "Sports & lifestyle"
+  },
+  { 
+    name: "Puma", 
+    logo: "/logos/puma.svg",
+    description: "Performance sportswear"
+  },
+  { 
+    name: "Gucci", 
+    logo: "/logos/gucci.svg",
+    description: "Luxury fashion"
+  },
+  { 
+    name: "Zara", 
+    logo: "/logos/zara.svg",
+    description: "Fashion retail"
+  },
+  { 
+    name: "H&M", 
+    logo: "/logos/hm.svg",
+    description: "Fashion & quality"
+  },
+  { 
+    name: "Sephora", 
+    logo: "/logos/sephora.svg",
+    description: "Beauty & cosmetics"
+  },
+  { 
+    name: "Starbucks", 
+    logo: "/logos/starbucks.svg",
+    description: "Coffee & beverages"
+  },
 ];
 
 export const CAROUSEL = [
@@ -131,10 +163,11 @@ export const LANGUAGES = [
 ];
 
 export const DISPONIBILITE_CHOICES = [
-  { label: "Available", value: DisponibiliteEnum.DISPONIBLE },
-  { label: "Busy", value: DisponibiliteEnum.OCCUPE },
+  { label: "Available", value: DisponibiliteEnum.DISPONIBLE, color: "bg-green-500" },
   {
     label: "Partially available",
     value: DisponibiliteEnum.PARTIELLEMENT_DISPONIBLE,
+    color: "bg-orange-500"
   },
+  { label: "Busy", value: DisponibiliteEnum.OCCUPE, color: "bg-red-500" },
 ];

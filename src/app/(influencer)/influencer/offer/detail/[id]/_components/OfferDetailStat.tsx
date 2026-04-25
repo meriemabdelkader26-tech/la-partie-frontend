@@ -8,42 +8,42 @@ interface Props {
 const OfferDetailStat = (props: Props) => {
   const { offer } = props;
   return (
-    <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm">
-      <h3 className="text-lg font-bold text-white mb-4">Campaign Stats</h3>
-      <div className="space-y-4">
+    <Card className="bg-white border-2 border-black/5 p-8 rounded-3xl shadow-soft">
+      <h3 className="text-lg font-bold text-black mb-6 uppercase tracking-wider text-xs opacity-60">Campaign Stats</h3>
+      <div className="space-y-6">
         <div>
-          <p className="text-xs text-slate-400 mb-2 uppercase font-semibold">
+          <p className="text-xs text-gray-500 mb-2 uppercase font-bold tracking-wider">
             Budget Range
           </p>
-          <p className="text-2xl font-bold text-green-400">
+          <p className="text-2xl font-bold text-green-600">
             ${offer.minBudget} - ${offer.maxBudget}
           </p>
         </div>
-        <div className="bg-slate-700/30 h-px" />
+        <div className="bg-black/5 h-0.5 w-full" />
         <div>
-          <p className="text-xs text-slate-400 mb-2 uppercase font-semibold">
+          <p className="text-xs text-gray-500 mb-2 uppercase font-bold tracking-wider">
             Influencers Needed
           </p>
-          <p className="text-2xl font-bold text-blue-400">
+          <p className="text-2xl font-bold text-black">
             {offer.influencerNumber}
           </p>
         </div>
-        <div className="bg-slate-700/30 h-px" />
+        <div className="bg-black/5 h-0.5 w-full" />
         <div>
-          <p className="text-xs text-slate-400 mb-2 uppercase font-semibold">
+          <p className="text-xs text-gray-500 mb-2 uppercase font-bold tracking-wider">
             Spots Available
           </p>
-          <p className="text-2xl font-bold text-purple-400">
-            {/* {offer.spotsLeft} */}
+          <p className="text-2xl font-bold text-black">
+            {Math.max(0, offer.influencerNumber - (offer.approvedApplicationsCount || 0))}
           </p>
         </div>
-        <div className="bg-slate-700/30 h-px" />
+        <div className="bg-black/5 h-0.5 w-full" />
         <div>
-          <p className="text-xs text-slate-400 mb-2 uppercase font-semibold">
+          <p className="text-xs text-gray-500 mb-2 uppercase font-bold tracking-wider">
             Current Applicants
           </p>
-          <p className="text-2xl font-bold text-orange-400">
-            {/* {offer.applicants} */}
+          <p className="text-2xl font-bold text-black">
+            {offer.applicationsCount || 0}
           </p>
         </div>
       </div>

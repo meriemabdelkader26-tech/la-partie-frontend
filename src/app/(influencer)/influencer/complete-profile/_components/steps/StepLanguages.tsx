@@ -9,6 +9,8 @@ import { CONTENT_TYPES } from "../constants";
 import CompleteProfileButtonSelector from "../../../../../../components/shared/CompleteProfileButtonSelector";
 import ErrorTriangle from "@/components/shared/ErrorTriangle";
 import { LANGUAGES } from "@/constant";
+import { Check } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props {
   formData: ProfileFormData;
@@ -51,50 +53,101 @@ export default function StepLanguages({ formData, onUpdate, onNext }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-        <div>
-          <label className="text-lg font-semibold text-white mb-3 block">
-            Languages *
-          </label>
-          <div className="grid grid-cols-2 gap-3">
-            {LANGUAGES.map((lang) => (
-              <CompleteProfileButtonSelector
-                key={lang}
-                type={lang}
-                onClick={() => toggleLanguage(lang)}
-                isSelected={form.watch("langues").includes(lang)}
-              />
-            ))}
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
+        {/* Languages Section */}
+        <div className="animate-fadeInUp">
+          <div className="mb-6">
+            <label className="text-2xl font-bold text-black mb-2 block">
+              Languages *
+            </label>
+            <p className="text-gray-600 text-base">
+              Select the languages you can create content in
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {LANGUAGES.map((lang, index) => {
+              const isSelected = form.watch("langues").includes(lang);
+              return (
+                <div
+                  key={lang}
+                  className="animate-fadeInUp"
+                  style={{ animationDelay: `${index * 30}ms` }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleLanguage(lang)}
+                    className={cn(
+                      "flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 border-2",
+                      isSelected
+                        ? "bg-black text-white border-black shadow-md scale-105"
+                        : "bg-white text-gray-600 border-gray-200 hover:border-black/30 hover:bg-gray-50 hover:shadow-sm hover:text-black"
+                    )}
+                  >
+                    {isSelected && <Check className="w-4 h-4" strokeWidth={3} />}
+                    {lang}
+                  </button>
+                </div>
+              );
+            })}
           </div>
           {form.formState.errors.langues && (
-            <ErrorTriangle
-              message={form.formState.errors.langues.message || ""}
-            />
+            <div className="mt-4">
+              <ErrorTriangle
+                message={form.formState.errors.langues.message || ""}
+              />
+            </div>
           )}
         </div>
 
-        <div>
-          <label className="text-lg font-semibold text-white mb-3 block">
-            Content Types *
-          </label>
-          <div className="grid grid-cols-2 gap-3">
-            {CONTENT_TYPES.map((type) => (
-              <CompleteProfileButtonSelector
-                key={type}
-                type={type}
-                onClick={() => toggleContentType(type)}
-                isSelected={form.watch("typeContenu").includes(type)}
-              />
-            ))}
+        {/* Content Types Section */}
+        <div className="animate-fadeInUp delay-200">
+          <div className="mb-6">
+            <label className="text-2xl font-bold text-black mb-2 block">
+              Content Types *
+            </label>
+            <p className="text-gray-600 text-base">
+              What type of content do you typically create?
+            </p>
+          </div>
+          <div className="flex flex-wrap gap-3">
+            {CONTENT_TYPES.map((type, index) => {
+              const isSelected = form.watch("typeContenu").includes(type);
+              return (
+                <div
+                  key={type}
+                  className="animate-fadeInUp delay-200"
+                  style={{ animationDelay: `${index * 30}ms` }}
+                >
+                  <button
+                    type="button"
+                    onClick={() => toggleContentType(type)}
+                    className={cn(
+                      "flex items-center justify-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 border-2",
+                      isSelected
+                        ? "bg-black text-white border-black shadow-md scale-105"
+                        : "bg-white text-gray-600 border-gray-200 hover:border-black/30 hover:bg-gray-50 hover:shadow-sm hover:text-black"
+                    )}
+                  >
+                    {isSelected && <Check className="w-4 h-4" strokeWidth={3} />}
+                    {type}
+                  </button>
+                </div>
+              );
+            })}
           </div>
           {form.formState.errors.typeContenu && (
-            <ErrorTriangle
-              message={form.formState.errors.typeContenu.message || ""}
-            />
+            <div className="mt-4">
+              <ErrorTriangle
+                message={form.formState.errors.typeContenu.message || ""}
+              />
+            </div>
           )}
         </div>
 
-        <SubmitButton isLoading={false}>Continue</SubmitButton>
+        {/* Submit Button */}
+        <div className="pt-4 animate-fadeInUp delay-400">
+          <SubmitButton isLoading={false}>Continue</SubmitButton>
+        </div>
       </form>
     </Form>
   );

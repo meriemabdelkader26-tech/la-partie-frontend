@@ -11,6 +11,7 @@ import { useState } from "react";
 import { graphqlClient, handleGraphQLError } from "@/lib/graphql-client";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
+import { useCompanyProfileFormStore } from "@/stores/use-company-profile-form-store";
 
 interface Props {
   formData: ProfileCompanyFormData;
@@ -27,6 +28,7 @@ interface CompleteCompanyProfileResult {
 const StepReview = (props: Props) => {
   const { formData, onComplete } = props;
   const [error, setError] = useState<string | null>(null);
+  const { clearFormData } = useCompanyProfileFormStore();
 
   const mutation = useMutation<
     CompleteCompanyProfileResult,
@@ -65,6 +67,7 @@ const StepReview = (props: Props) => {
     },
     onSuccess: () => {
       toast.success("Company profile completed successfully!");
+      clearFormData();
       setTimeout(onComplete, 2000);
     },
     onError: (error) => {
@@ -92,12 +95,15 @@ const StepReview = (props: Props) => {
 
       <ReviewDescription />
 
-      <SubmitButton
-        isLoading={mutation.isPending}
-        loadingText="Saving Profile..."
-      >
-        Complete Profile
-      </SubmitButton>
+      <div className="pt-6 animate-fadeInUp delay-300">
+        <SubmitButton
+          isLoading={mutation.isPending}
+          loadingText="Finalizing Profile..."
+          className="w-full bg-black hover:bg-gray-900 text-white font-black h-14 rounded-2xl shadow-sm hover:shadow-lg transition-all hover:-translate-y-0.5"
+        >
+          Complete Company Profile
+        </SubmitButton>
+      </div>
     </form>
   );
 };

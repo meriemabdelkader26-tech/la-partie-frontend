@@ -15,6 +15,7 @@ import Filter from "./_components/Filter";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 
 export default function Page() {
   const router = useRouter();
@@ -70,21 +71,46 @@ export default function Page() {
   };
 
   return (
-    <section className="min-h-screen w-full flex flex-col items-start justify-start bg-background p-0">
-      <div className="flex items-center justify-between w-full px-8 pt-8 pb-4">
-        <h1 className="text-2xl font-semibold text-title flex items-center gap-2">
-          <span>Categories</span>
-          <span className="text-base font-medium text-muted">({totalItems})</span>
-        </h1>
+    <motion.section 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="min-h-screen flex flex-col items-start justify-start w-full p-4 md:p-8"
+    >
+      <div className="flex items-center justify-between w-full mb-6">
+        <div>
+          <div className="flex items-center gap-3 mb-1">
+            <div className="w-1.5 h-8 bg-emerald-500 rounded-full" />
+            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">
+              Categories
+            </h1>
+            <span className="bg-emerald-100 text-emerald-700 py-1 px-3 rounded-full text-sm font-bold shadow-sm ml-2">
+              {totalItems} Total
+            </span>
+          </div>
+          <p className="text-gray-500 text-sm font-medium ml-4 mt-1">
+            Manage your application categories and organization.
+          </p>
+        </div>
         <Button
           onClick={() => router.push("/admin/category/create-category")}
-          className="bg-primary hover:bg-primary-light text-white rounded-lg px-5 py-2 font-medium shadow-soft border-0"
+          className="bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl px-5 h-11 font-bold shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 border-0"
         >
           <Plus className="mr-2 h-4 w-4" />
           Add Category
         </Button>
       </div>
-      <div className="w-full px-8">
+
+      <div className="mb-2 w-full">
+        <BreadCrumbList
+          breadCrumbs={[
+            { label: "Dashboard", href: "/admin" },
+            { label: "Categories", href: "/admin/category" },
+          ]}
+        />
+      </div>
+
+      <div className="w-full bg-white/70 backdrop-blur-md p-4 rounded-2xl border border-gray-100 shadow-sm mb-6 flex flex-col md:flex-row items-center gap-4">
         <Filter
           search={search}
           setSearch={setSearch}
@@ -95,31 +121,30 @@ export default function Page() {
           clearFilters={clearFilters}
         />
       </div>
-      <div className="w-full flex flex-col items-center px-8 pt-4">
-        <div className="w-full max-w-5xl bg-white rounded-[16px] shadow-soft p-0">
-          <DataTableCategory
-            isLoading={isFetching}
-            orderBy={orderBy}
-            onOrderChange={(newOrderBy) => {
-              setOrderBy(newOrderBy as "name" | "-name" | "created" | "-created");
-              setPage(1);
-            }}
-            paginationProps={{
-              advanced: {
-                totalItems,
-                onPageChange: setPage,
-                pageIndex: page,
-                itemsPerPage: ITEMS_PER_PAGE,
-              },
-              isNextDisabled: !hasNextPage,
-              isPreviousDisabled: !hasPreviousPage,
-              onNextClick: () => setPage(page + 1),
-              onPreviousClick: () => setPage(page - 1),
-            }}
-            items={data?.allCategories?.edges.map((edge) => edge.node) || []}
-          />
-        </div>
+
+      <div className="w-full">
+        <DataTableCategory
+          isLoading={isFetching}
+          orderBy={orderBy}
+          onOrderChange={(newOrderBy) => {
+            setOrderBy(newOrderBy as "name" | "-name" | "created" | "-created");
+            setPage(1);
+          }}
+          paginationProps={{
+            advanced: {
+              totalItems,
+              onPageChange: setPage,
+              pageIndex: page,
+              itemsPerPage: ITEMS_PER_PAGE,
+            },
+            isNextDisabled: !hasNextPage,
+            isPreviousDisabled: !hasPreviousPage,
+            onNextClick: () => setPage(page + 1),
+            onPreviousClick: () => setPage(page - 1),
+          }}
+          items={data?.allCategories?.edges.map((edge) => edge.node) || []}
+        />
       </div>
-    </section>
+    </motion.section>
   );
 }

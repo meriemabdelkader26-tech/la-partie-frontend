@@ -50,6 +50,7 @@ export type Influencer = {
   biography: string;
   localisation?: string;
   profileImage?: string;
+  profilePicture?: string;
   images: ImageType[];
   disponibiliteCollaboration?: string;
   langues: string[];
@@ -97,6 +98,9 @@ export type User = {
   isCompletedProfile: boolean;
   createdAt: string;
   updatedAt: string;
+  influencerProfile?: {
+    profilePicture?: string;
+  };
 };
 
 export type Offer = {
@@ -110,6 +114,11 @@ export type Offer = {
   endDate: string;
   requirement: string;
   createdAt: string;
+  isApplied?: boolean;
+  isSaved?: boolean;
+  applicationStatus?: string;
+  applicationsCount?: number;
+  approvedApplicationsCount?: number;
   createdBy: User;
   applications?: OfferApplication[];
 };
@@ -118,3 +127,28 @@ export type OfferApplication = {
   id: string;
   user: User;
 };
+
+export interface RecommendedOffer {
+  offer_id: number;
+  title: string;
+  score: number;
+  semantic_score: number;
+  category_match: number;
+  budget_alignment: number;
+  min_budget: number;
+  max_budget: number;
+  explanation: string;
+}
+
+export interface RecommendedInfluencer {
+  influencer_id: number;
+  name: string;
+  pseudo: string;
+  score: number;
+  semantic_score: number;
+  engagement_score: number;
+  category_match: number;
+  budget_alignment: number;
+  followers: number;
+  explanation: string;
+}

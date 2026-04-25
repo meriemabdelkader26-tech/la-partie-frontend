@@ -17,6 +17,9 @@ export const NEXT_PUBLIC_API_HEADER_X_RAPIDAPI_HOST: string =
 export const NEXT_PUBLIC_RECOMMENDATION =
   "api/recommend/?category=Unknown&country=USA&n=15";
 
+export const NEXT_PUBLIC_TRENDING = "api/trending/?n=12";
+export const NEXT_PUBLIC_IMAGE_PROXY = "api/proxy/image/?url=";
+
 export const COOKIE_TOKEN_KEY = "token";
 export const COOKIE_REFRESH_TOKEN_KEY = "refreshToken";
 export const COOKIE_USER_ROLE_KEY = "userRole";

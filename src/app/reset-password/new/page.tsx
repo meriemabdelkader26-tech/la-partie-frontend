@@ -5,6 +5,17 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
+import { graphqlClient } from "@/lib/graphql-client";
+import { gql } from "graphql-request";
+
+const RESET_PASSWORD_MUTATION = gql`
+  mutation ResetPassword($email: String!, $newPassword: String!, $token: String!) {
+    resetPassword(email: $email, newPassword: $newPassword, token: $token) {
+      success
+      message
+    }
+  }
+`;
 
 const ResetPasswordPage = () => {
   const searchParams = useSearchParams();
@@ -30,18 +41,21 @@ const ResetPasswordPage = () => {
     }
     setLoading(true);
     try {
-      // Appel API pour réinitialiser le mot de passe (à adapter selon votre backend)
-      const res = await fetch("/api/reset-password/", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ token, email, password }),
+      const res: any = await graphqlClient.request(RESET_PASSWORD_MUTATION, {
+        email,
+        newPassword: password,
+        token
       });
-      if (!res.ok) throw new Error("Erreur lors de la réinitialisation.");
+
+      if (!res.resetPassword?.success) {
+        throw new Error(res.resetPassword?.message || "Erreur lors de la réinitialisation.");
+      }
+      
       setSuccess(true);
-      toast.success("Mot de passe réinitialisé avec succès.");
+      toast.success(res.resetPassword.message || "Mot de passe réinitialisé avec succès.");
       setTimeout(() => router.push("/login"), 2000);
     } catch (err: any) {
-      setError(err.message || "Erreur inconnue");
+      setError(err.response?.errors?.[0]?.message || err.message || "Erreur inconnue");
     } finally {
       setLoading(false);
     }

@@ -9,10 +9,12 @@ import {
 
 interface SessionUser {
   email: string;
+  name?: string;
   exp: number;
   id: string;
   role?: string;
   isStaff?: boolean;
+  profilePicture?: string;
 }
 
 interface SessionState {

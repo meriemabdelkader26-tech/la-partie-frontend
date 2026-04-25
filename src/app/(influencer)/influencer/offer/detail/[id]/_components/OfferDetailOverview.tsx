@@ -8,26 +8,26 @@ interface Props {
 const OfferDetailOverview = (props: Props) => {
   const { offer } = props;
   return (
-    <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm">
-      <h2 className="text-xl font-bold text-white mb-4">Campaign Overview</h2>
-      <p className="text-slate-300 leading-relaxed mb-2">
+    <Card className="bg-white border-2 border-black/5 p-8 rounded-3xl shadow-soft">
+      <h2 className="text-xl font-bold text-black mb-6">Campaign Overview</h2>
+      <p className="text-gray-600 leading-relaxed mb-8 font-medium">
         We are looking for talented influencers to help us create engaging
         content for our new product launch. This is a great opportunity to
         collaborate with a leading brand and showcase your creative skills to a
         wider audience.
       </p>
-      <div className="flex flex-col gap-4">
-        <div className="bg-slate-700/30 rounded-lg p-4">
-          <p className="text-xs text-slate-400 mb-1 uppercase font-semibold">
+      <div className="grid gap-6">
+        <div className="bg-gray-50 border border-black/5 rounded-2xl p-6">
+          <p className="text-xs text-gray-500 mb-2 uppercase font-bold tracking-wider">
             Objective
           </p>
-          <p className="text-white font-medium">{offer.objectif}</p>
+          <p className="text-black font-bold text-lg">{offer.objectif}</p>
         </div>
-        <div className="bg-slate-700/30 rounded-lg p-4">
-          <p className="text-xs text-slate-400 mb-1 uppercase font-semibold">
+        <div className="bg-gray-50 border border-black/5 rounded-2xl p-6">
+          <p className="text-xs text-gray-500 mb-2 uppercase font-bold tracking-wider">
             Campaign Duration
           </p>
-          <p className="text-white font-medium">
+          <p className="text-black font-bold text-lg">
             {offer.startDate} - {offer.endDate}
           </p>
         </div>

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useQueryState } from "nuqs";
 import { Button } from "@/components/ui/button";
-import { ChevronLeft } from "lucide-react";
+import { ChevronLeft, Sparkles } from "lucide-react";
 import { ProfileFormData } from "./_components/types";
 import { STEPS, getStepBySlug } from "./_components/constants";
 import CompleteProfileProgressIndicator from "../../../../components/shared/CompleteProfileProgressIndicator";
@@ -39,8 +39,11 @@ query allCategories($isActive: Boolean) {
 
 export default function CompleteProfilePage() {
   const router = useRouter();
+  // Use Zustand store for form data persistence
+  const { formData, updateFormData, clearFormData, currentStep, setCurrentStep } = useProfileFormStore();
+
   const [stepSlug, setStepSlug] = useQueryState("step", {
-    defaultValue: "fetching-instagram",
+    defaultValue: STEPS.find(s => s.number === currentStep)?.slug || "fetching-instagram",
   });
 
   const { data, isFetching } = useQuery<QueryResponse>({
@@ -48,23 +51,27 @@ export default function CompleteProfilePage() {
     queryFn: () => graphqlClient.request(CATEGORIES_QUERY),
   });
 
-  // Use Zustand store for form data persistence
-  const { formData, updateFormData, clearFormData } = useProfileFormStore();
-
   // Get current step number from slug
-  const currentStep = getStepBySlug(stepSlug || "fetching-instagram");
-  const step = currentStep?.number || 1;
+  const activeStep = getStepBySlug(stepSlug || "fetching-instagram");
+  const stepNumber = activeStep?.number || 1;
+
+  // Sync store with URL
+  useEffect(() => {
+    if (activeStep && activeStep.number !== currentStep) {
+      setCurrentStep(activeStep.number);
+    }
+  }, [activeStep, currentStep, setCurrentStep]);
 
   // Validate step is within bounds
   useEffect(() => {
-    if (!currentStep) {
-      setStepSlug("fetching-instagram");
+    if (!activeStep) {
+      setStepSlug(STEPS.find(s => s.number === currentStep)?.slug || "fetching-instagram");
     }
-  }, [currentStep, setStepSlug]);
+  }, [activeStep, setStepSlug, currentStep]);
 
   const handleNext = () => {
-    if (step < STEPS.length) {
-      const nextStep = STEPS.find((s) => s.number === step + 1);
+    if (stepNumber < STEPS.length) {
+      const nextStep = STEPS.find((s) => s.number === stepNumber + 1);
       if (nextStep) {
         setStepSlug(nextStep.slug);
       }
@@ -73,8 +80,8 @@ export default function CompleteProfilePage() {
   };
 
   const handlePrevious = () => {
-    if (step > 1) {
-      const prevStep = STEPS.find((s) => s.number === step - 1);
+    if (stepNumber > 1) {
+      const prevStep = STEPS.find((s) => s.number === stepNumber - 1);
       if (prevStep) {
         setStepSlug(prevStep.slug);
       }
@@ -87,7 +94,7 @@ export default function CompleteProfilePage() {
   };
 
   const renderStep = () => {
-    switch (step) {
+    switch (stepNumber) {
       case 1:
         return (
           <StepInstagram
@@ -176,24 +183,47 @@ export default function CompleteProfilePage() {
   };
 
   return (
-    <div className="min-h-screen w-full bg-linear-to-br from-slate-900 via-slate-800 to-slate-900 p-4">
-      <div className="max-w-2xl mx-auto">
-        <CompleteProfileProgressIndicator steps={STEPS} step={step} />
-        <div className="bg-slate-800 border border-slate-700 rounded-lg p-8 mb-8">
-          {renderStep()}
+    <div className="min-h-screen w-full bg-white p-4 md:p-8 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-black/5 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-black/5 rounded-full blur-3xl animate-float delay-700"></div>
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-black/3 rounded-full blur-3xl animate-pulse"></div>
+      </div>
+
+      <div className="max-w-4xl mx-auto relative z-10">
+        {/* Header Badge */}
+        <div className="flex justify-center mb-8 animate-fadeInDown">
+          <div className="inline-flex items-center gap-2 px-6 py-3 bg-black rounded-full text-white font-semibold shadow-large">
+            <Sparkles className="w-5 h-5" />
+            <span>Complete Your Profile</span>
+          </div>
         </div>
-        {step > 1 && (
-          <div className="flex justify-start">
+
+        {/* Progress Indicator */}
+        <div className="animate-fadeInUp">
+          <CompleteProfileProgressIndicator steps={STEPS} step={stepNumber} />
+        </div>
+
+        {/* Back Button - Top */}
+        {stepNumber > 1 && (
+          <div className="flex justify-start mb-6 animate-fadeInUp delay-100">
             <Button
               onClick={handlePrevious}
-              variant="outline"
-              className="border-slate-600 text-slate-300 hover:bg-white/10 hover:text-white bg-transparent"
+              className="px-6 py-3 h-12 bg-gray-100 hover:bg-gray-200 text-black font-semibold rounded-xl border-2 border-black/5 hover:border-black/10 transition-all duration-300 hover:scale-105 shadow-soft hover:shadow-medium"
             >
-              <ChevronLeft className="w-4 h-4 mr-2" />
+              <ChevronLeft className="w-5 h-5 mr-2" />
               Back
             </Button>
           </div>
         )}
+
+        {/* Main Content Card */}
+        <div className="bg-white border-2 border-black/5 rounded-3xl shadow-2xl p-8 md:p-12 animate-fadeInUp delay-200 hover:shadow-3xl transition-shadow duration-500">
+          <div className="animate-fadeIn">
+            {renderStep()}
+          </div>
+        </div>
       </div>
     </div>
   );

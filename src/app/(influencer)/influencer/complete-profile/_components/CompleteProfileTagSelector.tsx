@@ -7,14 +7,15 @@ interface Props {
 
 const CompleteProfileTagSelector = ({ tag, onClick }: Props) => {
   return (
-    <span className="inline-flex items-center gap-2 bg-emerald-600/20 text-emerald-400 border border-emerald-600/30 px-3 py-1.5 rounded-full text-sm font-medium">
+    <span className="inline-flex items-center gap-2 bg-black text-white border-2 border-black px-4 py-2 rounded-xl text-sm font-semibold group hover:bg-gray-800 transition-all duration-300 hover:scale-105 shadow-soft hover:shadow-medium">
       {tag}
       <button
         type="button"
         onClick={onClick}
-        className="hover:text-emerald-300 transition-colors"
+        className="w-5 h-5 flex items-center justify-center bg-white/20 rounded-full hover:bg-red-500 transition-colors group-hover:rotate-90 duration-300"
+        title="Remove tag"
       >
-        <X className="w-3.5 h-3.5" />
+        <X className="w-3 h-3" />
       </button>
     </span>
   );

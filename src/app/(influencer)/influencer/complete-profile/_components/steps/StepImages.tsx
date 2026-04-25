@@ -130,12 +130,13 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-        <div>
-          <h3 className="text-xl font-semibold text-white mb-2">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+        {/* Header */}
+        <div className="animate-fadeInUp">
+          <h2 className="text-2xl font-bold text-black mb-2">
             Upload Your Images
-          </h3>
-          <p className="text-slate-400 text-sm">
+          </h2>
+          <p className="text-gray-600">
             Upload profile images. Set one as your default avatar.
           </p>
         </div>
@@ -148,7 +149,7 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
         )}
 
         {/* Upload Button */}
-        <div className="space-y-4">
+        <div className="space-y-4 animate-fadeInUp delay-100">
           <input
             ref={fileInputRef}
             type="file"
@@ -161,13 +162,13 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={uploading || images.length >= 10}
-            className="w-full border-2 border-dashed border-slate-600 rounded-lg p-8 text-center hover:border-emerald-500 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full border-2 border-dashed border-black/20 rounded-3xl p-12 text-center hover:border-black hover:bg-gray-50 transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed group"
           >
-            <Upload className="w-12 h-12 text-slate-400 mx-auto mb-3" />
-            <p className="text-slate-300 font-medium mb-1">
+            <Upload className="w-16 h-16 text-gray-400 mx-auto mb-4 group-hover:text-black group-hover:scale-110 transition-all duration-300" />
+            <p className="text-black font-bold text-lg mb-2">
               {uploading ? "Uploading..." : "Click to upload images"}
             </p>
-            <p className="text-slate-500 text-sm">
+            <p className="text-gray-500 text-sm">
               PNG, JPG up to 5MB (Max 10 images)
             </p>
           </button>
@@ -175,14 +176,14 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
 
         {/* Images Grid */}
         {images.length > 0 && (
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 animate-fadeInUp delay-200">
             {images.map((image, index) => (
               <Card
                 key={index}
-                className={`relative overflow-hidden bg-slate-700 border-2 ${
+                className={`relative overflow-hidden bg-white border-2 rounded-2xl transition-all duration-300 hover:shadow-large ${
                   image.isDefault
-                    ? "border-emerald-500 ring-2 ring-emerald-500/50"
-                    : "border-slate-600"
+                    ? "border-black ring-4 ring-black/20"
+                    : "border-black/10 hover:border-black/30"
                 }`}
               >
                 <div className="aspect-square relative group">
@@ -193,14 +194,14 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
                   />
 
                   {/* Overlay Controls */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex flex-col items-center justify-center gap-2">
+                  <div className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-all duration-300 flex flex-col items-center justify-center gap-3">
                     <button
                       type="button"
                       onClick={() => handleSetDefault(index)}
-                      className={`p-2 rounded-full ${
+                      className={`p-3 rounded-xl transition-all duration-300 hover:scale-110 ${
                         image.isDefault
-                          ? "bg-emerald-600 text-white"
-                          : "bg-slate-600 text-slate-200 hover:bg-emerald-600"
+                          ? "bg-black text-white"
+                          : "bg-white text-black hover:bg-black hover:text-white"
                       }`}
                       title="Set as default avatar"
                     >
@@ -214,7 +215,7 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
                     <button
                       type="button"
                       onClick={() => handleTogglePublic(index)}
-                      className="p-2 rounded-full bg-slate-600 text-slate-200 hover:bg-blue-600"
+                      className="p-3 rounded-xl bg-white text-black hover:bg-blue-600 hover:text-white transition-all duration-300 hover:scale-110"
                       title={image.isPublic ? "Make private" : "Make public"}
                     >
                       {image.isPublic ? (
@@ -227,7 +228,7 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
                     <button
                       type="button"
                       onClick={() => handleRemoveImage(index)}
-                      className="p-2 rounded-full bg-red-600 text-white hover:bg-red-700"
+                      className="p-3 rounded-xl bg-red-500 text-white hover:bg-red-600 transition-all duration-300 hover:scale-110"
                       title="Remove image"
                     >
                       <X className="w-5 h-5" />
@@ -236,18 +237,18 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
 
                   {/* Default Badge */}
                   {image.isDefault && (
-                    <div className="absolute top-2 left-2 bg-emerald-600 text-white px-2 py-1 rounded text-xs font-medium flex items-center gap-1">
-                      <Star className="w-3 h-3 fill-white" />
+                    <div className="absolute top-3 left-3 bg-black text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-large">
+                      <Star className="w-3.5 h-3.5 fill-white" />
                       Default
                     </div>
                   )}
 
                   {/* Public/Private Badge */}
                   <div
-                    className={`absolute top-2 right-2 px-2 py-1 rounded text-xs font-medium ${
+                    className={`absolute top-3 right-3 px-3 py-1.5 rounded-xl text-xs font-bold shadow-large ${
                       image.isPublic
                         ? "bg-blue-600 text-white"
-                        : "bg-slate-600 text-slate-300"
+                        : "bg-gray-600 text-white"
                     }`}
                   >
                     {image.isPublic ? "Public" : "Private"}
@@ -259,24 +260,25 @@ export default function StepImages({ formData, onUpdate, onNext }: Props) {
         )}
 
         {images.length > 0 && (
-          <div className="bg-slate-700 rounded-lg p-4 space-y-2">
-            <p className="text-slate-300 text-sm">
-              <span className="font-medium">Uploaded:</span> {images.length} /
-              10 images
+          <div className="bg-gradient-to-br from-white to-gray-50 border-2 border-black/5 rounded-2xl p-6 space-y-3 shadow-soft animate-fadeInUp delay-300">
+            <p className="text-black text-sm font-semibold">
+              <span className="text-gray-600">Uploaded:</span> {images.length} / 10 images
             </p>
-            <p className="text-slate-300 text-sm">
-              <span className="font-medium">Default Avatar:</span>{" "}
-              {images.find((img) => img.isDefault) ? "Set" : "Not set"}
+            <p className="text-black text-sm font-semibold">
+              <span className="text-gray-600">Default Avatar:</span>{" "}
+              {images.find((img) => img.isDefault) ? "✓ Set" : "Not set"}
             </p>
-            <p className="text-slate-400 text-xs">
+            <p className="text-gray-500 text-xs">
               The default image will be used as your profile avatar.
             </p>
           </div>
         )}
 
-        <SubmitButton isLoading={uploading || form.formState.isSubmitting}>
-          Continue to Review
-        </SubmitButton>
+        <div className="animate-fadeInUp delay-400">
+          <SubmitButton isLoading={uploading || form.formState.isSubmitting}>
+            Continue to Review
+          </SubmitButton>
+        </div>
       </form>
     </Form>
   );

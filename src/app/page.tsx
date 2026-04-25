@@ -15,16 +15,19 @@ export default function Home() {
   return (
     <main className="min-h-screen pageBackgroundColor">
       <HomeNavbar />
-      <HomeHero />
-      <HomeService />
-      <HomeFeature />
-      <HomeTestimonials />
-      <HomeTopCompanies />
-      <HomeTrendingInfluencer />
-      <HomeCarousel />
-      <HomeStatistics />
-      <HomeCTA />
-      <HomeFooter />
+      {/* Add padding top to account for fixed navbar */}
+      <div className="pt-16">
+        <HomeHero />
+        <HomeService />
+        <HomeFeature />
+        <HomeTestimonials />
+        <HomeTopCompanies />
+        <HomeTrendingInfluencer />
+        <HomeCarousel />
+        <HomeStatistics />
+        <HomeCTA />
+        <HomeFooter />
+      </div>
     </main>
   );
 }

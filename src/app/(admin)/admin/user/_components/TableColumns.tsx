@@ -10,6 +10,8 @@ import {
   CheckCircle2,
   Shield,
   Clock,
+  Mail,
+  Phone,
 } from "lucide-react";
 import { User } from "@/app/types";
 import ActionButtons from "./ActionButtons";
@@ -42,17 +44,17 @@ const SortableColumnHeader = ({
   return (
     <button
       onClick={handleClick}
-      className="flex items-center gap-2 text-sm font-semibold text-black hover:text-green-400 transition-colors"
+      className="flex items-center gap-1.5 text-xs font-bold text-gray-500 uppercase tracking-wider hover:text-emerald-500 transition-colors group"
     >
       {label}
       {isActive ? (
         isAscending ? (
-          <ArrowUp className="size-4 text-green-400" />
+          <ArrowUp className="w-3.5 h-3.5 text-emerald-500" />
         ) : (
-          <ArrowDown className="size-4 text-green-400" />
+          <ArrowDown className="w-3.5 h-3.5 text-emerald-500" />
         )
       ) : (
-        <ArrowUpDown className="size-4 text-[#6B7280]" />
+        <ArrowUpDown className="w-3.5 h-3.5 text-gray-300 group-hover:text-emerald-400 transition-colors" />
       )}
     </button>
   );
@@ -65,32 +67,28 @@ export const createColumns = (
   {
     id: "select",
     header: ({ table }) => (
-      <Checkbox
-        checked={
-          table.getIsAllPageRowsSelected()
-            ? true
-            : table.getIsSomePageRowsSelected()
-            ? "indeterminate"
-            : false
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-        className="ml-4 text-black border-[#6B7280]"
-      />
+      <div className="flex items-center lg:w-4">
+        <Checkbox
+          checked={
+            table.getIsAllPageRowsSelected()
+              ? true
+              : table.getIsSomePageRowsSelected()
+              ? "indeterminate"
+              : false
+          }
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="border-gray-300 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
+        />
+      </div>
     ),
     cell: ({ row }) => (
-      <div className="pl-4 h-full">
-        <span
-          className={cn(
-            "flex origin-center w-1 transition-transform scale-y-0 h-full bg-green-500 rounded-r-full absolute left-0 top-0",
-            { "scale-y-100": row.getIsSelected() }
-          )}
-        ></span>
+      <div className="flex items-center lg:w-4">
         <Checkbox
           checked={row.getIsSelected()}
           onCheckedChange={(value) => row.toggleSelected(!!value)}
           aria-label="Select row"
-          className="text-black border-[#6B7280]"
+          className="border-gray-300 data-[state=checked]:bg-emerald-500 data-[state=checked]:border-emerald-500"
         />
       </div>
     ),
@@ -101,54 +99,55 @@ export const createColumns = (
     accessorKey: "name",
     header: () => (
       <SortableColumnHeader
-        label="Full Name"
+        label="User Info"
         field="name"
         currentOrderBy={orderBy}
         onOrderChange={onOrderChange}
       />
     ),
     cell: ({ row }) => {
+      const user = row.original;
       return (
-        <span className="text-base font-semibold text-title">{row.original.name}</span>
-      );
-    },
-  },
-  {
-    accessorKey: "email",
-    header: () => (
-      <SortableColumnHeader
-        label="Email"
-        field="email"
-        currentOrderBy={orderBy}
-        onOrderChange={onOrderChange}
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <div className="flex items-center gap-2">
-          <span className="text-base text-text">{row.original.email}</span>
-          {row.original.emailVerified ? (
-            <CheckCircle2 className="size-4 text-success" />
-          ) : (
-            <Clock className="size-4 text-warning" />
-          )}
+        <div className="flex items-center gap-3 py-1.5">
+          <div className="flex-shrink-0 w-10 h-10 rounded-full bg-gradient-to-br from-emerald-100 to-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-700 font-bold shadow-sm text-sm">
+            {user.name.charAt(0).toUpperCase()}
+          </div>
+          <div className="flex flex-col">
+            <span className="text-sm font-bold text-gray-900 leading-none">{user.name}</span>
+            <div className="flex items-center gap-1.5 mt-1.5">
+              <Mail className="w-3 h-3 text-gray-400" />
+              <span className="text-xs text-gray-500 font-medium">{user.email}</span>
+              {user.emailVerified ? (
+                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+              ) : (
+                <Clock className="w-3 h-3 text-amber-500" />
+              )}
+            </div>
+          </div>
         </div>
       );
     },
   },
   {
     accessorKey: "phoneNumber",
-    header: () => <span className="text-base font-semibold text-title">Phone</span>,
+    header: () => <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Contact</span>,
     cell: ({ row }) => {
       return (
-        <div className="flex items-center gap-2 h-14">
-          <span className="text-base text-text">
-            {row.original.phoneNumber ?? "N/A"}
-          </span>
-          {row.original.phoneNumberVerified ? (
-            <CheckCircle2 className="size-4 text-success" />
+        <div className="flex items-center gap-2">
+          {row.original.phoneNumber ? (
+            <div className="flex items-center gap-1.5 bg-gray-50 border border-gray-100 px-2 py-1 rounded-md">
+              <Phone className="w-3 h-3 text-gray-400" />
+              <span className="text-xs font-medium text-gray-700">
+                {row.original.phoneNumber}
+              </span>
+              {row.original.phoneNumberVerified ? (
+                <CheckCircle2 className="w-3 h-3 text-emerald-500" />
+              ) : (
+                <Clock className="w-3 h-3 text-amber-500" />
+              )}
+            </div>
           ) : (
-            <Clock className="size-4 text-warning" />
+            <span className="text-xs font-medium text-gray-400 italic">—</span>
           )}
         </div>
       );
@@ -158,38 +157,38 @@ export const createColumns = (
     accessorKey: "role",
     header: () => (
       <SortableColumnHeader
-        label="Role"
+        label="Type"
         field="role"
         currentOrderBy={orderBy}
         onOrderChange={onOrderChange}
       />
     ),
     cell: ({ row }) => {
-      const role = row.original.role === "COMPANY" ? "Company" : "Influencer";
-      const badgeColor =
-        row.original.role === "COMPANY"
-          ? "bg-info/10 text-info border border-info/30"
-          : "bg-purple-500/10 text-purple-500 border border-purple-500/30";
+      const isCompany = row.original.role === "COMPANY";
       return (
         <span
           className={cn(
-            "text-xs font-semibold px-3 py-1 rounded-full shadow-soft transition-all duration-150",
-            badgeColor
+            "text-[10px] font-bold px-2 py-1 rounded-md transition-all duration-150 uppercase tracking-widest",
+            isCompany
+              ? "bg-blue-50 text-blue-700 border border-blue-100"
+              : row.original.role === "ADMIN" 
+                ? "bg-rose-50 text-rose-700 border border-rose-100" 
+                : "bg-purple-50 text-purple-700 border border-purple-100"
           )}
         >
-          {role}
+          {isCompany ? "Brand" : row.original.role === "ADMIN" ? "Admin" : "Influencer"}
         </span>
       );
     },
   },
   {
     accessorKey: "isCompletedProfile",
-    header: () => <span className="text-base font-semibold text-title">Profile</span>,
+    header: () => <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Setup</span>,
     cell: ({ row }) => {
         return row.original.isCompletedProfile ? (
-          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success border border-success/30 shadow-soft">Complete</span>
+          <span className="text-[10px] font-bold px-2 py-1 rounded-md bg-emerald-50 text-emerald-700 border border-emerald-100 uppercase tracking-widest">Complete</span>
         ) : (
-          <span className="text-xs font-semibold px-3 py-1 rounded-full bg-danger/10 text-danger border border-danger/30 shadow-soft">Incomplete</span>
+          <span className="text-[10px] font-bold px-2 py-1 rounded-md bg-amber-50 text-amber-700 border border-amber-100 uppercase tracking-widest">Incomplete</span>
         );
     },
   },
@@ -197,45 +196,42 @@ export const createColumns = (
     accessorKey: "isVerifyByAdmin",
     header: () => (
       <SortableColumnHeader
-        label="Verification"
+        label="Platform Access"
         field="is_active"
         currentOrderBy={orderBy}
         onOrderChange={onOrderChange}
       />
     ),
     cell: ({ row }) => {
-      // Correction stricte pour 3 états : Verified (vert), Pending (rouge), Rejected (rouge)
-      let badge = null;
       if (row.original.isVerifyByAdmin === true) {
-        badge = (
-          <>
-            <CheckCircle2 className="size-4 text-success" />
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-success/10 text-success border border-success/30 shadow-soft">Verified</span>
-          </>
+        return (
+          <div className="flex items-center gap-1.5 text-emerald-700 bg-emerald-50 border border-emerald-100 px-2.5 py-1 rounded-md w-fit">
+            <CheckCircle2 className="w-3.5 h-3.5" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">Approved</span>
+          </div>
         );
-      } else if (row.original.isVerifyByAdmin === "rejected") {
-        badge = (
-          <>
-            <Shield className="size-4 text-danger" />
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-danger/10 text-danger border border-danger/30 shadow-soft">Rejected</span>
-          </>
+      } else if (row.original.isVerifyByAdmin === "rejected" as any) {
+        return (
+          <div className="flex items-center gap-1.5 text-rose-700 bg-rose-50 border border-rose-100 px-2.5 py-1 rounded-md w-fit">
+            <Shield className="w-3.5 h-3.5" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">Rejected</span>
+          </div>
         );
       } else {
-        badge = (
-          <>
-            <Shield className="size-4 text-danger" />
-            <span className="text-xs font-semibold px-3 py-1 rounded-full bg-danger/10 text-danger border border-danger/30 shadow-soft">Pending</span>
-          </>
+        return (
+          <div className="flex items-center gap-1.5 text-amber-700 bg-amber-50 border border-amber-100 px-2.5 py-1 rounded-md w-fit">
+            <Shield className="w-3.5 h-3.5" />
+            <span className="text-[10px] font-bold uppercase tracking-widest">Pending</span>
+          </div>
         );
       }
-      return <div className="flex items-center gap-2">{badge}</div>;
     },
   },
   {
     accessorKey: "createdAt",
     header: () => (
       <SortableColumnHeader
-        label="Joined"
+        label="Joined Date"
         field="created_at"
         currentOrderBy={orderBy}
         onOrderChange={onOrderChange}
@@ -243,26 +239,8 @@ export const createColumns = (
     ),
     cell: ({ row }) => {
       return (
-        <span className="text-base text-muted">
+        <span className="text-sm font-medium text-gray-500">
           {formatDate(new Date(row.original.createdAt!), "MMM dd, yyyy")}
-        </span>
-      );
-    },
-  },
-  {
-    accessorKey: "updatedAt",
-    header: () => (
-      <SortableColumnHeader
-        label="Last Updated"
-        field="updated_at"
-        currentOrderBy={orderBy}
-        onOrderChange={onOrderChange}
-      />
-    ),
-    cell: ({ row }) => {
-      return (
-        <span className="text-base text-muted">
-          {formatDate(new Date(row.original.updatedAt!), "MMM dd, yyyy")}
         </span>
       );
     },
@@ -270,7 +248,7 @@ export const createColumns = (
   {
     id: "actions",
     header: () => (
-      <span className="text-base font-semibold text-title">Actions</span>
+      <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Actions</span>
     ),
     cell: ({ row }) => {
       return <ActionButtons user={row.original} />;

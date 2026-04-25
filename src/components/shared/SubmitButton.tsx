@@ -22,18 +22,12 @@ const SubmitButton = ({
       disabled={isLoading || disabled}
       className={
         className ??
-        "w-full bg-primary hover:bg-primary-dark text-primary-foreground font-medium py-2 disabled:bg-primary/50"
+        "w-full h-12 bg-black hover:bg-gray-800 text-white font-semibold text-base rounded-xl shadow-medium hover:shadow-large transition-all duration-300 disabled:bg-gray-300 disabled:text-gray-500 disabled:cursor-not-allowed"
       }
     >
       {isLoading ? (
-        <div className="flex items-center gap-4">
-          <Image
-            src="/loader.svg"
-            alt="loader"
-            width={24}
-            height={24}
-            className="animate-spin"
-          />
+        <div className="flex items-center gap-3">
+          <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
           {loadingText || "Loading..."}
         </div>
       ) : (

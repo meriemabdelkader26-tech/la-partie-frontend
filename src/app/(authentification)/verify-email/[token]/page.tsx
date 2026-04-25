@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useQueryState } from "nuqs";
 import { graphqlClient, handleGraphQLError } from "@/lib/graphql-client";
 import { useMutation } from "@tanstack/react-query";
+import { Mail, Loader2, Sparkles, Shield } from "lucide-react";
 
 const TIMER_SECONDS = 120;
 
@@ -138,51 +139,92 @@ const VerifyEmailPage = () => {
   };
 
   return (
-    <div className="min-h-screen pageBackgroundColor flex items-center justify-center p-4">
-      <Card className="w-full max-w-xl bg-slate-800 border-slate-700">
-        <div className="p-8">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4 relative overflow-hidden">
+      {/* Animated Background Elements */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-20 left-10 w-96 h-96 bg-black/5 rounded-full blur-3xl animate-float"></div>
+        <div className="absolute bottom-20 right-10 w-96 h-96 bg-black/5 rounded-full blur-3xl animate-float delay-700"></div>
+      </div>
+
+      <Card className="w-full max-w-xl bg-white border-2 border-black/5 shadow-2xl rounded-3xl overflow-hidden relative z-10">
+        <div className="p-10">
+          {/* Back Button */}
           <div className="mb-8">
             <BackButton />
-            <div className="mb-8 text-center">
-              <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl">✉️</span>
+          </div>
+
+          {/* Header Section */}
+          <div className="mb-10 text-center">
+            {/* Icon Container */}
+            <div className="relative inline-block mb-6">
+              {/* Background Glow */}
+              <div className="absolute inset-0 bg-black/10 rounded-full blur-2xl animate-pulse"></div>
+              
+              {/* Main Icon */}
+              <div className="relative w-24 h-24 bg-gradient-to-br from-black to-gray-800 rounded-2xl flex items-center justify-center shadow-large animate-scaleIn">
+                <Mail className="w-12 h-12 text-white" />
               </div>
-              <h1 className="text-3xl font-bold text-white mb-2">
-                Verify Your Email
-              </h1>
-              <p className="text-slate-400">
-                We've sent a 6-digit code to{" "}
-                <span className="text-primary font-medium">{email}</span>
-              </p>
+
+              {/* Floating Sparkles */}
+              <div className="absolute -top-2 -right-2 w-8 h-8 bg-black rounded-full flex items-center justify-center animate-float">
+                <Sparkles className="w-4 h-4 text-white" />
+              </div>
+              <div className="absolute -bottom-2 -left-2 w-8 h-8 bg-black rounded-full flex items-center justify-center animate-float delay-300">
+                <Shield className="w-4 h-4 text-white" />
+              </div>
             </div>
+
+            <h1 className="text-4xl font-bold text-black mb-4 animate-fadeInUp">
+              Verify Your Email
+            </h1>
+            <p className="text-gray-600 text-lg animate-fadeInUp delay-100">
+              We've sent a 6-digit code to
+            </p>
+            <p className="text-black font-bold text-lg mt-2 animate-fadeInUp delay-200">
+              {email}
+            </p>
           </div>
 
           {/* Show loading message during automatic verification */}
           {verifyTokenMutation.isPending ? (
-            <div className="text-center py-8">
-              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-primary mb-4"></div>
-              <p className="text-white text-lg">Verifying your email...</p>
-              <p className="text-slate-400 text-sm mt-2">Please wait a moment</p>
+            <div className="text-center py-12 animate-fadeIn">
+              <div className="relative inline-block mb-6">
+                <Loader2 className="h-16 w-16 animate-spin text-black" />
+                <div className="absolute inset-0 bg-black/10 rounded-full blur-2xl animate-pulse"></div>
+              </div>
+              <p className="text-black text-xl font-semibold mb-2">Verifying your email...</p>
+              <p className="text-gray-600">Please wait a moment</p>
             </div>
           ) : token === "pending" ? (
             <>
-              <VerifyEmailForm
-                formatTime={formatTime}
-                resendTimer={resendTimer}
-                token={token}
-                email={email!}
-              />
+              {/* OTP Form */}
+              <div className="animate-fadeInUp delay-300">
+                <VerifyEmailForm
+                  formatTime={formatTime}
+                  resendTimer={resendTimer}
+                  token={token}
+                  email={email!}
+                />
+              </div>
 
-              <Separator className="mt-6 mb-4 border-t border-slate-700 text-center" />
+              {/* Separator */}
+              <div className="relative my-8">
+                <div className="absolute inset-0 flex items-center">
+                  <div className="w-full border-t-2 border-black/10"></div>
+                </div>
+                <div className="relative flex justify-center">
+                  <span className="bg-white px-4 text-sm text-gray-500 font-medium">OR</span>
+                </div>
+              </div>
 
-              <div className="flex items-center justify-center gap-2">
-                <p className="text-slate-400 text-sm">Didn't receive the code?</p>
+              {/* Resend Section */}
+              <div className="flex flex-col items-center gap-4 p-6 bg-gray-50 rounded-2xl border-2 border-black/5 animate-fadeInUp delay-400">
+                <p className="text-gray-600 font-medium">Didn't receive the code?</p>
                 <Button
                   type="button"
                   onClick={handleResendOtp}
                   disabled={resendMutation.isPending || resendTimer > 0}
-                  variant="ghost"
-                  className="border-slate-600 text-slate-300 hover:text-white hover:bg-slate-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="px-6 py-3 h-12 bg-black hover:bg-gray-800 text-white font-semibold rounded-xl shadow-medium hover:shadow-large transition-all duration-300 hover:scale-105 disabled:bg-gray-300 disabled:text-gray-500 disabled:hover:scale-100"
                 >
                   {resendMutation.isPending
                     ? "Sending..."
@@ -193,10 +235,21 @@ const VerifyEmailPage = () => {
               </div>
             </>
           ) : (
-            <div className="text-center py-8">
-              <p className="text-slate-400">Processing verification...</p>
+            <div className="text-center py-12 animate-fadeIn">
+              <Loader2 className="h-12 w-12 animate-spin text-black mx-auto mb-4" />
+              <p className="text-gray-600 text-lg">Processing verification...</p>
             </div>
           )}
+
+          {/* Security Notice */}
+          <div className="mt-8 p-4 bg-black/5 rounded-xl border border-black/10 animate-fadeInUp delay-500">
+            <div className="flex items-start gap-3">
+              <Shield className="w-5 h-5 text-black flex-shrink-0 mt-0.5" />
+              <p className="text-sm text-gray-600 leading-relaxed">
+                For your security, this code will expire in {formatTime(resendTimer)}. Never share this code with anyone.
+              </p>
+            </div>
+          </div>
         </div>
       </Card>
     </div>

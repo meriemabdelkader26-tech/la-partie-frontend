@@ -12,8 +12,10 @@ const InfluencerProfileSwitcher = (props: Props) => {
     <button
       onClick={onClick}
       className={cn(
-        "pb-3 px-2 font-semibold transition-colors",
-        active ? "text-green-400 border-b-2 border-green-400" : "text-slate-400"
+        "pb-3 px-4 font-bold transition-all duration-300 relative",
+        active 
+          ? "text-black border-b-2 border-black" 
+          : "text-gray-400 hover:text-gray-600 border-b-2 border-transparent"
       )}
     >
       {label}

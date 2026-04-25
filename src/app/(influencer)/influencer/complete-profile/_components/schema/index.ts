@@ -61,7 +61,8 @@ export const Step2PersonalInfoSchema = z.object({
     .string()
     .min(10, { message: "Biography must be at least 10 characters" })
     .max(500, { message: "Biography must not exceed 500 characters" }),
-  localisation: z.string().min(2, { message: "Location is required" }),
+  country: z.string().min(2, { message: "Country is required" }),
+  city: z.string().min(2, { message: "City is required" }),
   siteWeb: z
     .string()
     .url({ message: "Must be a valid URL" })

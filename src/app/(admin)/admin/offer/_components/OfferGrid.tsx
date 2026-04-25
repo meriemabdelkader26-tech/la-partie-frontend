@@ -2,6 +2,7 @@ import { Offer } from "@/app/types";
 import { Card } from "@/components/ui/card";
 import OfferCard from "./OfferCard";
 import OfferCardSkeleton from "./OfferCardSkeleton";
+import { SearchX } from "lucide-react";
 
 interface OfferGridProps {
   offers: Offer[];
@@ -16,7 +17,7 @@ export const OfferGrid = ({
 }: OfferGridProps) => {
   if (isLoading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
         {Array.from({ length: itemsPerPage }).map((_, index) => (
           <OfferCardSkeleton key={index} />
         ))}
@@ -26,17 +27,20 @@ export const OfferGrid = ({
 
   if (offers.length === 0) {
     return (
-      <Card className="bg-[#EBACA2] border-[#CE6A6B] p-12 text-center backdrop-blur-sm">
-        <p className="text-[#212E53] text-lg font-semibold">No offers found</p>
-        <p className="text-[#4A919E] text-sm mt-2">
-          Try adjusting your filters or search query
+      <div className="bg-white border border-gray-100 border-dashed rounded-[32px] p-16 flex flex-col items-center justify-center text-center shadow-sm">
+        <div className="w-20 h-20 bg-gray-50 rounded-3xl flex items-center justify-center mb-6">
+          <SearchX className="h-10 w-10 text-gray-300" />
+        </div>
+        <h3 className="text-xl font-bold text-gray-900 mb-2">No offers found</h3>
+        <p className="text-gray-500 text-sm max-w-sm mx-auto leading-relaxed">
+          We couldn&apos;t find any campaign offers matching your current search or filters. Try adjusting your criteria.
         </p>
-      </Card>
+      </div>
     );
   }
 
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 2xl:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       {offers.map((offer) => (
         <OfferCard key={offer.id} offer={offer} />
       ))}

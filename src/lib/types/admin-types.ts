@@ -114,6 +114,7 @@ export interface Influencer {
   disponibiliteCollaboration: DisponibiliteEnum;
   createdAt: string;
   updatedAt: string;
+  profilePicture?: string;
   statistiquesGlobales?: StatistiquesGlobales;
 }
 

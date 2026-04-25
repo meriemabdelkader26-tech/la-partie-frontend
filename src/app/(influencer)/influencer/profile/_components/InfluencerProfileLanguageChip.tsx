@@ -4,7 +4,7 @@ interface Props {
 const InfluencerProfileLanguageChip = (props: Props) => {
   const { label } = props;
   return (
-    <span className="bg-green-400/20 text-green-300 px-3 py-1 rounded-full text-sm">
+    <span className="bg-black text-white px-4 py-1.5 rounded-full text-sm font-bold shadow-soft">
       {label}
     </span>
   );

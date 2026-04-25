@@ -19,24 +19,32 @@ import {
 } from "@/config";
 import ErrorTriangle from "@/components/shared/ErrorTriangle";
 import { toast } from "sonner";
+import SuccessAnimation from "@/components/shared/SuccessAnimation";
 
 const LOGIN_MUTATION = `
     mutation Login($email: String!, $password: String!) {
-        tokenAuth(email: $email, password: $password) {
-            payload
-            refreshExpiresIn
-            token
-            user {
-                id
-                email
-                emailVerified
-                isBanned
-                isVerifyByAdmin
-                isStaff
-                name
-                role
-            }
+    tokenAuth(email: $email, password: $password) {
+      payload
+      refreshExpiresIn
+      token
+      user {
+        id
+        email
+        emailVerified
+        isBanned
+        isVerifyByAdmin
+        isStaff
+        name
+        role
+        influencerProfile {
+          id
+          images {
+            url
+            isDefault
+          }
         }
+      }
+    }
     }
 `;
 
@@ -58,6 +66,13 @@ interface LoginMutationResult {
       isStaff: boolean;
       name: string;
       role: string;
+      influencerProfile?: {
+        id: string;
+        images?: {
+          url: string;
+          isDefault: boolean;
+        }[];
+      };
     };
   };
 }
@@ -71,6 +86,8 @@ const cookieOptions = (exp: number) => ({
 
 const LoginFormBody = () => {
   const [error, setError] = useState<string | null>(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState<string>("/");
   const { setLoggedIn, setCurrentUser } = useSessionStore();
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     mode: "all",
@@ -99,10 +116,12 @@ const LoginFormBody = () => {
       setLoggedIn(true);
       setCurrentUser({
         email,
+        name: user.name,
         exp,
         id: user.id,
         role: user.role,
         isStaff: user.isStaff,
+        profilePicture: user.influencerProfile?.images?.find(i => i.isDefault)?.url || user.influencerProfile?.images?.[0]?.url,
       });
 
       Cookies.set(COOKIE_TOKEN_KEY, data.tokenAuth.token, cookieOptions(exp));
@@ -115,30 +134,32 @@ const LoginFormBody = () => {
         cookieOptions(data.tokenAuth.refreshExpiresIn)
       );
 
-      toast.success("Successfully logged in!");
-
+      // Determine redirect URL
       const urlParams = new URLSearchParams(window.location.search);
       const redirectTo = urlParams.get("redirect");
 
+      let targetUrl = "/";
       if (redirectTo) {
-        window.location.href = redirectTo;
+        targetUrl = redirectTo;
       } else if (user.isStaff) {
-        window.location.href = "/admin/category";
+        targetUrl = "/admin/category";
       } else if (user.role === "INFLUENCER") {
         if (!user.isVerifyByAdmin) {
-          window.location.href = "/influencer/complete-profile";
+          targetUrl = "/influencer/complete-profile";
         } else {
-          window.location.href = "/influencer";
+          targetUrl = "/influencer";
         }
       } else if (user.role === "COMPANY") {
         if (!user.isVerifyByAdmin) {
-          window.location.href = "/company/complete-profile";
+          targetUrl = "/company/complete-profile";
         } else {
-          window.location.href = "/company";
+          targetUrl = "/company";
         }
-      } else {
-        window.location.href = "/";
       }
+
+      // Show success animation, then redirect
+      setRedirectUrl(targetUrl);
+      setShowSuccess(true);
     },
     onError: (error) => {
       setError(handleGraphQLError(error).message);
@@ -153,34 +174,53 @@ const LoginFormBody = () => {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <CustomFormField
-          name="email"
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          label="Email"
-          placeholder="company@example.com"
+    <>
+      {/* Success Animation Overlay */}
+      {showSuccess && (
+        <SuccessAnimation
+          message="Welcome Back!"
+          onComplete={() => {
+            window.location.href = redirectUrl;
+          }}
         />
+      )}
 
-        <CustomFormField
-          name="password"
-          control={form.control}
-          fieldType={FormFieldType.PASSWORD}
-          label="Password"
-          placeholder="••••••••"
-        />
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+          <div className="space-y-5">
+            <CustomFormField
+              name="email"
+              control={form.control}
+              fieldType={FormFieldType.INPUT}
+              label="Email Address"
+              placeholder="your.email@example.com"
+            />
 
-        {error && <ErrorTriangle message={error} />}
+            <CustomFormField
+              name="password"
+              control={form.control}
+              fieldType={FormFieldType.PASSWORD}
+              label="Password"
+              placeholder="Enter your password"
+            />
+          </div>
 
-        <SubmitButton
-          isLoading={mutation.isPending}
-          loadingText="Signing in..."
-        >
-          Sign In
-        </SubmitButton>
-      </form>
-    </Form>
+          {error && (
+            <div className="animate-fadeInUp">
+              <ErrorTriangle message={error} />
+            </div>
+          )}
+
+          <SubmitButton
+            isLoading={mutation.isPending}
+            loadingText="Signing in..."
+            className="w-full h-14 bg-black hover:bg-gray-800 text-white rounded-xl font-semibold text-base shadow-medium hover:shadow-large transition-all duration-300 hover:scale-[1.02] disabled:bg-gray-300 disabled:text-gray-500"
+          >
+            Sign In
+          </SubmitButton>
+        </form>
+      </Form>
+    </>
   );
 };
 

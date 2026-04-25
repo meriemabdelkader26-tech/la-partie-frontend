@@ -96,68 +96,99 @@ const RegisterFormBody = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <Tabs
-          defaultValue={role?.toLowerCase() || "influencer"}
-          onValueChange={(value) => {
-            const roleValue =
-              value === "influencer" ? RoleEnum.INFLUENCER : RoleEnum.COMPANY;
-            setRole(roleValue.toLowerCase());
-            form.setValue("role", roleValue);
-          }}
-        >
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="influencer">Influencer</TabsTrigger>
-            <TabsTrigger value="company">Company</TabsTrigger>
-          </TabsList>
-        </Tabs>
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        {/* Role Tabs */}
+        <div className="mb-6">
+          <Tabs
+            defaultValue={role?.toLowerCase() || "influencer"}
+            onValueChange={(value) => {
+              const roleValue =
+                value === "influencer" ? RoleEnum.INFLUENCER : RoleEnum.COMPANY;
+              setRole(roleValue.toLowerCase());
+              form.setValue("role", roleValue);
+            }}
+          >
+            <TabsList className="grid w-full grid-cols-2 h-14 bg-gray-100 p-1 rounded-xl">
+              <TabsTrigger 
+                value="influencer"
+                className="rounded-lg font-semibold data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-medium transition-all"
+              >
+                Influencer
+              </TabsTrigger>
+              <TabsTrigger 
+                value="company"
+                className="rounded-lg font-semibold data-[state=active]:bg-black data-[state=active]:text-white data-[state=active]:shadow-medium transition-all"
+              >
+                Brand
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </div>
 
-        <CustomFormField
-          name="name"
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          label={isCompany ? "Company Name" : "Full Name"}
-          placeholder={isCompany ? "Acme Corporation" : "John Doe"}
-        />
-        <CustomFormField
-          name="email"
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          label={isCompany ? "Company Email" : "Email Address"}
-          placeholder={isCompany ? "contact@company.com" : "john@example.com"}
-        />
-        <CustomFormField
-          name="phoneNumber"
-          control={form.control}
-          fieldType={FormFieldType.PHONE_INPUT}
-          label={isCompany ? "Company Phone Number" : "Phone Number"}
-          placeholder={isCompany ? "+1 234 567 8900" : "+1 234 567 8900"}
-        />
-        <CustomFormField
-          name="password"
-          control={form.control}
-          fieldType={FormFieldType.PASSWORD}
-          label="Password"
-          placeholder="••••••••"
-        />
+        {/* Form Fields */}
+        <div className="space-y-5">
+          <CustomFormField
+            name="name"
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            label={isCompany ? "Company Name" : "Full Name"}
+            placeholder={isCompany ? "Acme Corporation" : "John Doe"}
+          />
+          <CustomFormField
+            name="email"
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            label={isCompany ? "Company Email" : "Email Address"}
+            placeholder={isCompany ? "contact@company.com" : "john@example.com"}
+          />
+          <CustomFormField
+            name="phoneNumber"
+            control={form.control}
+            fieldType={FormFieldType.PHONE_INPUT}
+            label={isCompany ? "Company Phone Number" : "Phone Number"}
+            placeholder={isCompany ? "+1 234 567 8900" : "+1 234 567 8900"}
+          />
+          <CustomFormField
+            name="password"
+            control={form.control}
+            fieldType={FormFieldType.PASSWORD}
+            label="Password"
+            placeholder="Create a strong password"
+          />
 
-        <CustomFormField
-          name="confirmPassword"
-          control={form.control}
-          fieldType={FormFieldType.PASSWORD}
-          label="Confirm Password"
-          placeholder="••••••••"
-        />
-        {error && <ErrorTriangle message={error} />}
+          <CustomFormField
+            name="confirmPassword"
+            control={form.control}
+            fieldType={FormFieldType.PASSWORD}
+            label="Confirm Password"
+            placeholder="Re-enter your password"
+          />
+        </div>
 
+        {error && (
+          <div className="animate-fadeInUp">
+            <ErrorTriangle message={error} />
+          </div>
+        )}
+
+        {/* Submit Button */}
         <SubmitButton
           isLoading={mutation.isPending}
           loadingText={
             isCompany ? "Creating company account..." : "Creating account..."
           }
+          className="w-full h-14 bg-black hover:bg-gray-800 text-white rounded-xl font-semibold text-base shadow-medium hover:shadow-large transition-all duration-300 hover:scale-[1.02] disabled:bg-gray-300 disabled:text-gray-500"
         >
           {isCompany ? "Create Company Account" : "Create Account"}
         </SubmitButton>
+
+        {/* Terms & Privacy */}
+        <p className="text-xs text-gray-500 text-center leading-relaxed">
+          By creating an account, you agree to our{" "}
+          <a href="#" className="text-black font-semibold hover:underline">Terms of Service</a>
+          {" "}and{" "}
+          <a href="#" className="text-black font-semibold hover:underline">Privacy Policy</a>
+        </p>
       </form>
     </Form>
   );

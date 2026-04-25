@@ -19,15 +19,13 @@ const SecondButton = ({
     <Button
       type="button"
       onClick={onClick}
-      variant="outline"
-      size="sm"
       disabled={isLoading}
       className={cn(
-        "bg-transparent border-pastel-green text-white hover:bg-pastel-green/10 hover:text-pastel-green disabled:opacity-50",
+        "bg-black hover:bg-gray-800 text-white font-semibold px-6 rounded-xl shadow-medium hover:shadow-large transition-all duration-300 hover:scale-105 disabled:bg-gray-300 disabled:text-gray-500 disabled:hover:scale-100",
         className
       )}
     >
-      {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+      {isLoading && <Loader2 className="w-5 h-5 mr-2 animate-spin" />}
       {label}
     </Button>
   );

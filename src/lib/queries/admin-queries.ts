@@ -79,6 +79,7 @@ export const GET_ALL_INFLUENCERS = gql`
           disponibiliteCollaboration
           createdAt
           updatedAt
+          profilePicture
           user {
             id
             email
@@ -279,18 +280,23 @@ export const GET_INFLUENCER = gql`
 export const ADMIN_DASHBOARD_STATS = gql`
   query AdminDashboardStats {
     adminDashboardStats {
-      totalSessions
-      sessionsTrendByMedium {
+      totalRevenue
+      revenueTrend {
         label
-        data
+        value
       }
-      pagesPerVisit
-      uniqueVisitors
-      newVsReturning {
-        new
-        returning
+      applicationsStatusDist {
+        label
+        value
       }
-      genderBreakdown
+      usersRoleDist {
+        label
+        value
+      }
+      offersGrowth {
+        label
+        value
+      }
     }
   }
 `;

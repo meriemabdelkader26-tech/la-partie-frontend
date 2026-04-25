@@ -13,7 +13,7 @@ import { format } from "date-fns";
 import AdvancedPagination from "@/components/ui/advanced-pagination";
 import { OfferFilters } from "./_components/OfferFilters";
 import { OfferSearchBar } from "./_components/OfferSearchBar";
-import { OfferGrid } from "./_components/OfferGrid";
+import { OfferGrid, RecommendedOffersSection } from "./_components";
 import OfferSheet from "./_components/OfferSheet";
 import { calculateBudgetRange } from "@/lib/utils";
 
@@ -116,14 +116,18 @@ export default function OffersPage() {
   ].filter(Boolean).length;
 
   return (
-    <section>
+    <section className="animate-fadeIn">
       <div className="mx-auto px-6 py-8">
-        <OfferFilters
-          activeFiltersCount={activeFiltersCount}
-          onClearAll={clearAllFilters}
-        />
+        <RecommendedOffersSection />
+        
+        <div className="animate-fadeInDown">
+          <OfferFilters
+            activeFiltersCount={activeFiltersCount}
+            onClearAll={clearAllFilters}
+          />
+        </div>
 
-        <div className="flex items-center gap-4 mb-8">
+        <div className="flex items-center gap-4 mb-8 animate-fadeInUp delay-200">
           <div className="flex-1">
             <OfferSearchBar
               value={searchQuery || ""}
@@ -152,23 +156,25 @@ export default function OffersPage() {
           />
         </div>
 
-        <OfferGrid
-          offers={currentOffers}
-          isLoading={isFetching}
-          itemsPerPage={ITEMS_PER_PAGE}
-        />
+        <div className="animate-fadeInUp delay-300">
+          <OfferGrid
+            offers={currentOffers}
+            isLoading={isFetching}
+            itemsPerPage={ITEMS_PER_PAGE}
+          />
+        </div>
       </div>
 
       {!isFetching && totalItems > 0 && (
-        <div className="h-16 border-t border-slate-700 flex">
-          <div className="flex items-center justify-between w-full px-5">
+        <div className="h-20 border-t-2 border-black/5 mt-8 flex items-center bg-white rounded-b-3xl px-8 shadow-soft animate-fadeInUp delay-500">
+          <div className="flex items-center justify-between w-full">
             <AdvancedPagination
               itemsPerPage={ITEMS_PER_PAGE}
               totalItems={totalItems}
               pageIndex={page}
               pageCount={totalPages}
               onPageChange={handlePageChange}
-              ModulePaginationColor="green"
+              ModulePaginationColor="black"
             />
           </div>
         </div>

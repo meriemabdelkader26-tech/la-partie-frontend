@@ -67,35 +67,55 @@ const CreateFormCategory = () => {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <CustomFormField
-          name="name"
-          control={form.control}
-          fieldType={FormFieldType.INPUT}
-          label="Name"
-          placeholder="Category Name"
-        />
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+        <div className="space-y-4">
+          <CustomFormField
+            name="name"
+            control={form.control}
+            fieldType={FormFieldType.INPUT}
+            label="Category Name"
+            placeholder="e.g. Fashion, Technology, Lifestyle..."
+            className="bg-gray-50/50 border-gray-100 focus:bg-white transition-all rounded-xl h-12"
+          />
 
-        <CustomFormField
-          name="description"
-          control={form.control}
-          fieldType={FormFieldType.TEXTAREA}
-          label="Description"
-          placeholder="Category Description"
-        />
+          <CustomFormField
+            name="description"
+            control={form.control}
+            fieldType={FormFieldType.TEXTAREA}
+            label="Description"
+            placeholder="Describe what this category is about..."
+            className="bg-gray-50/50 border-gray-100 focus:bg-white transition-all rounded-xl min-h-[120px]"
+          />
 
-        <CustomFormField
-          name="isActive"
-          control={form.control}
-          fieldType={FormFieldType.CHECKBOX}
-          label="Active (Category will be visible to users)"
-        />
+          <div className="bg-gray-50/50 p-4 rounded-xl border border-gray-100 transition-all hover:bg-emerald-50/30 hover:border-emerald-100 group">
+            <CustomFormField
+              name="isActive"
+              control={form.control}
+              fieldType={FormFieldType.CHECKBOX}
+              label="Active Status"
+              description="If enabled, this category will be visible and selectable by users on the platform."
+            />
+          </div>
+        </div>
 
         {error && <ErrorTriangle message={error} />}
 
-        <SubmitButton isLoading={mutation.isPending} loadingText="Creating...">
-          Create Category
-        </SubmitButton>
+        <div className="pt-4 flex items-center gap-3">
+          <SubmitButton 
+            isLoading={mutation.isPending} 
+            loadingText="Creating..."
+            className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold h-12 rounded-xl shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5"
+          >
+            Create Category
+          </SubmitButton>
+          <button
+            type="button"
+            onClick={() => router.back()}
+            className="px-6 h-12 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl hover:bg-gray-50 transition-all"
+          >
+            Cancel
+          </button>
+        </div>
       </form>
     </Form>
   );

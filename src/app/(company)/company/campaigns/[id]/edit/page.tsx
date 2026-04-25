@@ -2,14 +2,17 @@
 
 import React, { useEffect, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ArrowLeft, Save } from "lucide-react";
-import { request, gql } from "graphql-request";
+import { ArrowLeft, Save, Info, DollarSign, Calendar, Users, FileText, Target, Rocket, ArrowRight, X, Edit } from "lucide-react";
+import { graphqlClient } from "@/lib/graphql-client";
+import { gql } from "graphql-request";
+import { motion } from "framer-motion";
+import { toast } from "sonner";
 
 interface OfferFormData {
   title: string;
@@ -43,8 +46,30 @@ const GET_OFFER = gql`
 `;
 
 const UPDATE_OFFER = gql`
-  mutation UpdateOffer($offerId: ID!, $input: UpdateOfferInput!) {
-    updateOffer(offerId: $offerId, input: $input) {
+  mutation UpdateOffer(
+    $id: ID!
+    $title: String
+    $minBudget: Float
+    $maxBudget: Float
+    $startDate: Date
+    $endDate: Date
+    $influencerNumber: Int
+    $requirement: String
+    $objectif: String
+  ) {
+    updateOffer(
+      id: $id
+      title: $title
+      minBudget: $minBudget
+      maxBudget: $maxBudget
+      startDate: $startDate
+      endDate: $endDate
+      influencerNumber: $influencerNumber
+      requirement: $requirement
+      objectif: $objectif
+    ) {
+      success
+      message
       offer {
         id
         title
@@ -63,7 +88,7 @@ const UPDATE_OFFER = gql`
 export default function EditOfferPage() {
   const params = useParams();
   const router = useRouter();
-  const offerId = params.id as string;
+  const offerId = decodeURIComponent(params.id as string);
 
   const [loading, setLoading] = useState(true);
   const [submitting, setSubmitting] = useState(false);
@@ -89,21 +114,9 @@ export default function EditOfferPage() {
       setLoading(true);
       setError(null);
 
-      const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("access_token="))
-        ?.split("=")[1];
-
-      if (!token) {
-        router.push("/auth/login");
-        return;
-      }
-
-      const data: any = await request(
-        process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!,
+      const data: any = await graphqlClient.request(
         GET_OFFER,
-        { id: offerId },
-        { Authorization: `JWT ${token}` }
+        { id: offerId }
       );
 
       const offer = data.offer;
@@ -118,8 +131,8 @@ export default function EditOfferPage() {
         influencerNumber: offer.influencerNumber.toString(),
       });
     } catch (err: any) {
-      console.error("Erreur lors du chargement de l'offre:", err);
-      setError(err.message || "Une erreur est survenue");
+      console.error("Error loading offer:", err);
+      setError(err.message || "An error occurred");
     } finally {
       setLoading(false);
     }
@@ -127,99 +140,28 @@ export default function EditOfferPage() {
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
-
-    // Validation du titre
-    if (!formData.title.trim()) {
-      newErrors.title = "Le titre est requis";
-    } else if (formData.title.length < 5) {
-      newErrors.title = "Le titre doit contenir au moins 5 caractères";
-    }
-
-    // Validation de l'objectif
-    if (!formData.objectif.trim()) {
-      newErrors.objectif = "L'objectif est requis";
-    } else if (formData.objectif.length < 20) {
-      newErrors.objectif = "L'objectif doit contenir au moins 20 caractères";
-    }
-
-    // Validation des exigences
-    if (!formData.requirement.trim()) {
-      newErrors.requirement = "Les exigences sont requises";
-    } else if (formData.requirement.length < 20) {
-      newErrors.requirement = "Les exigences doivent contenir au moins 20 caractères";
-    }
-
-    // Validation du budget
-    const minBudget = parseFloat(formData.minBudget);
-    const maxBudget = parseFloat(formData.maxBudget);
-
-    if (!formData.minBudget || isNaN(minBudget)) {
-      newErrors.minBudget = "Le budget minimum est requis";
-    } else if (minBudget < 0) {
-      newErrors.minBudget = "Le budget minimum doit être positif";
-    }
-
-    if (!formData.maxBudget || isNaN(maxBudget)) {
-      newErrors.maxBudget = "Le budget maximum est requis";
-    } else if (maxBudget < 0) {
-      newErrors.maxBudget = "Le budget maximum doit être positif";
-    } else if (maxBudget < minBudget) {
-      newErrors.maxBudget = "Le budget maximum doit être supérieur au minimum";
-    }
-
-    // Validation des dates
-    if (!formData.startDate) {
-      newErrors.startDate = "La date de début est requise";
-    }
-
-    if (!formData.endDate) {
-      newErrors.endDate = "La date de fin est requise";
-    }
-
-    if (formData.startDate && formData.endDate) {
-      const start = new Date(formData.startDate);
-      const end = new Date(formData.endDate);
-
-      if (end <= start) {
-        newErrors.endDate = "La date de fin doit être après la date de début";
-      }
-    }
-
-    // Validation du nombre d'influenceurs
-    const influencerNumber = parseInt(formData.influencerNumber);
-    if (!formData.influencerNumber || isNaN(influencerNumber)) {
-      newErrors.influencerNumber = "Le nombre d'influenceurs est requis";
-    } else if (influencerNumber < 1) {
-      newErrors.influencerNumber = "Au moins 1 influenceur est requis";
-    } else if (influencerNumber > 100) {
-      newErrors.influencerNumber = "Maximum 100 influenceurs";
-    }
-
+    if (!formData.title.trim()) newErrors.title = "Title is required";
+    if (!formData.objectif.trim()) newErrors.objectif = "Objectives are required";
+    if (!formData.requirement.trim()) newErrors.requirement = "Requirements are required";
+    if (!formData.minBudget) newErrors.minBudget = "Required";
+    if (!formData.maxBudget) newErrors.maxBudget = "Required";
+    if (parseFloat(formData.maxBudget) < parseFloat(formData.minBudget)) newErrors.maxBudget = "Must be higher than min";
+    if (!formData.startDate) newErrors.startDate = "Required";
+    if (!formData.endDate) newErrors.endDate = "Required";
+    
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-    if (!validateForm()) {
-      return;
-    }
+    if (!validateForm()) return;
 
     try {
       setSubmitting(true);
 
-      const token = document.cookie
-        .split("; ")
-        .find((row) => row.startsWith("access_token="))
-        ?.split("=")[1];
-
-      if (!token) {
-        router.push("/auth/login");
-        return;
-      }
-
-      const input = {
+      const variables = {
+        id: offerId,
         title: formData.title.trim(),
         objectif: formData.objectif.trim(),
         requirement: formData.requirement.trim(),
@@ -230,297 +172,186 @@ export default function EditOfferPage() {
         influencerNumber: parseInt(formData.influencerNumber),
       };
 
-      await request(
-        process.env.NEXT_PUBLIC_GRAPHQL_ENDPOINT!,
+      const data: any = await graphqlClient.request(
         UPDATE_OFFER,
-        { offerId, input },
-        { Authorization: `JWT ${token}` }
+        variables
       );
 
-      router.push(`/company/campaigns/${offerId}`);
+      if (data.updateOffer.success) {
+        toast.success("Campaign updated successfully!");
+        router.push(`/company/campaigns/${offerId}`);
+      } else {
+        toast.error(data.updateOffer.message || "Failed to update campaign");
+      }
     } catch (err: any) {
-      console.error("Erreur lors de la mise à jour:", err);
-      alert(err.message || "Erreur lors de la mise à jour de l'offre");
+      console.error("Update error:", err);
+      toast.error(err.message || "Failed to update campaign");
     } finally {
       setSubmitting(false);
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear error for this field
-    if (errors[name]) {
-      setErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[name];
-        return newErrors;
-      });
-    }
+    if (errors[name]) setErrors((prev) => { const n = { ...prev }; delete n[name]; return n; });
   };
 
   if (loading) {
     return (
-      <div className="space-y-6">
-        <Skeleton className="h-12 w-64" />
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Skeleton className="h-96" />
-          <Skeleton className="h-96" />
+      <div className="space-y-10 animate-pulse">
+        <div className="h-20 w-3/4 bg-black/5 rounded-4xl" />
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-2 h-[600px] bg-black/5 rounded-[2.5rem]" />
+          <div className="h-[400px] bg-black/5 rounded-[2.5rem]" />
         </div>
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="text-center py-12">
-        <p className="text-red-500 text-lg mb-4">{error}</p>
-        <Button onClick={() => router.push("/company/campaigns")}>
-          Retour aux offres
-        </Button>
       </div>
     );
   }
 
   return (
-    <div className="max-w-5xl mx-auto space-y-6">
+    <div className="space-y-10 pb-12 px-2">
       {/* Header */}
-      <div className="flex items-center space-x-4">
-        <Button
-          variant="ghost"
-          size="icon"
-          onClick={() => router.push(`/company/campaigns/${offerId}`)}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <motion.div
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
         >
-          <ArrowLeft className="h-5 w-5" />
-        </Button>
-        <div>
-          <h1 className="text-3xl font-bold text-slate-900">Modifier l'offre</h1>
-          <p className="text-slate-600">Mettez à jour les détails de votre offre</p>
-        </div>
+          <button 
+            onClick={() => router.push(`/company/campaigns/${offerId}`)}
+            className="group flex items-center gap-2 text-gray-400 hover:text-black font-black text-[10px] uppercase tracking-widest transition-colors mb-4"
+          >
+            <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+            Back to Details
+          </button>
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-black text-white text-[10px] font-black uppercase tracking-widest rounded-full mb-4">
+            <Edit className="w-3 h-3 text-blue-400" />
+            <span>Editor Mode</span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-black text-black tracking-tighter mb-2">
+            Edit <span className="text-gray-400">Campaign</span> ✏️
+          </h1>
+          <p className="text-gray-500 font-medium text-lg">
+            Refine your offer details to attract the best talent.
+          </p>
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="flex gap-3"
+        >
+          <Button
+            variant="outline"
+            onClick={() => router.push(`/company/campaigns/${offerId}`)}
+            className="h-14 px-8 border-2 border-black/5 hover:border-rose-500/20 hover:bg-rose-50/30 text-black font-black rounded-2xl transition-all group/discard active:scale-95"
+          >
+            <span className="flex items-center gap-2">
+              <X className="w-4 h-4 text-gray-400 group-hover/discard:text-rose-500 transition-colors" />
+              Discard Changes
+            </span>
+          </Button>
+          <Button
+            onClick={handleSubmit}
+            disabled={submitting}
+            className="h-14 px-8 bg-black hover:bg-gray-800 text-white font-black text-lg rounded-2xl shadow-xl hover:shadow-black/20 transition-all"
+          >
+            {submitting ? "Saving..." : "Save Changes"}
+            <Save className="w-5 h-5 ml-2" />
+          </Button>
+        </motion.div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-6">
-        {/* Informations de base */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Informations de base</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div>
-              <Label htmlFor="title">
-                Titre de l'offre <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                placeholder="Ex: Recherche influenceur mode pour nouvelle collection"
-                className={errors.title ? "border-red-500" : ""}
-              />
-              {errors.title && (
-                <p className="text-red-500 text-sm mt-1">{errors.title}</p>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="objectif">
-                Objectif de la collaboration <span className="text-red-500">*</span>
-              </Label>
-              <Textarea
-                id="objectif"
-                name="objectif"
-                value={formData.objectif}
-                onChange={handleChange}
-                placeholder="Décrivez les objectifs de cette collaboration..."
-                rows={4}
-                className={errors.objectif ? "border-red-500" : ""}
-              />
-              {errors.objectif && (
-                <p className="text-red-500 text-sm mt-1">{errors.objectif}</p>
-              )}
-            </div>
-
-            <div>
-              <Label htmlFor="requirement">
-                Exigences <span className="text-red-500">*</span>
-              </Label>
-              <Textarea
-                id="requirement"
-                name="requirement"
-                value={formData.requirement}
-                onChange={handleChange}
-                placeholder="Listez les exigences et critères attendus..."
-                rows={4}
-                className={errors.requirement ? "border-red-500" : ""}
-              />
-              {errors.requirement && (
-                <p className="text-red-500 text-sm mt-1">{errors.requirement}</p>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Budget */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Budget</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="minBudget">
-                  Budget minimum (€) <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="minBudget"
-                  name="minBudget"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={formData.minBudget}
-                  onChange={handleChange}
-                  placeholder="1000"
-                  className={errors.minBudget ? "border-red-500" : ""}
-                />
-                {errors.minBudget && (
-                  <p className="text-red-500 text-sm mt-1">{errors.minBudget}</p>
-                )}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="lg:col-span-2 space-y-8">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}>
+            <Card className="bg-white border-black/5 rounded-[2.5rem] shadow-large p-10">
+              <div className="flex items-center gap-3 mb-10">
+                <div className="p-3 bg-black text-white rounded-2xl">
+                  <Info className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-black tracking-tight">Campaign Info</h3>
+                  <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Core details</p>
+                </div>
               </div>
 
-              <div>
-                <Label htmlFor="maxBudget">
-                  Budget maximum (€) <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="maxBudget"
-                  name="maxBudget"
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  value={formData.maxBudget}
-                  onChange={handleChange}
-                  placeholder="5000"
-                  className={errors.maxBudget ? "border-red-500" : ""}
-                />
-                {errors.maxBudget && (
-                  <p className="text-red-500 text-sm mt-1">{errors.maxBudget}</p>
-                )}
+              <div className="space-y-8">
+                <div className="space-y-3">
+                  <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Campaign Title</Label>
+                  <Input name="title" value={formData.title} onChange={handleChange} className="h-14 bg-gray-50 border-transparent focus:bg-white focus:border-black/10 font-bold rounded-2xl" />
+                  {errors.title && <p className="text-[10px] text-rose-500 font-bold uppercase tracking-widest ml-1">{errors.title}</p>}
+                </div>
+
+                <div className="space-y-3">
+                  <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Objectives</Label>
+                  <Textarea name="objectif" value={formData.objectif} onChange={handleChange} rows={4} className="bg-gray-50 border-transparent focus:bg-white focus:border-black/10 font-bold rounded-2xl resize-none" />
+                </div>
+
+                <div className="space-y-3">
+                  <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Requirements</Label>
+                  <Textarea name="requirement" value={formData.requirement} onChange={handleChange} rows={6} className="bg-gray-50 border-transparent focus:bg-white focus:border-black/10 font-bold rounded-2xl resize-none" />
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </Card>
+          </motion.div>
+        </div>
 
-        {/* Dates */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Période de collaboration</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <Label htmlFor="startDate">
-                  Date de début <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="startDate"
-                  name="startDate"
-                  type="date"
-                  value={formData.startDate}
-                  onChange={handleChange}
-                  className={errors.startDate ? "border-red-500" : ""}
-                />
-                {errors.startDate && (
-                  <p className="text-red-500 text-sm mt-1">{errors.startDate}</p>
-                )}
+        <div className="space-y-8">
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+            <Card className="bg-white border-black/5 rounded-[2.5rem] shadow-large p-10">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="p-3 bg-emerald-50 text-emerald-500 rounded-2xl">
+                  <DollarSign className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-black tracking-tight">Budget & Scale</h3>
+                </div>
               </div>
-
-              <div>
-                <Label htmlFor="endDate">
-                  Date de fin <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="endDate"
-                  name="endDate"
-                  type="date"
-                  value={formData.endDate}
-                  onChange={handleChange}
-                  className={errors.endDate ? "border-red-500" : ""}
-                />
-                {errors.endDate && (
-                  <p className="text-red-500 text-sm mt-1">{errors.endDate}</p>
-                )}
+              <div className="space-y-6">
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Min ($)</Label>
+                    <Input name="minBudget" type="number" value={formData.minBudget} onChange={handleChange} className="h-12 bg-gray-50 font-bold rounded-xl" />
+                  </div>
+                  <div className="space-y-2">
+                    <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Max ($)</Label>
+                    <Input name="maxBudget" type="number" value={formData.maxBudget} onChange={handleChange} className="h-12 bg-gray-50 font-bold rounded-xl" />
+                  </div>
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Influencers Needed</Label>
+                  <Input name="influencerNumber" type="number" value={formData.influencerNumber} onChange={handleChange} className="h-12 bg-gray-50 font-bold rounded-xl" />
+                </div>
               </div>
-            </div>
-          </CardContent>
-        </Card>
+            </Card>
+          </motion.div>
 
-        {/* Nombre d'influenceurs */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Influenceurs recherchés</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div>
-              <Label htmlFor="influencerNumber">
-                Nombre d'influenceurs <span className="text-red-500">*</span>
-              </Label>
-              <Input
-                id="influencerNumber"
-                name="influencerNumber"
-                type="number"
-                min="1"
-                max="100"
-                value={formData.influencerNumber}
-                onChange={handleChange}
-                placeholder="5"
-                className={errors.influencerNumber ? "border-red-500" : ""}
-              />
-              {errors.influencerNumber && (
-                <p className="text-red-500 text-sm mt-1">
-                  {errors.influencerNumber}
-                </p>
-              )}
-              <p className="text-sm text-slate-600 mt-1">
-                Nombre d'influenceurs que vous souhaitez recruter pour cette offre
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* Actions */}
-        <Card>
-          <CardContent className="pt-6">
-            <div className="flex space-x-4">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1"
-                onClick={() => router.push(`/company/campaigns/${offerId}`)}
-                disabled={submitting}
-              >
-                Annuler
-              </Button>
-              <Button
-                type="submit"
-                className="flex-1 bg-emerald-600 hover:bg-emerald-700"
-                disabled={submitting}
-              >
-                {submitting ? (
-                  "Enregistrement..."
-                ) : (
-                  <>
-                    <Save className="mr-2 h-4 w-4" />
-                    Enregistrer les modifications
-                  </>
-                )}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      </form>
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+            <Card className="bg-white border-black/5 rounded-[2.5rem] shadow-large p-10">
+              <div className="flex items-center gap-3 mb-8">
+                <div className="p-3 bg-blue-50 text-blue-500 rounded-2xl">
+                  <Calendar className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="text-xl font-black text-black tracking-tight">Timeline</h3>
+                </div>
+              </div>
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">Start Date</Label>
+                  <Input name="startDate" type="date" value={formData.startDate} onChange={handleChange} className="h-12 bg-gray-50 font-bold rounded-xl" />
+                </div>
+                <div className="space-y-2">
+                  <Label className="text-[10px] font-black text-gray-400 uppercase tracking-widest ml-1">End Date</Label>
+                  <Input name="endDate" type="date" value={formData.endDate} onChange={handleChange} className="h-12 bg-gray-50 font-bold rounded-xl" />
+                </div>
+              </div>
+            </Card>
+          </motion.div>
+        </div>
+      </div>
     </div>
   );
 }

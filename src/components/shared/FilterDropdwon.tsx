@@ -24,7 +24,7 @@ export const FilterSection = (props: Props) => {
   const { title, selected, onSelect, options } = props;
   return (
     <div className="px-2 py-2">
-      <DropdownMenuLabel className="text-xs font-semibold text-slate-300 uppercase tracking-wide px-2 py-1.5">
+      <DropdownMenuLabel className="text-xs font-bold text-gray-500 uppercase tracking-wider px-3 py-2">
         {title}
       </DropdownMenuLabel>
 
@@ -38,16 +38,16 @@ export const FilterSection = (props: Props) => {
               key={i}
               onClick={() => onSelect(opt.value)}
               className={cn(
-                "text-sm text-slate-300 cursor-pointer rounded-md transition-colors mx-1",
-                "hover:bg-slate-700/50 focus:bg-slate-700/50",
+                "text-sm text-gray-700 cursor-pointer rounded-xl transition-all mx-1 px-3 py-2.5 flex items-center",
+                "hover:bg-gray-50 focus:bg-gray-50",
                 isActive && opt.activeColor
               )}
             >
-              {opt.icon && <span className="mr-2 h-4 w-4">{opt.icon}</span>}
-              {opt.label}
+              {opt.icon && <span className="mr-3 flex items-center justify-center">{opt.icon}</span>}
+              <span className={cn("font-medium", isActive && "font-bold")}>{opt.label}</span>
 
               {isActive && (
-                <CheckCircle2 className="ml-auto h-4 w-4 text-primary" />
+                <CheckCircle2 className="ml-auto h-4 w-4 text-emerald-500" />
               )}
             </DropdownMenuItem>
           );

@@ -3,12 +3,12 @@ import { Card } from "@/components/ui/card";
 
 const OfferDetailContact = () => {
   return (
-    <Card className="bg-slate-800/50 border-slate-700/50 p-6 backdrop-blur-sm">
-      <h3 className="text-lg font-bold text-white">Need Help?</h3>
-      <p className="text-sm text-slate-400">
+    <Card className="bg-white border-2 border-black/5 p-8 rounded-3xl shadow-soft">
+      <h3 className="text-xl font-bold text-black mb-2">Need Help?</h3>
+      <p className="text-sm text-gray-500 font-medium mb-6">
         Contact the brand directly with any questions about the campaign.
       </p>
-      <Button className="w-full bg-slate-700 hover:bg-slate-600 text-white rounded-lg">
+      <Button className="w-full bg-black hover:bg-gray-800 text-white rounded-xl py-6 font-bold shadow-soft transition-all duration-300">
         Contact Brand
       </Button>
     </Card>

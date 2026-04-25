@@ -8,10 +8,11 @@ import { graphqlClient } from "@/lib/graphql-client";
 import { parseAsInteger, parseAsString, useQueryState } from "nuqs";
 import InfluencerGrid from "./_components/InfluencerGrid";
 import AdvancedPagination from "@/components/ui/advanced-pagination";
+import { motion } from "framer-motion";
 
 const ITEMS_PER_PAGE = 12;
 
-const page = () => {
+const Page = () => {
   const [page, setPage] = useQueryState("page", parseAsInteger.withDefault(1));
   const [searchQuery, setSearchQuery] = useQueryState(
     "search",
@@ -117,8 +118,13 @@ const page = () => {
   };
 
   return (
-    <section>
-      <div className="mx-auto px-6 py-8">
+    <motion.section 
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4 }}
+      className="min-h-screen flex flex-col items-start justify-start w-full p-4 md:p-8"
+    >
+      <div className="w-full mb-6">
         <InfluencerFilters
           activeFiltersCount={activeFiltersCount}
           onClearAll={handleClearAll}
@@ -142,28 +148,35 @@ const page = () => {
           endIndex={endIndex}
         />
       </div>
-      <InfluencerGrid
-        influencers={allInfluencers}
-        isLoading={isFetching}
-        itemsPerPage={ITEMS_PER_PAGE}
-      />
+
+      <div className="w-full">
+        <InfluencerGrid
+          influencers={allInfluencers}
+          isLoading={isFetching}
+          itemsPerPage={ITEMS_PER_PAGE}
+        />
+      </div>
 
       {!isFetching && totalItems > 0 && (
-        <div className="h-16 border-t border-slate-700 flex mt-8">
-          <div className="flex items-center justify-between w-full px-5">
+        <div className="mt-8 bg-white border border-gray-100 rounded-2xl p-4 shadow-sm flex items-center justify-between w-full">
+          <div className="text-sm font-medium text-gray-500">
+            Showing <span className="font-bold text-gray-900">{allInfluencers.length}</span> influencers
+          </div>
+          
+          <div className="flex items-center gap-2">
             <AdvancedPagination
               itemsPerPage={ITEMS_PER_PAGE}
               totalItems={totalItems}
               pageIndex={page}
               pageCount={totalPages}
               onPageChange={handlePageChange}
-              ModulePaginationColor="green"
+              ModulePaginationColor="bg-emerald-500"
             />
           </div>
         </div>
       )}
-    </section>
+    </motion.section>
   );
 };
 
-export default page;
+export default Page;

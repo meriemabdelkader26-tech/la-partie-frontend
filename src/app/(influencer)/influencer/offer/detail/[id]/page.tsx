@@ -47,17 +47,30 @@ const page = () => {
     return <Loading />;
   }
 
+  if (!offer) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">Offer Not Found</h2>
+          <p className="text-gray-600">The offer you are looking for does not exist or has been removed.</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <section className="min-h-screen">
+    <section className="min-h-screen animate-fadeIn">
       <div className="max-w-6xl mx-auto px-6 py-8">
-        <OfferDetailHeader offer={offer} />
+        <div className="animate-fadeInDown">
+          <OfferDetailHeader offer={offer} />
+        </div>
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-          <div className="lg:col-span-2 space-y-6">
+          <div className="lg:col-span-2 space-y-8 animate-slideInLeft delay-200">
             <OfferDetailOverview offer={offer} />
             <OfferDetailRequirements offer={offer} />
             <OffferDetailContentType />
           </div>
-          <div className="space-y-6">
+          <div className="space-y-8 animate-slideInRight delay-300">
             <OfferDetailApply
               offer={offer}
               hasApplied={hasApplied}

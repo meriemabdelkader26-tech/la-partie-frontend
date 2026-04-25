@@ -4,13 +4,15 @@ import { persist } from "zustand/middleware";
 
 interface CompanyProfileFormState {
   formData: ProfileCompanyFormData;
+  currentStep: number;
   setFormData: (data: Partial<ProfileCompanyFormData>) => void;
   updateFormData: (updates: Partial<ProfileCompanyFormData>) => void;
+  setCurrentStep: (step: number) => void;
   clearFormData: () => void;
 }
 
 const initialFormData: ProfileCompanyFormData = {
-  // Basic Information
+  // ... Basic Information
   companyName: "",
   matricule: "",
   website: "",
@@ -41,6 +43,7 @@ export const useCompanyProfileFormStore = create<CompanyProfileFormState>()(
   persist(
     (set) => ({
       formData: initialFormData,
+      currentStep: 1,
 
       setFormData: (data) => set({ formData: { ...initialFormData, ...data } }),
 
@@ -56,8 +59,10 @@ export const useCompanyProfileFormStore = create<CompanyProfileFormState>()(
           },
         })),
 
+      setCurrentStep: (step) => set({ currentStep: step }),
+
       clearFormData: () => {
-        set({ formData: initialFormData });
+        set({ formData: initialFormData, currentStep: 1 });
         // Also clear from localStorage to ensure clean state
         if (typeof window !== "undefined") {
           localStorage.removeItem("company-profile-form-storage");
@@ -66,15 +71,17 @@ export const useCompanyProfileFormStore = create<CompanyProfileFormState>()(
     }),
     {
       name: "company-profile-form-storage",
-      version: 1,
+      version: 2,
       partialize: (state) => ({
         formData: state.formData,
+        currentStep: state.currentStep,
       }),
       migrate: (persistedState: any, version: number) => {
         // Ensure arrays exist in persisted state
         if (persistedState && persistedState.formData) {
           return {
             ...persistedState,
+            currentStep: persistedState.currentStep || 1,
             formData: {
               ...persistedState.formData,
               langues: persistedState.formData.langues || [],

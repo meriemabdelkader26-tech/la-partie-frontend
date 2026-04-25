@@ -18,6 +18,7 @@ query allInfluencers($offset: Int, $first: Int, $ordering: String, $userName: St
           id
           name
         }
+        profilePicture
         images {
           id
           isDefault

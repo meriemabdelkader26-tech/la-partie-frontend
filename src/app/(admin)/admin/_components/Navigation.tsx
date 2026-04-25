@@ -3,6 +3,9 @@
 import { Layout, Users, Tags, ShieldUser } from "lucide-react";
 
 import { SidebarItem } from "./SidebarItem";
+import { useQuery } from "@tanstack/react-query";
+import { graphqlClient } from "@/lib/graphql-client";
+import { GET_MY_NOTIFICATIONS } from "@/lib/queries/messages-queries";
 
 
 
@@ -75,10 +78,35 @@ const routes = [
 
 
 const SidebarRoutes = () => {
+  const { data: notifications } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: async () => {
+      const response = await graphqlClient.request<{ myNotifications: any[] }>(
+        GET_MY_NOTIFICATIONS,
+        { first: 50 }
+      );
+      return response.myNotifications;
+    },
+    refetchInterval: 30000,
+  });
+
+  const unreadNotifications = notifications?.filter((n) => !n.isRead) || [];
+  
+  const userNotificationsCount = unreadNotifications.filter(
+    (n) => n.title.toLowerCase().includes("user") || n.link.includes("/admin/user")
+  ).length;
+  
+  const offerNotificationsCount = unreadNotifications.filter(
+    (n) => 
+      n.title.toLowerCase().includes("campaign") || 
+      n.title.toLowerCase().includes("offer") || 
+      n.title.toLowerCase().includes("application") ||
+      n.link.includes("/admin/offer")
+  ).length;
 
   return (
 
-    <div className="flex flex-col w-full h-12 py-4">
+    <div className="flex flex-col w-full py-6 px-2">
 
       {routes.map((route) => (
 
@@ -91,6 +119,11 @@ const SidebarRoutes = () => {
           label={route.label}
 
           href={route.href}
+          notificationCount={
+            route.label === "Users" ? userNotificationsCount :
+            route.label === "Offers" ? offerNotificationsCount :
+            undefined
+          }
 
         />
 

@@ -14,5 +14,5 @@ export type OfferApplication = {
   submittedAt?: string;
   canEdit: boolean;
   askingPrice: number;
-  estimatedReach?: String;
+  estimatedReach?: string;
 };

@@ -1,15 +1,16 @@
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, FileCheck } from "lucide-react";
 
 const ReviewDescription = () => {
   return (
-    <div className="bg-linear-to-r from-green-500/10 to-green-600/10 border border-green-500/30 rounded-xl p-6">
-      <div className="flex gap-3">
-        <CheckCircle2 className="w-5 h-5 text-green-500 shrink-0 mt-0.5" />
+    <div className="bg-emerald-50/50 border border-emerald-100 rounded-3xl p-8 shadow-sm animate-fadeIn">
+      <div className="flex gap-4 items-start">
+        <div className="bg-emerald-100 p-3 rounded-2xl">
+          <FileCheck className="w-6 h-6 text-emerald-600" />
+        </div>
         <div>
-          <p className="text-white font-medium mb-1">Ready to submit</p>
-          <p className="text-slate-400 text-sm">
-            All information looks complete. You can edit any section by going
-            back, or submit your profile now to get started.
+          <p className="text-gray-900 font-black text-lg mb-1 uppercase tracking-tight">Ready to launch!</p>
+          <p className="text-gray-600 font-medium text-sm leading-relaxed">
+            All your company information looks great and is complete. You can review any section by clicking back, or submit your profile now to join the community.
           </p>
         </div>
       </div>

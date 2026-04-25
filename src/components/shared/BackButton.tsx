@@ -1,20 +1,16 @@
-import Image from "next/image";
+import { ArrowLeft } from "lucide-react";
 import Link from "next/link";
 
 const BackButton = () => {
   return (
     <Link
       href="/"
-      className="flex items-center gap-2 text-slate-400 hover:text-white transition-colors mb-6"
+      className="inline-flex items-center gap-2 text-gray-600 hover:text-black transition-colors group"
     >
-      <Image
-        src="/arrow.svg"
-        alt="arrow-back"
-        width={28}
-        height={28}
-        priority
-      />
-      <span>Back</span>
+      <div className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center group-hover:bg-black/10 transition-colors">
+        <ArrowLeft className="w-4 h-4" />
+      </div>
+      <span className="font-medium">Back</span>
     </Link>
   );
 };

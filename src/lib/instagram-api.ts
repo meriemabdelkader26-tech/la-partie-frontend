@@ -1,10 +1,19 @@
+import axios from "axios";
+
 // Appel API avec gestion robuste des erreurs (404, 400, 405, 422)
 async function callInstagramWithFallback(usernameOrIdOrUrl: string, type: "posts" | "reels"): Promise<any[]> {
   try {
-    // RapidAPI attend un POST avec { username }
-    const response = await apiClient.post(`/${type}`, { username: usernameOrIdOrUrl, maxId: "" });
-    const items = toRawItems(response.data);
-    return items;
+    // Ported from frontend to backend for better security and control
+    const backendUrl = process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3001/";
+    const response = await axios.post(`${backendUrl}api/instagram/scrape/`, { 
+      username: usernameOrIdOrUrl, 
+      type: type 
+    });
+    
+    if (response.data && response.data.success) {
+      return response.data.items;
+    }
+    return [];
   } catch (error: any) {
     // Si erreur 404, 400, 405, 422 : retourne tableau vide (pas d'exception bloquante)
     const status = error?.response?.status;
@@ -16,47 +25,6 @@ async function callInstagramWithFallback(usernameOrIdOrUrl: string, type: "posts
     return [];
   }
 }
-// Normaliseur universel pour tous les formats de réponse RapidAPI
-function toRawItems(payload: any): any[] {
-  // 1. Format direct (data.items ou items)
-  const directItems = payload?.data?.items || payload?.items;
-  if (Array.isArray(directItems) && directItems.length > 0) {
-    return directItems.map((item: any) => item?.node?.media || item?.node || item);
-  }
-
-  // 2. Format edges (data.edges ou edges)
-  const edgeItems =
-    (payload?.data?.edges || payload?.edges || [])
-      .map((edge: any) => edge?.node)
-      .filter(Boolean);
-  if (edgeItems.length > 0) {
-    return edgeItems.map((item: any) => item?.media || item);
-  }
-
-  // 3. Format result.edges[].node ou result.edges[].node.media
-  if (Array.isArray(payload?.result?.edges) && payload.result.edges.length > 0) {
-    return payload.result.edges
-      .map((edge: any) => edge?.node?.media || edge?.node)
-      .filter(Boolean);
-  }
-
-  // 4. Format result.data.items, result.items, result.posts
-  const nestedCandidates = [
-    payload?.result?.data?.items,
-    payload?.result?.items,
-    payload?.result?.posts,
-    payload?.result,
-  ];
-  for (const candidate of nestedCandidates) {
-    if (Array.isArray(candidate) && candidate.length > 0) {
-      return candidate.map((item: any) => item?.node?.media || item?.node || item);
-    }
-  }
-
-  // 5. Fallback vide
-  return [];
-}
-import apiClient from "./api_client";
 
 // ============================================
 // INSTAGRAM REELS API
@@ -142,66 +110,6 @@ export function simplifyReelsData(
     if (reel.image_versions2 && Array.isArray(reel.image_versions2.candidates) && reel.image_versions2.candidates.length > 0) {
       thumbnailUrl = reel.image_versions2.candidates[0].url;
     }
-
-    // 2. Caption: jamais le code, vide si absent, sinon texte ou 'No caption'
-    let postName = "";
-    if (reel.caption && typeof reel.caption === "object" && typeof reel.caption.text === "string") {
-      postName = reel.caption.text.trim();
-    } else if (typeof reel.caption === "string") {
-      postName = reel.caption.trim();
-    } else if (reel.title) {
-      postName = reel.title;
-    } else if (reel.name) {
-      postName = reel.name;
-    }
-    // Si le caption est égal au code, ou vide, on affiche vide
-    if (postName === reel.code) postName = "";
-    if (!postName) postName = "No caption";
-
-    // 3. Video URL
-    let videoUrl = reel.video_url || reel.video || reel.media_url || (reel.video_versions?.[0]?.url) || "";
-
-    // 4. Durée en secondes -> mm:ss
-    let durationSec = reel.video_duration || reel.duration || 0;
-    let duration = "";
-    if (durationSec > 0) {
-      const min = Math.floor(durationSec / 60);
-      const sec = Math.floor(durationSec % 60);
-      duration = `${min}:${sec.toString().padStart(2, "0")}`;
-    } else {
-      duration = "";
-    }
-
-    if (!thumbnailUrl || thumbnailUrl === "") {
-      // Log si aucune image trouvée
-      // eslint-disable-next-line no-console
-      console.warn('Reel sans image, structure complète:', JSON.stringify(reel, null, 2));
-    }
-    if (!postName || postName === "No caption") {
-      // Log si aucune caption trouvée
-      // eslint-disable-next-line no-console
-      console.warn('Reel sans caption, structure complète:', JSON.stringify(reel, null, 2));
-    }
-    if (!videoUrl && reel.media_type === 2) {
-      // Log si aucune vidéo trouvée
-      // eslint-disable-next-line no-console
-      console.warn('Reel sans videoUrl, structure complète:', JSON.stringify(reel, null, 2));
-    }
-    return {
-      id: reel.id,
-      code: reel.code,
-      videoUrl,
-      thumbnailUrl,
-      postName,
-      duration,
-      takenAt: reel.taken_at_date || reel.taken_at || "",
-      likes: reel.like_count ?? reel.likes ?? 0,
-      comments: reel.comment_count ?? reel.comments ?? 0,
-      views: reel.play_count ?? reel.views ?? 0,
-      username: reel.user?.username || reel.username || "",
-    };
-  });
-
 
     // 2. Caption: jamais le code, vide si absent, sinon texte ou 'No caption'
     let postName = "";
@@ -393,7 +301,7 @@ export function simplifyPostsData(
   return postsResponse.data.items.map((post) => {
     // Determine media type
     let mediaType: "image" | "carousel" | "video" = "image";
-    if (post.media_type === 8 || post.media_format === "album") {
+    if (post.media_type === 8 || post.media_format === "album" || post.product_type === "carousel_container") {
       mediaType = "carousel";
     } else if (post.media_type === 2) {
       mediaType = "video";
@@ -408,6 +316,7 @@ export function simplifyPostsData(
       (post.image_versions?.items?.[0]?.url) ||
       (post.images?.standard_resolution?.url) ||
       (post.carousel_media?.[0]?.image_versions?.items?.[0]?.url) ||
+      (post.carousel_media?.[0]?.image_versions2?.candidates?.[0]?.url) ||
       // Fallback pour image_versions2.candidates
       (post.image_versions2?.candidates?.[0]?.url) ||
       "";
@@ -442,12 +351,27 @@ export function simplifyPostsData(
     }
 
     // Process carousel media if exists
-    const carouselMedia = post.carousel_media?.map((item) => ({
-      id: item.id,
-      imageUrl: item.image_versions?.items[0]?.url || item.thumbnail_url || "https://placehold.co/400x400?text=No+Image",
-      thumbnailUrl: item.thumbnail_url || "https://placehold.co/400x400?text=No+Image",
-      isVideo: item.is_video,
-    }));
+    const carouselMedia = post.carousel_media?.map((item) => {
+      let itemImageUrl = item.image_versions?.items?.[0]?.url || item.image_versions2?.candidates?.[0]?.url || item.thumbnail_url || "";
+      if (!itemImageUrl && item.video_versions && Array.isArray(item.video_versions) && item.video_versions.length > 0) {
+        itemImageUrl = item.video_versions[0].url;
+      }
+      if (!itemImageUrl) {
+        itemImageUrl = "https://placehold.co/400x400?text=No+Image";
+      }
+
+      let itemThumbnailUrl = item.thumbnail_url || item.image_versions2?.candidates?.[0]?.url || item.image_versions?.items?.[0]?.url || "";
+      if (!itemThumbnailUrl) {
+        itemThumbnailUrl = "https://placehold.co/400x400?text=No+Image";
+      }
+
+      return {
+        id: item.id,
+        imageUrl: itemImageUrl,
+        thumbnailUrl: itemThumbnailUrl,
+        isVideo: item.is_video || item.media_type === 2 || item.type === 102 || item.type === 101 || item.type === 103,
+      };
+    });
 
     return {
       id: post.id,

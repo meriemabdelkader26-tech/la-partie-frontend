@@ -13,6 +13,7 @@ import { Category } from "@/app/types";
 import { graphqlClient } from "@/lib/graphql-client";
 import { toast } from "sonner";
 import { CATEGORIES_KEY } from "@/constant";
+import { AlertOctagon } from "lucide-react";
 
 interface Props {
   data: Category;
@@ -27,7 +28,7 @@ const DeleteButton = ({ data, open, onOpenChange }: Props) => {
     mutationFn: () => {
       return graphqlClient.request(MUTATION_DELETE_CATEGORY, { id: data.id });
     },
-    onSuccess: (data) => {
+    onSuccess: (data: { deleteCategory: { found: boolean } }) => {
       if (data.deleteCategory.found) {
         toast.success("Category deleted successfully");
         queryClient.invalidateQueries({ queryKey: [CATEGORIES_KEY] });
@@ -45,34 +46,33 @@ const DeleteButton = ({ data, open, onOpenChange }: Props) => {
 
   return (
     <AlertDialog open={open} onOpenChange={onOpenChange}>
-      <AlertDialogContent className="bg-slate-800 border-slate-700">
-        <AlertDialogHeader>
-          <AlertDialogTitle className="text-white">
-            Are you absolutely sure?
+      <AlertDialogContent className="bg-white border border-gray-100 shadow-2xl rounded-3xl p-6 sm:max-w-md">
+        <AlertDialogHeader className="space-y-4">
+          <div className="mx-auto w-16 h-16 bg-rose-50 rounded-full flex items-center justify-center mb-2 shadow-sm border border-rose-100">
+            <AlertOctagon className="w-8 h-8 text-rose-500" />
+          </div>
+          <AlertDialogTitle className="text-xl font-extrabold text-gray-900 text-center">
+            Delete Category
           </AlertDialogTitle>
-          <AlertDialogDescription className="text-slate-300">
-            This action cannot be undone. This will permanently delete &nbsp;
-            <span className="font-semibold text-emerald-400">
-              {data.name}
-            </span>{" "}
-            &nbsp;from the database.
+          <AlertDialogDescription className="text-gray-500 text-center text-sm font-medium leading-relaxed">
+            You are about to permanently delete the category <br/>
+            <span className="font-bold text-gray-900">{data.name}</span>.<br/><br/>
+            This action cannot be undone. Are you sure you want to proceed?
           </AlertDialogDescription>
         </AlertDialogHeader>
-        <AlertDialogFooter>
+        <AlertDialogFooter className="mt-6 flex gap-3 sm:justify-center">
           <AlertDialogCancel
             disabled={isPending}
-            className="py-2 px-4 bg-slate-700 border-slate-600 text-white focus:bg-slate-600 focus:text-white opacity-100 visible"
-            style={{ opacity: 1, visibility: 'visible' }}
+            className="flex-1 bg-gray-50 hover:bg-gray-100 border border-gray-200 text-gray-700 font-semibold rounded-xl h-12 shadow-sm transition-all m-0"
           >
             Cancel
           </AlertDialogCancel>
           <AlertDialogAction
-            className="bg-rose-500 text-white py-2 px-4 opacity-100 visible"
-            style={{ opacity: 1, visibility: 'visible' }}
+            className="flex-1 bg-rose-500 hover:bg-rose-600 text-white font-bold rounded-xl h-12 shadow-sm hover:shadow-md transition-all hover:-translate-y-0.5 m-0"
             disabled={isPending}
             onClick={() => mutate()}
           >
-            Delete
+            {isPending ? "Deleting..." : "Yes, Delete"}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

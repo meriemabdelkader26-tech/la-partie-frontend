@@ -24,6 +24,9 @@ query offer($id: ID!) {
       user {
         id
         name
+        influencerProfile {
+          profilePicture
+        }
       }
     }
   }
@@ -54,6 +57,9 @@ query applicationsForOffer($offerId: ID!, $first: Int, $offset: Int, $ordering: 
         user {
           name
           email
+          influencerProfile {
+            profilePicture
+          }
         }
         deliveryDays
         submittedAt

@@ -61,16 +61,16 @@ export const UserFilterBar = ({
   clearFilters,
 }: UserFilterBarProps) => {
   return (
-    <div className="flex items-center gap-3 w-full mt-6">
+    <div className="flex items-center gap-3 w-full">
       {/* Search */}
       {setSearchQuery && (
-        <div className="relative flex-1 max-w-md">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-white" />
+        <div className="relative flex-1 max-w-md group">
+          <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-emerald-500 transition-colors" />
           <Input
             placeholder="Search by name or email..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-[#6B7280] border border-[#6B7280] text-white placeholder-white rounded-lg"
+            className="pl-10 h-11 bg-white border border-gray-200 text-gray-900 placeholder:text-gray-400 rounded-xl focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 shadow-sm transition-all"
           />
         </div>
       )}
@@ -81,9 +81,9 @@ export const UserFilterBar = ({
           <Button
             variant="outline"
             className={cn(
-              "bg-[#6B7280] border border-[#6B7280] text-white rounded-lg flex items-center gap-2",
+              "h-11 px-4 bg-white border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl flex items-center gap-2 font-medium shadow-sm transition-all",
               hasActiveFilters &&
-                "border-green-500/50 bg-green-500/10 text-green-300"
+                "border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 hover:text-emerald-800"
             )}
           >
             <FilterIcon className="h-4 w-4" />
@@ -94,7 +94,7 @@ export const UserFilterBar = ({
 
         <DropdownMenuContent
           align="end"
-          className="w-72 bg-slate-800 border border-slate-700/50 rounded-xl shadow-lg"
+          className="w-72 bg-white border border-gray-100 rounded-2xl shadow-xl p-2 animate-in fade-in zoom-in-95"
         >
           {setFilterRole && (
             <>
@@ -106,24 +106,24 @@ export const UserFilterBar = ({
                   {
                     value: null,
                     label: "All Users",
-                    icon: <Users className="text-slate-300" />,
-                    activeColor: "bg-green-500/15 text-green-300",
+                    icon: <Users className="text-gray-500 w-4 h-4" />,
+                    activeColor: "bg-gray-100 text-gray-900 font-medium",
                   },
                   {
                     value: "INFLUENCER",
                     label: "Influencers",
-                    icon: <Users className="text-purple-400" />,
-                    activeColor: "bg-purple-500/15 text-purple-300",
+                    icon: <Users className="text-purple-500 w-4 h-4" />,
+                    activeColor: "bg-purple-50 text-purple-700 font-medium",
                   },
                   {
                     value: "COMPANY",
                     label: "Companies",
-                    icon: <Building2 className="text-blue-400" />,
-                    activeColor: "bg-blue-500/15 text-blue-300",
+                    icon: <Building2 className="text-blue-500 w-4 h-4" />,
+                    activeColor: "bg-blue-50 text-blue-700 font-medium",
                   },
                 ]}
               />
-              <DropdownMenuSeparator className="bg-slate-700/20" />
+              <DropdownMenuSeparator className="bg-gray-100 my-2" />
             </>
           )}
 
@@ -137,24 +137,24 @@ export const UserFilterBar = ({
                   {
                     value: null,
                     label: "All Status",
-                    icon: <FilterIcon />,
-                    activeColor: "bg-green-500/15 text-green-300",
+                    icon: <FilterIcon className="w-4 h-4 text-gray-500" />,
+                    activeColor: "bg-gray-100 text-gray-900 font-medium",
                   },
                   {
                     value: "verified",
                     label: "Verified",
-                    icon: <UserCheck className="text-green-400" />,
-                    activeColor: "bg-green-500/15 text-green-300",
+                    icon: <UserCheck className="text-emerald-500 w-4 h-4" />,
+                    activeColor: "bg-emerald-50 text-emerald-700 font-medium",
                   },
                   {
                     value: "not_verified",
                     label: "Pending",
-                    icon: <UserX className="text-yellow-400" />,
-                    activeColor: "bg-yellow-500/15 text-yellow-300",
+                    icon: <UserX className="text-amber-500 w-4 h-4" />,
+                    activeColor: "bg-amber-50 text-amber-700 font-medium",
                   },
                 ]}
               />
-              <DropdownMenuSeparator className="bg-slate-700/20" />
+              <DropdownMenuSeparator className="bg-gray-100 my-2" />
             </>
           )}
 
@@ -168,24 +168,24 @@ export const UserFilterBar = ({
                   {
                     value: null,
                     label: "All Users",
-                    icon: <FilterIcon />,
-                    activeColor: "bg-green-500/15 text-green-300",
+                    icon: <FilterIcon className="w-4 h-4 text-gray-500" />,
+                    activeColor: "bg-gray-100 text-gray-900 font-medium",
                   },
                   {
                     value: "true",
                     label: "Banned",
-                    icon: <Ban className="text-red-400" />,
-                    activeColor: "bg-red-500/15 text-red-300",
+                    icon: <Ban className="text-rose-500 w-4 h-4" />,
+                    activeColor: "bg-rose-50 text-rose-700 font-medium",
                   },
                   {
                     value: "false",
                     label: "Not Banned",
-                    icon: <ShieldCheck className="text-green-400" />,
-                    activeColor: "bg-green-500/15 text-green-300",
+                    icon: <ShieldCheck className="text-emerald-500 w-4 h-4" />,
+                    activeColor: "bg-emerald-50 text-emerald-700 font-medium",
                   },
                 ]}
               />
-              <DropdownMenuSeparator className="bg-slate-700/20" />
+              <DropdownMenuSeparator className="bg-gray-100 my-2" />
             </>
           )}
 
@@ -198,20 +198,20 @@ export const UserFilterBar = ({
                 {
                   value: null,
                   label: "All Users",
-                  icon: <FilterIcon />,
-                  activeColor: "bg-green-500/15 text-green-300",
+                  icon: <FilterIcon className="w-4 h-4 text-gray-500" />,
+                  activeColor: "bg-gray-100 text-gray-900 font-medium",
                 },
                 {
                   value: "true",
                   label: "Active Only",
-                  icon: <Power className="text-green-400" />,
-                  activeColor: "bg-green-500/15 text-green-300",
+                  icon: <Power className="text-emerald-500 w-4 h-4" />,
+                  activeColor: "bg-emerald-50 text-emerald-700 font-medium",
                 },
                 {
                   value: "false",
                   label: "Inactive",
-                  icon: <ShieldAlert className="text-orange-400" />,
-                  activeColor: "bg-orange-500/15 text-orange-300",
+                  icon: <ShieldAlert className="text-amber-500 w-4 h-4" />,
+                  activeColor: "bg-amber-50 text-amber-700 font-medium",
                 },
               ]}
             />
@@ -222,12 +222,12 @@ export const UserFilterBar = ({
       {/* Clear */}
       {hasActiveFilters && clearFilters && (
         <Button
-          variant="outline"
+          variant="ghost"
           onClick={clearFilters}
-          className="bg-slate-700/50 text-slate-300 hover:bg-red-500/10 hover:text-red-300 border border-slate-600/50 hover:border-red-500/50 rounded-lg"
+          className="h-11 px-4 text-rose-600 hover:bg-rose-50 hover:text-rose-700 rounded-xl font-medium transition-all"
         >
-          <X className="h-4 w-4" />
-          Clear
+          <X className="h-4 w-4 mr-1.5" />
+          Clear Filters
         </Button>
       )}
     </div>

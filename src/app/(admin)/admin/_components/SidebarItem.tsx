@@ -6,9 +6,10 @@ interface Props {
   icon: LucideIcon;
   label: string;
   href: string;
+  notificationCount?: number;
 }
 
-export const SidebarItem = ({ icon: Icon, label, href }: Props) => {
+export const SidebarItem = ({ icon: Icon, label, href, notificationCount }: Props) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -25,24 +26,31 @@ export const SidebarItem = ({ icon: Icon, label, href }: Props) => {
       onClick={onclick}
       type="button"
       className={cn(
-        "flex items-center gap-x-2 text-[var(--sidebar-text)] text-base font-medium pl-6 pr-2 transition-all rounded-xl h-12 relative group",
+        "flex items-center gap-x-3 text-base font-semibold mx-3 px-4 py-3 transition-all rounded-xl relative group mb-1 w-[calc(100%-1.5rem)]",
         isActive
-          ? "bg-[var(--sidebar-active-bg)] text-[var(--sidebar-active-text)] border-l-4 border-[var(--sidebar-active-border)] shadow-soft"
-          : "hover:bg-[var(--sidebar-hover)] hover:text-primary"
+          ? "bg-white text-black shadow-large"
+          : "text-white/70 hover:bg-white/10 hover:text-white"
       )}
-      style={{ boxShadow: isActive ? "0 2px 8px 0 rgba(60,60,60,0.07)" : undefined }}
     >
-      <div className="flex items-center gap-x-2 py-4">
-        <Icon
-          size={22}
-          className={cn(
-            isActive ? "text-primary" : "text-[var(--sidebar-text)] group-hover:text-primary"
-          )}
-        />
-        {label}
+      <div className="flex items-center gap-x-3 flex-1">
+        <div className={cn(
+          "w-10 h-10 rounded-lg flex items-center justify-center transition-all shrink-0",
+          isActive ? "bg-black text-white" : "bg-white/10 text-white group-hover:bg-white/20"
+        )}>
+          <Icon size={20} />
+        </div>
+        <span>{label}</span>
+        {notificationCount !== undefined && notificationCount > 0 && (
+          <span className={cn(
+            "ml-auto flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold",
+            isActive ? "bg-black text-white" : "bg-white text-black"
+          )}>
+            {notificationCount > 9 ? "9+" : notificationCount}
+          </span>
+        )}
       </div>
-      {isActive && (
-        <span className="absolute left-0 top-0 h-full w-1 bg-primary rounded-r-xl" />
+      {isActive && !notificationCount && (
+        <div className="absolute right-3 w-2 h-2 bg-black rounded-full"></div>
       )}
     </button>
   );

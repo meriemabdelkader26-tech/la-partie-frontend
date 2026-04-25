@@ -12,6 +12,8 @@ import {
 import { PlayCircle, Heart, MessageCircle, Eye } from "lucide-react";
 import { InstagramReel } from "@/app/types";
 
+import { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_IMAGE_PROXY } from "@/config";
+
 interface ReelSelectorProps {
   username: string;
   selectedReels: InstagramReel[];
@@ -99,18 +101,18 @@ export default function ReelSelector({
 
   if (loading) {
     return (
-      <div className="space-y-4">
+      <div className="space-y-6">
         <div className="flex items-center justify-between mb-4">
-          <Skeleton className="h-6 w-48" />
-          <Skeleton className="h-5 w-24" />
+          <Skeleton className="h-6 w-48 bg-gray-200" />
+          <Skeleton className="h-5 w-24 bg-gray-200" />
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3, 4, 5, 6].map((i) => (
-            <Card key={i} className="bg-slate-800 border-slate-700">
+            <Card key={i} className="bg-white border-2 border-black/5 rounded-2xl">
               <CardContent className="p-4">
-                <Skeleton className="aspect-9/16 w-full mb-3" />
-                <Skeleton className="h-4 w-3/4 mb-2" />
-                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="aspect-9/16 w-full mb-3 bg-gray-200 rounded-xl" />
+                <Skeleton className="h-4 w-3/4 mb-2 bg-gray-200" />
+                <Skeleton className="h-4 w-1/2 bg-gray-200" />
               </CardContent>
             </Card>
           ))}
@@ -121,100 +123,123 @@ export default function ReelSelector({
 
   if (error) {
     return (
-      <div className="bg-red-500/10 border border-red-500 rounded-lg p-4">
-        <p className="text-red-400">{error}</p>
+      <div className="bg-red-50 border-2 border-red-400/30 rounded-2xl p-6">
+        <p className="text-red-800 font-medium">{error}</p>
       </div>
     );
   }
 
   if (reels.length === 0) {
     return (
-      <div className="bg-slate-700 rounded-lg p-8 text-center">
-        <p className="text-slate-400">No reels found for this account</p>
+      <div className="bg-gray-50 border-2 border-black/5 rounded-2xl p-8 text-center">
+        <p className="text-gray-600 font-medium">No reels found for this account</p>
       </div>
     );
   }
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <p className="text-slate-300 text-sm">
+        <p className="text-gray-600 text-sm font-medium">
           Select up to {maxSelection} reels to showcase in your portfolio
         </p>
-        <span className="bg-emerald-600/20 text-emerald-400 px-3 py-1 rounded-full text-sm font-medium">
+        <span className="bg-black text-white px-4 py-2 rounded-xl text-sm font-bold shadow-medium">
           {selectedReels.length} / {maxSelection} selected
         </span>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-        {reels.map((reel) => {
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {reels.map((reel, index) => {
           const isSelected = isReelSelected(reel.id);
 
           return (
             <Card
               key={reel.id}
-              className={`relative overflow-hidden cursor-pointer transition-all ${
+              className={`p-0 gap-0 relative overflow-hidden cursor-pointer transition-all duration-300 rounded-2xl animate-fadeInUp ${
                 isSelected
-                  ? "ring-2 ring-emerald-500 bg-emerald-500/10"
-                  : "hover:ring-2 hover:ring-slate-500 bg-slate-700"
+                  ? "ring-4 ring-black bg-white border-2 border-black shadow-large scale-105"
+                  : "hover:ring-4 hover:ring-black/20 bg-white border-2 border-black/10 hover:border-black/30 hover:shadow-large hover:scale-105"
               }`}
+              style={{ animationDelay: `${index * 50}ms` }}
               onClick={() => toggleReelSelection(reel)}
             >
               <CardContent className="p-0">
                 {/* Reel Thumbnail */}
-                <div className="relative aspect-9/16">
+                <div className="relative aspect-9/16 bg-gray-200 animate-pulse overflow-hidden">
                   <img
-                    src={reel.thumbnailUrl}
+                    src={`${NEXT_PUBLIC_BASE_URL}${NEXT_PUBLIC_IMAGE_PROXY}${encodeURIComponent(reel.thumbnailUrl)}`}
                     alt={reel.postName}
-                    className="w-full h-full object-cover"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover opacity-0 transition-opacity duration-500"
+                    onLoad={(e) => {
+                      e.currentTarget.classList.remove('opacity-0');
+                      e.currentTarget.parentElement?.classList.remove('animate-pulse');
+                    }}
+                    onError={(e) => {
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = 'none';
+                      if (target.nextElementSibling) {
+                        (target.nextElementSibling as HTMLElement).style.display = 'flex';
+                      }
+                    }}
                   />
+                  <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-400 text-xs" style={{ display: reel.thumbnailUrl ? 'none' : 'flex' }}>
+                    <PlayCircle className="w-8 h-8" />
+                  </div>
 
                   {/* Duration Badge */}
-                  <div className="absolute top-2 right-2">
-                    <span className="bg-black/70 text-white px-2 py-1 rounded text-xs flex items-center gap-1">
-                      <PlayCircle className="w-3 h-3" />
+                  <div className="absolute top-3 right-3">
+                    <span className="bg-black/90 text-white px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1.5 shadow-large">
+                      <PlayCircle className="w-3.5 h-3.5" />
                       {formatDuration(reel.duration)}
                     </span>
                   </div>
 
                   {/* Selection Checkbox */}
                   <div
-                    className="absolute top-2 left-2"
+                    className="absolute top-3 left-3"
                     onClick={(e) => e.stopPropagation()}
                   >
                     <Checkbox
                       checked={isSelected}
                       onCheckedChange={() => toggleReelSelection(reel)}
-                      className="bg-white border-2 border-white data-[state=checked]:bg-emerald-600 data-[state=checked]:border-emerald-600"
+                      className="bg-white border-2 border-white data-[state=checked]:bg-black data-[state=checked]:border-black w-6 h-6 shadow-large"
                     />
                   </div>
 
                   {/* Overlay with stats */}
-                  <div className="absolute inset-0 bg-black/60 opacity-0 hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
-                    <div className="flex items-center gap-1 text-white">
-                      <Heart className="w-5 h-5 fill-white" />
-                      <span className="font-semibold">
+                  <div className="absolute inset-0 bg-black/70 opacity-0 hover:opacity-100 transition-all duration-300 flex items-center justify-center gap-6">
+                    <div className="flex flex-col items-center gap-1 text-white">
+                      <Heart className="w-6 h-6 fill-white" />
+                      <span className="font-bold text-sm">
                         {formatNumber(reel.likes)}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 text-white">
-                      <MessageCircle className="w-5 h-5 fill-white" />
-                      <span className="font-semibold">
+                    <div className="flex flex-col items-center gap-1 text-white">
+                      <MessageCircle className="w-6 h-6 fill-white" />
+                      <span className="font-bold text-sm">
                         {formatNumber(reel.comments)}
                       </span>
                     </div>
-                    <div className="flex items-center gap-1 text-white">
-                      <Eye className="w-5 h-5 fill-white" />
-                      <span className="font-semibold">
+                    <div className="flex flex-col items-center gap-1 text-white">
+                      <Eye className="w-6 h-6 fill-white" />
+                      <span className="font-bold text-sm">
                         {formatNumber(reel.views)}
                       </span>
                     </div>
                   </div>
+
+                  {/* Selected Badge */}
+                  {isSelected && (
+                    <div className="absolute bottom-3 left-1/2 -translate-x-1/2 bg-black text-white px-4 py-2 rounded-xl text-xs font-bold shadow-large">
+                      ✓ Selected
+                    </div>
+                  )}
                 </div>
 
                 {/* Reel Caption */}
-                <div className="p-2">
-                  <p className="text-slate-300 text-xs line-clamp-2">
+                <div className="p-3 bg-gradient-to-br from-white to-gray-50">
+                  <p className="text-black text-xs font-medium line-clamp-2">
                     {reel.postName}
                   </p>
                 </div>

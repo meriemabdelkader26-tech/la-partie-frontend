@@ -1,6 +1,6 @@
 import IconHeader from "@/components/shared/IconHeader";
 import { ProfileCompanyFormData } from "../types";
-import { Building2 } from "lucide-react";
+import { Building2, Image as ImageIcon } from "lucide-react";
 import { enterpriseTypes } from "../constants";
 
 interface Props {
@@ -10,20 +10,23 @@ interface Props {
 const ReviewCompanyTypeImages = (props: Props) => {
   const { formData } = props;
   return (
-    <div className="space-y-6">
-      {formData.imagesLogos.length > 0 && (
-        <div className="cardCompanyColor">
-          <p className="text-slate-400 text-sm mb-4">Company Logo</p>
+    <div className="space-y-6 animate-fadeIn">
+      {formData.imagesLogos && formData.imagesLogos.length > 0 && (
+        <div className="bg-gray-50/50 border border-gray-100 rounded-3xl p-6 shadow-sm">
+          <div className="flex items-center gap-2 mb-4">
+            <ImageIcon className="w-5 h-5 text-emerald-500" />
+            <p className="text-gray-900 font-black uppercase tracking-widest text-xs">Company Logo & Media</p>
+          </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             {formData.imagesLogos.map((img, index) => (
               <div
-                className="bg-slate-900 rounded-lg p-6 flex items-center justify-center h-40"
+                className="bg-white border border-black/5 rounded-2xl p-2 flex items-center justify-center aspect-square shadow-soft overflow-hidden"
                 key={index}
               >
                 <img
                   src={img.url || "/placeholder.svg"}
                   alt={`Company Image ${index + 1}`}
-                  className="max-h-32 max-w-32 object-contain"
+                  className="w-full h-full object-cover rounded-xl"
                 />
               </div>
             ))}
@@ -31,9 +34,12 @@ const ReviewCompanyTypeImages = (props: Props) => {
         </div>
       )}
 
-      <div className="cardCompanyColor">
-        <IconHeader title="Company Type" icon={Building2} />
-        <p className="text-white text-lg font-semibold">
+      <div className="bg-gray-50/50 border border-gray-100 rounded-3xl p-6 shadow-sm">
+        <div className="flex items-center gap-2 mb-4">
+          <Building2 className="w-5 h-5 text-emerald-500" />
+          <p className="text-gray-900 font-black uppercase tracking-widest text-xs">Company Type</p>
+        </div>
+        <p className="text-gray-900 text-xl font-black">
           {
             enterpriseTypes.find(
               (type) => type.value === formData.entrepriseType

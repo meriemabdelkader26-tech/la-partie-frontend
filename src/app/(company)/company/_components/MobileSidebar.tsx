@@ -25,10 +25,10 @@ const MobileSidebar = () => {
       <SheetTrigger asChild>
         <Button
           size="icon"
-          variant="secondary"
-          className="lg:hidden bg-slate-800 border-primary/30 hover:bg-slate-700 hover:border-primary"
+          variant="ghost"
+          className="lg:hidden h-10 w-10 rounded-xl bg-gray-100 border border-black/5 hover:bg-black hover:text-white transition-all duration-300"
         >
-          <MenuIcon className="size-4 text-primary" />
+          <MenuIcon className="size-5" />
         </Button>
       </SheetTrigger>
       <SheetContent side="left" className="p-0">

@@ -6,6 +6,7 @@ import "./globals.css";
 import { APP_COLOR, APP_DESCRIPTION, APP_NAME } from "@/constant";
 import TanStackQueryProvider from "@/providers/TanStackQueryProvider";
 import { Toaster } from "@/components/ui/sonner";
+import { Chatbot } from "./_components/Chatbot";
 
 const raleway = Raleway({
   subsets: ["latin"],
@@ -27,6 +28,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <link
+          rel="stylesheet"
+          href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+          integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+          crossOrigin=""
+        />
+      </head>
       <body
         className={`${raleway.className}  antialiased`}
         suppressHydrationWarning
@@ -41,7 +50,10 @@ export default function RootLayout({
           zIndex={1600}
         />
         <NuqsAdapter>
-          <TanStackQueryProvider>{children}</TanStackQueryProvider>
+          <TanStackQueryProvider>
+            {children}
+            <Chatbot />
+          </TanStackQueryProvider>
         </NuqsAdapter>
         <Toaster />
       </body>

@@ -89,50 +89,65 @@ const VerifyEmailForm = ({ formatTime, resendTimer, email }: Props) => {
   }
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="w-full space-y-8">
         <FormField
           control={form.control}
           name="code"
           render={({ field }) => (
             <FormItem className="flex flex-col items-center">
-              <FormLabel className="block text-sm font-medium text-white mb-2">
+              <FormLabel className="block text-sm font-bold text-black mb-4 uppercase tracking-wider">
                 One-Time Password
               </FormLabel>
               <FormControl>
                 <InputOTP maxLength={6} {...field}>
                   <InputOTPGroup>
-                    <InputOTPSlot index={0} />
-                    <InputOTPSlot index={1} />
+                    <InputOTPSlot index={0} className="w-14 h-16 text-2xl font-bold bg-white border-2 border-black/10 rounded-xl focus:border-black transition-colors" />
+                    <InputOTPSlot index={1} className="w-14 h-16 text-2xl font-bold bg-white border-2 border-black/10 rounded-xl focus:border-black transition-colors" />
                   </InputOTPGroup>
-                  <InputOTPSeparator />
+                  <InputOTPSeparator>
+                    <div className="w-3 h-1 bg-black/20 rounded-full"></div>
+                  </InputOTPSeparator>
                   <InputOTPGroup>
-                    <InputOTPSlot index={2} />
-                    <InputOTPSlot index={3} />
+                    <InputOTPSlot index={2} className="w-14 h-16 text-2xl font-bold bg-white border-2 border-black/10 rounded-xl focus:border-black transition-colors" />
+                    <InputOTPSlot index={3} className="w-14 h-16 text-2xl font-bold bg-white border-2 border-black/10 rounded-xl focus:border-black transition-colors" />
                   </InputOTPGroup>
-                  <InputOTPSeparator />
+                  <InputOTPSeparator>
+                    <div className="w-3 h-1 bg-black/20 rounded-full"></div>
+                  </InputOTPSeparator>
                   <InputOTPGroup>
-                    <InputOTPSlot index={4} />
-                    <InputOTPSlot index={5} />
+                    <InputOTPSlot index={4} className="w-14 h-16 text-2xl font-bold bg-white border-2 border-black/10 rounded-xl focus:border-black transition-colors" />
+                    <InputOTPSlot index={5} className="w-14 h-16 text-2xl font-bold bg-white border-2 border-black/10 rounded-xl focus:border-black transition-colors" />
                   </InputOTPGroup>
                 </InputOTP>
               </FormControl>
-              <FormDescription className="text-slate-400 text-sm mt-2 text-center">
-                Please enter the one-time password sent to your email.
+              <FormDescription className="text-gray-500 text-sm mt-4 text-center max-w-md leading-relaxed">
+                Please enter the 6-digit code sent to your email address.
               </FormDescription>
               {resendTimer > 0 && (
-                <p className="text-slate-500 text-sm mt-2">
-                  Code expires in{" "}
-                  <span className="text-white font-medium">
-                    {formatTime(resendTimer)}
-                  </span>
-                </p>
+                <div className="mt-4 px-4 py-2 bg-black/5 rounded-lg border border-black/10">
+                  <p className="text-sm text-gray-600">
+                    Code expires in{" "}
+                    <span className="text-black font-bold text-base">
+                      {formatTime(resendTimer)}
+                    </span>
+                  </p>
+                </div>
               )}
-              <FormMessage />
+              <FormMessage className="text-red-500 font-medium text-sm mt-1" />
             </FormItem>
           )}
         />
-        {error && <ErrorTriangle message={error} />}
-        <SubmitButton isLoading={mutation.isPending}>Submit</SubmitButton>
+        {error && (
+          <div className="animate-fadeInUp">
+            <ErrorTriangle message={error} />
+          </div>
+        )}
+        <SubmitButton 
+          isLoading={mutation.isPending}
+          className="w-full h-14 bg-black hover:bg-gray-800 text-white rounded-xl font-semibold text-base shadow-medium hover:shadow-large transition-all duration-300 hover:scale-[1.02] disabled:bg-gray-300 disabled:text-gray-500"
+        >
+          Verify Email
+        </SubmitButton>
       </form>
     </Form>
   );

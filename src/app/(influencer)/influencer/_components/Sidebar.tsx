@@ -2,21 +2,27 @@ import Link from "next/link";
 import Navigation from "./Navigation";
 import { APP_NAME } from "@/constant";
 
-const Sidebar = () => {
+interface Props {
+  idPrefix?: string;
+}
+
+const Sidebar = ({ idPrefix = "desktop" }: Props) => {
   return (
-    <aside className="h-full bg-pastel-blue w-full border-r border-pastel-dark-blue/20 shadow-xl">
-      <div className="p-4 border-b border-pastel-dark-blue/20">
-        <Link href="/influencer" className="flex items-center gap-2 group">
-          <div className="w-10 h-10 rounded-lg" style={{background: 'linear-gradient(135deg, #BED3C3 0%, #4A919E 100%)'}}>
-            <span className="text-pastel-dark-blue font-bold text-lg">B</span>
+    <aside className="h-full bg-white w-full border-r border-black/5 shadow-soft animate-slideInLeft">
+      <div className="p-8 border-b border-black/5">
+        <Link href="/influencer" className="flex items-center gap-3 group">
+          <div className="w-12 h-12 rounded-2xl bg-black flex items-center justify-center shadow-soft transition-all duration-500 group-hover:scale-110">
+            <span className="text-white font-black text-2xl">B</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-pastel-dark-blue font-semibold text-sm">{APP_NAME}</span>
-            <span className="text-pastel-blue text-xs">Influencer Portal</span>
+            <span className="text-black font-black text-xl tracking-tighter leading-none group-hover:text-gray-700 transition-colors">{APP_NAME}</span>
+            <span className="text-gray-400 text-[10px] font-black uppercase tracking-[0.2em] mt-1.5">Influencer</span>
           </div>
         </Link>
       </div>
-      <Navigation />
+      <div className="p-4">
+        <Navigation idPrefix={idPrefix} />
+      </div>
     </aside>
   );
 };

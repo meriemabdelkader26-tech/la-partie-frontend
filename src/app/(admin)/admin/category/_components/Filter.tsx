@@ -7,7 +7,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { X } from "lucide-react";
+import { X, Search, FilterIcon } from "lucide-react";
 
 interface Props {
   search: string;
@@ -29,16 +29,19 @@ const Filter = ({
   clearFilters,
 }: Props) => {
   return (
-    <div className="flex items-center gap-3 w-full mt-6 mb-4">
-      <Input
-        placeholder="Search by name..."
-        value={search}
-        onChange={(e) => {
-          setSearch(e.target.value);
-          setPage(1);
-        }}
-        className="max-w-sm bg-[#6B7280] border border-[#6B7280] text-white placeholder-white focus:border-[#6B7280] focus:ring-[#6B7280]"
-      />
+    <div className="flex flex-col md:flex-row items-center gap-3 w-full">
+      <div className="relative flex-1 w-full max-w-md group">
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-emerald-500 transition-colors" />
+        <Input
+          placeholder="Search by category name..."
+          value={search}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            setPage(1);
+          }}
+          className="pl-10 h-11 bg-white border border-gray-200 text-gray-900 placeholder:text-gray-400 rounded-xl focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 shadow-sm transition-all"
+        />
+      </div>
 
       <Select
         value={isActiveFilter}
@@ -47,27 +50,30 @@ const Filter = ({
           setPage(1);
         }}
       >
-        <SelectTrigger className="w-[180px] bg-[#6B7280] border border-[#6B7280] text-white hover:border-[#6B7280]">
-          <SelectValue placeholder="Filter by status" />
+        <SelectTrigger className="w-[180px] h-11 bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 rounded-xl font-medium shadow-sm transition-all">
+          <div className="flex items-center gap-2">
+            <FilterIcon className="w-4 h-4 text-gray-400" />
+            <SelectValue placeholder="Status" />
+          </div>
         </SelectTrigger>
-        <SelectContent className="bg-[#6B7280] border border-[#6B7280]">
+        <SelectContent className="bg-white border border-gray-100 rounded-xl shadow-lg">
           <SelectItem
             value="all"
-            className="text-white hover:bg-[#6B7280]/10 focus:bg-[#6B7280]/10"
+            className="text-gray-700 hover:bg-gray-50 cursor-pointer focus:bg-gray-50"
           >
-            All
+            All Status
           </SelectItem>
           <SelectItem
             value="true"
-            className="text-emerald-400 hover:bg-emerald-500/10 focus:bg-emerald-500/10"
+            className="text-emerald-600 font-medium hover:bg-emerald-50 cursor-pointer focus:bg-emerald-50"
           >
-            Active
+            Active Only
           </SelectItem>
           <SelectItem
             value="false"
-            className="text-rose-400 hover:bg-rose-500/10 focus:bg-rose-500/10"
+            className="text-amber-600 font-medium hover:bg-amber-50 cursor-pointer focus:bg-amber-50"
           >
-            Inactive
+            Inactive Only
           </SelectItem>
         </SelectContent>
       </Select>
@@ -75,10 +81,10 @@ const Filter = ({
       {hasActiveFilters && (
         <Button
           onClick={clearFilters}
-          variant="outline"
-          className="bg-slate-700 border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/10 hover:text-emerald-300 hover:border-emerald-500"
+          variant="ghost"
+          className="h-11 px-4 text-rose-600 hover:bg-rose-50 hover:text-rose-700 rounded-xl font-medium transition-all"
         >
-          <X className="mr-2 h-4 w-4" />
+          <X className="mr-1.5 h-4 w-4" />
           Clear Filters
         </Button>
       )}

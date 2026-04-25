@@ -33,21 +33,19 @@ export const InfluencerSearchBar = ({ value, onChange }: Props) => {
       }
     });
     return () => subscription.unsubscribe();
-  }, [form.watch, onChange]);
+  }, [form, onChange]);
 
   return (
     <Form {...form}>
-      <div className="flex items-center gap-2">
-        <Search className="size-4 text-slate-400" />
-        <div className="flex-1">
-          <CustomFormField
-            control={form.control}
-            fieldType={FormFieldType.INPUT}
-            name="search"
-            placeholder="Search offers by title..."
-            inputClassName="bg-slate-800/50 border-slate-700/50 text-white placeholder:text-slate-500 rounded-lg focus:border-green-500/50"
-          />
-        </div>
+      <div className="relative w-full group">
+        <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 group-focus-within:text-emerald-500 transition-colors z-10" />
+        <CustomFormField
+          control={form.control}
+          fieldType={FormFieldType.INPUT}
+          name="search"
+          placeholder="Search influencers by name..."
+          inputClassName="pl-10 h-11 bg-white border border-gray-200 text-gray-900 placeholder:text-gray-400 rounded-xl focus-visible:ring-emerald-500/20 focus-visible:border-emerald-500 shadow-sm transition-all"
+        />
       </div>
     </Form>
   );

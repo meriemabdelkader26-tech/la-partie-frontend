@@ -178,6 +178,7 @@ export const GET_MY_APPLICATIONS = gql`
           askingPrice
           status
           paymentStatus
+          rejectionReason
           submittedAt
           releasedAt
         }
@@ -216,6 +217,36 @@ export const GET_COMPANY_DASHBOARD_STATS = gql`
           id
           name
           email
+        }
+        status
+        paymentStatus
+        askingPrice
+        submittedAt
+      }
+    }
+  }
+`;
+
+// Query pour récupérer les statistiques du dashboard influencer
+export const GET_INFLUENCER_DASHBOARD_STATS = gql`
+  query GetInfluencerDashboardStats {
+    influencerDashboardStats {
+      totalCampaigns
+      activeCampaigns
+      totalEarnings
+      pendingEarnings
+      availableBalance
+      totalReach
+      avgEngagement
+      monthlyEarnings
+      recentApplications {
+        id
+        offer {
+          id
+          title
+          createdBy {
+            name
+          }
         }
         status
         paymentStatus
@@ -353,7 +384,6 @@ export const UPDATE_OFFER = gql`
     ) {
       success
       message
-      errors
       offer {
         id
         title
@@ -376,7 +406,6 @@ export const DELETE_OFFER = gql`
     deleteOffer(id: $id) {
       success
       message
-      errors
     }
   }
 `;
@@ -420,7 +449,7 @@ export const CREATE_OFFER_APPLICATION = gql`
 export const UPDATE_APPLICATION_STATUS = gql`
   mutation UpdateApplicationStatus($applicationId: ID!, $status: String!) {
     updateOfferApplicationStatus(applicationId: $applicationId, status: $status) {
-      success: ok
+      ok
       application {
         id
         status
@@ -432,8 +461,8 @@ export const UPDATE_APPLICATION_STATUS = gql`
 // Mutation pour approuver une application
 export const APPROVE_APPLICATION = gql`
   mutation ApproveApplication($applicationId: ID!) {
-    approveApplication: updateOfferApplicationStatus(applicationId: $applicationId, status: "Approved") {
-      success: ok
+    updateOfferApplicationStatus(applicationId: $applicationId, status: "Approved") {
+      ok
       application {
         id
         status
@@ -445,8 +474,8 @@ export const APPROVE_APPLICATION = gql`
 // Mutation pour rejeter une application
 export const REJECT_APPLICATION = gql`
   mutation RejectApplication($applicationId: ID!) {
-    rejectApplication: updateOfferApplicationStatus(applicationId: $applicationId, status: "Rejected") {
-      success: ok
+    updateOfferApplicationStatus(applicationId: $applicationId, status: "Rejected") {
+      ok
       application {
         id
         status

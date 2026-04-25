@@ -16,15 +16,15 @@ const InfluencerLayout = ({ children }: Props) => {
   }
 
   return (
-    <div className="h-full bg-pastel-green/30">
-      <div className="h-20 md:pl-56 fixed inset-y-0 w-full z-50 bg-pastel-dark-blue/90 backdrop-blur-sm border-b border-pastel-dark-blue/20">
+    <div className="h-full bg-gray-50/50">
+      <div className="h-20 md:pl-56 fixed inset-y-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-black/5">
         <Navbar />
       </div>
-      <div className="hidden md:flex min-h-screen w-56 flex-col fixed inset-y-0 z-50 bg-pastel-blue border-r border-pastel-dark-blue/20">
+      <div className="hidden md:flex min-h-screen w-56 flex-col fixed inset-y-0 z-50 bg-white border-r border-black/5 shadow-soft">
         <Sidebar />
       </div>
-      <main className="md:pl-56 pt-20 h-full min-h-screen bg-transparent">
-        <div className="p-4">{children}</div>
+      <main className="md:pl-56 pt-20 h-full min-h-screen">
+        <div className="p-8 max-w-7xl mx-auto">{children}</div>
       </main>
     </div>
   );

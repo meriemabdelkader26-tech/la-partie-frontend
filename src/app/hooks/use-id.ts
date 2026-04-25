@@ -2,5 +2,6 @@ import { useParams } from "next/navigation";
 
 export const useId = () => {
   const params = useParams();
-  return params.id as string;
+  const id = params.id as string;
+  return id ? decodeURIComponent(id) : id;
 };

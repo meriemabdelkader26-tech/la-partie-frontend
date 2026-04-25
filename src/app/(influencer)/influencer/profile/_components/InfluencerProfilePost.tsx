@@ -1,40 +1,48 @@
 import { InstagramPost } from "@/app/types";
 import { Card } from "@/components/ui/card";
-import { Heart, MessageCircle } from "lucide-react";
+import { Heart, MessageCircle, ExternalLink } from "lucide-react";
 import Image from "next/image";
 
 interface Props {
   post: InstagramPost;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 const InfluencerProfilePost = (props: Props) => {
-  const { post } = props;
+  const { post, className, style } = props;
   return (
     <Card
       key={post.id}
-      className="bg-slate-800 border-slate-700 overflow-hidden hover:border-green-400 transition-colors group cursor-pointer"
+      className={`bg-white border-2 border-black/5 rounded-[32px] overflow-hidden hover:border-black/20 hover:shadow-medium transition-all duration-500 group cursor-pointer ${className || ""}`}
+      style={style}
     >
-      <div className="relative h-48 w-full overflow-hidden bg-slate-700">
+      <div className="relative h-64 w-full overflow-hidden bg-gray-50">
         <Image
           src={post.imageUrl || "/placeholder.svg"}
           alt={post.postName}
           fill
-          className="object-cover group-hover:scale-105 transition-transform"
+          className="object-cover group-hover:scale-110 transition-transform duration-700"
           unoptimized
         />
+        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center backdrop-blur-[2px]">
+          <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center translate-y-4 group-hover:translate-y-0 transition-all duration-500 opacity-0 group-hover:opacity-100 shadow-medium">
+            <ExternalLink className="w-5 h-5 text-black" />
+          </div>
+        </div>
       </div>
-      <div className="p-4">
-        <p className="text-slate-300 text-sm line-clamp-2 mb-3">
+      <div className="p-6">
+        <p className="text-black font-bold text-sm line-clamp-2 mb-6 group-hover:text-gray-700 transition-colors leading-relaxed">
           {post.postName}
         </p>
-        <div className="flex items-center gap-4 text-slate-400 text-sm">
-          <div className="flex items-center gap-1">
-            <Heart size={16} />
-            <span>{post.likes}</span>
+        <div className="flex items-center gap-6 pt-4 border-t border-black/5">
+          <div className="flex items-center gap-2 group/stat">
+            <Heart size={16} className="text-black group-hover/stat:scale-125 transition-transform duration-300" />
+            <span className="text-xs font-black text-black">{post.likes.toLocaleString()}</span>
           </div>
-          <div className="flex items-center gap-1">
-            <MessageCircle size={16} />
-            <span>{post.comments}</span>
+          <div className="flex items-center gap-2 group/stat">
+            <MessageCircle size={16} className="text-black group-hover/stat:scale-125 transition-transform duration-300" />
+            <span className="text-xs font-black text-black">{post.comments.toLocaleString()}</span>
           </div>
         </div>
       </div>

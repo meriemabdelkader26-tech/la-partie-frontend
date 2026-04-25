@@ -3,12 +3,14 @@
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 import "react-quill-new/dist/quill.bubble.css";
+import { cn } from "@/lib/utils";
 
 interface PreviewProps {
   value: string;
+  className?: string;
 }
 
-const Preview = ({ value }: PreviewProps) => {
+const Preview = ({ value, className }: PreviewProps) => {
   const ReactQuill = useMemo(
     () => dynamic(() => import("react-quill-new"), { ssr: false }),
     []
@@ -18,7 +20,7 @@ const Preview = ({ value }: PreviewProps) => {
       theme="bubble"
       value={value}
       readOnly
-      className="prose prose-invert max-w-none text-slate-300 bg-slate-800/50 border-slate-700/50 rounded-md p-4"
+      className={cn("max-w-none ql-editor-preview", className)}
     />
   );
 };

@@ -1,6 +1,8 @@
 import { Offer } from "@/app/types";
 import { Card } from "@/components/ui/card";
 import { daysRemaining } from "@/lib/utils";
+import { Target, ListChecks, Wallet, Users, Calendar, Clock, Briefcase } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface Props {
   offer: Offer;
@@ -8,59 +10,99 @@ interface Props {
 
 const OfferDetailOverview = (props: Props) => {
   const { offer } = props;
+  const remainingDays = daysRemaining(offer.endDate);
+  const isUrgent = remainingDays <= 7;
+
   return (
-    <Card className="bg-slate-800/50 border-slate-700/50 p-8 backdrop-blur-sm mb-8">
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div>
-          <h2 className="text-sm font-semibold text-slate-400 uppercase mb-2">
-            Objective
-          </h2>
-          <p className="text-white text-lg mb-6">{offer.objectif}</p>
+    <div className="bg-white border border-gray-100 rounded-[32px] p-8 md:p-10 shadow-sm relative overflow-hidden">
+      {/* Decorative background element */}
+      <div className="absolute top-0 right-0 w-64 h-64 bg-emerald-50 rounded-full -mr-32 -mt-32 opacity-50 blur-3xl" />
+      
+      <div className="relative z-10 flex flex-col gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div className="space-y-8">
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <Target className="w-5 h-5 text-emerald-500" />
+                <h2 className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                  Campaign Objective
+                </h2>
+              </div>
+              <p className="text-xl font-bold text-gray-900 leading-relaxed italic">
+                &ldquo;{offer.objectif}&rdquo;
+              </p>
+            </div>
 
-          <h2 className="text-sm font-semibold text-slate-400 uppercase mb-2">
-            Requirements
-          </h2>
-          <div className="text-white space-y-2 text-sm">
-            <ul className="list-disc list-inside space-y-1">
-              <li>1 Instagram Reel</li>
-              <li>Tag brand</li>
-              <li>Use hashtag</li>
-            </ul>
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <ListChecks className="w-5 h-5 text-indigo-500" />
+                <h2 className="text-xs font-black text-gray-400 uppercase tracking-widest">
+                  Requirements
+                </h2>
+              </div>
+              <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100">
+                <ul className="space-y-3">
+                  {(offer.requirement || "No specific requirements listed.").split('\n').map((req, i) => (
+                    <li key={i} className="flex items-start gap-3 text-sm font-medium text-gray-600 leading-relaxed">
+                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
+                      {req}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
           </div>
-        </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-slate-700/50 rounded-lg p-4">
-            <p className="text-slate-400 text-xs font-semibold uppercase mb-2">
-              Budget Range
-            </p>
-            <p className="text-white font-bold">
-              ${offer.minBudget} - ${offer.maxBudget}
-            </p>
-          </div>
-          <div className="bg-slate-700/50 rounded-lg p-4">
-            <p className="text-slate-400 text-xs font-semibold uppercase mb-2">
-              Influencers Needed
-            </p>
-            <p className="text-white font-bold">{offer.influencerNumber}</p>
-          </div>
-          <div className="bg-slate-700/50 rounded-lg p-4">
-            <p className="text-slate-400 text-xs font-semibold uppercase mb-2">
-              Start Date
-            </p>
-            <p className="text-white font-bold">{offer.startDate}</p>
-          </div>
-          <div className="bg-slate-700/50 rounded-lg p-4">
-            <p className="text-slate-400 text-xs font-semibold uppercase mb-2">
-              Days Remaining
-            </p>
-            <p className="text-yellow-400 font-bold">
-              {daysRemaining(offer.endDate)} days
-            </p>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all group">
+              <Wallet className="w-5 h-5 text-emerald-500 mb-3 group-hover:scale-110 transition-transform" />
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                Budget Range
+              </p>
+              <p className="text-lg font-black text-gray-900 leading-tight">
+                ${Number(offer.minBudget).toLocaleString()} - <br/>
+                ${Number(offer.maxBudget).toLocaleString()}
+              </p>
+            </div>
+
+            <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all group">
+              <Users className="w-5 h-5 text-blue-500 mb-3 group-hover:scale-110 transition-transform" />
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                Open Slots
+              </p>
+              <p className="text-2xl font-black text-gray-900">
+                {offer.influencerNumber}
+              </p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase">Influencers</p>
+            </div>
+
+            <div className="bg-white border border-gray-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-all group">
+              <Calendar className="w-5 h-5 text-amber-500 mb-3 group-hover:scale-110 transition-transform" />
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                Starts On
+              </p>
+              <p className="text-lg font-black text-gray-900">
+                {new Date(offer.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+              </p>
+            </div>
+
+            <div className={cn(
+              "p-6 rounded-2xl shadow-sm hover:shadow-md transition-all group border",
+              isUrgent ? "bg-rose-50 border-rose-100" : "bg-white border-gray-100"
+            )}>
+              <Clock className={cn("w-5 h-5 mb-3 group-hover:scale-110 transition-transform", isUrgent ? "text-rose-500" : "text-gray-400")} />
+              <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
+                Time Left
+              </p>
+              <p className={cn("text-2xl font-black", isUrgent ? "text-rose-600" : "text-gray-900")}>
+                {remainingDays}d
+              </p>
+              <p className="text-[10px] font-bold text-gray-400 uppercase">Until Expiration</p>
+            </div>
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 
