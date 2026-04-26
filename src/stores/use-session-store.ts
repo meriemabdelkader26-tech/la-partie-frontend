@@ -14,6 +14,8 @@ interface SessionUser {
   id: string;
   role?: string;
   isStaff?: boolean;
+  isVerifyByAdmin?: boolean;
+  isCompletedProfile?: boolean;
   profilePicture?: string;
 }
 

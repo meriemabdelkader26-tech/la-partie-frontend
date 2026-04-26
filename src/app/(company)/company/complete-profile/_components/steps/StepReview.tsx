@@ -12,6 +12,7 @@ import { graphqlClient, handleGraphQLError } from "@/lib/graphql-client";
 import { toast } from "sonner";
 import { useMutation } from "@tanstack/react-query";
 import { useCompanyProfileFormStore } from "@/stores/use-company-profile-form-store";
+import { useSessionStore } from "@/stores/use-session-store";
 
 interface Props {
   formData: ProfileCompanyFormData;
@@ -29,6 +30,7 @@ const StepReview = (props: Props) => {
   const { formData, onComplete } = props;
   const [error, setError] = useState<string | null>(null);
   const { clearFormData } = useCompanyProfileFormStore();
+  const { currentUser, setCurrentUser } = useSessionStore();
 
   const mutation = useMutation<
     CompleteCompanyProfileResult,
@@ -65,8 +67,39 @@ const StepReview = (props: Props) => {
         }
       );
     },
-    onSuccess: () => {
+    onSuccess: async () => {
       toast.success("Company profile completed successfully!");
+      
+      // Refresh token to get updated isCompletedProfile and isVerifyByAdmin status in JWT
+      try {
+        const refreshToken = localStorage.getItem("refreshToken") || "";
+        if (refreshToken) {
+          console.log("[DEBUG] Triggering token refresh after profile completion...");
+          const refreshRes = await fetch("/api/refresh-token", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ refreshToken }),
+          });
+          if (refreshRes.ok) {
+            const refreshData = await refreshRes.json();
+            if (refreshData.refreshToken) {
+              localStorage.setItem("refreshToken", refreshData.refreshToken);
+            }
+            console.log("[DEBUG] Token refreshed successfully.");
+          } else {
+            console.error("[DEBUG] Token refresh failed:", refreshRes.status);
+          }
+        }
+      } catch (e) {
+        console.error("Failed to refresh token after profile completion", e);
+      }
+
+      if (currentUser) {
+        setCurrentUser({
+          ...currentUser,
+          isCompletedProfile: true,
+        });
+      }
       clearFormData();
       setTimeout(onComplete, 2000);
     },

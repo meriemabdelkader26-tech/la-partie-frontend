@@ -114,7 +114,7 @@ const CompanyCompleteProfile = () => {
         return (
           <StepReview
             formData={formData}
-            onComplete={() => router.push("/company/dashboard")}
+            onComplete={() => (window.location.href = "/company")}
           />
         );
       default:

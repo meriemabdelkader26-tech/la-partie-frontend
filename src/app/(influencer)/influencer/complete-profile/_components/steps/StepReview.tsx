@@ -7,6 +7,7 @@ import SubmitButton from "@/components/shared/SubmitButton";
 import ErrorTriangle from "@/components/shared/ErrorTriangle";
 import { Category } from "@/app/types";
 import { useProfileFormStore } from "@/stores/use-profile-form-store";
+import { useSessionStore } from "@/stores/use-session-store";
 import { PlayCircle, Heart, MessageCircle, Eye, ImageIcon } from "lucide-react";
 import { graphqlClient } from "@/lib/graphql-client";
 import { COMPLETE_INFLUENCER_PROFILE_MUTATION } from "../mutations/completeProfile";
@@ -37,6 +38,7 @@ export default function StepReview({
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
   const { clearFormData } = useProfileFormStore();
+  const { currentUser, setCurrentUser } = useSessionStore();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -121,6 +123,39 @@ export default function StepReview({
         setSuccess(true);
         // Clear the form data from Zustand store after successful submission
         clearFormData();
+
+        // Refresh token to get updated isCompletedProfile and isVerifyByAdmin status in JWT
+        try {
+          const refreshToken = localStorage.getItem("refreshToken") || "";
+          if (refreshToken) {
+            console.log("[DEBUG] Triggering token refresh after profile completion...");
+            const refreshRes = await fetch("/api/refresh-token", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ refreshToken }),
+            });
+            if (refreshRes.ok) {
+              const refreshData = await refreshRes.json();
+              if (refreshData.refreshToken) {
+                localStorage.setItem("refreshToken", refreshData.refreshToken);
+              }
+              console.log("[DEBUG] Token refreshed successfully.");
+            } else {
+              console.error("[DEBUG] Token refresh failed:", refreshRes.status);
+            }
+          }
+        } catch (e) {
+          console.error("Failed to refresh token after profile completion", e);
+        }
+
+        // Update session store to reflect profile completion
+        if (currentUser) {
+          setCurrentUser({
+            ...currentUser,
+            isCompletedProfile: true,
+          });
+        }
+        
         setTimeout(onComplete, 2000);
       } else {
         setError(
