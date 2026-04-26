@@ -155,6 +155,41 @@ export async function middleware(req: NextRequest) {
     if (now < exp) {
       // Token is still valid
       console.log("✅ Token valid, checking path access");
+
+      const isVerifyByAdmin = tokenPayload?.isVerifyByAdmin === true;
+      const isCompletedProfile = tokenPayload?.isCompletedProfile === true;
+      const isStaff = tokenPayload?.isStaff === true;
+
+      // Logic for profile completion and admin approval
+      if (!isStaff && !effectiveRoles.includes("ADMIN")) {
+        // 1. If profile is NOT complete, redirect to complete-profile page
+        if (
+          !isCompletedProfile &&
+          !pathname.includes("/complete-profile") &&
+          pathname !== "/pending-approval" &&
+          !pathname.startsWith("/api")
+        ) {
+          const role = effectiveRoles.includes("COMPANY")
+            ? "company"
+            : "influencer";
+          url.pathname = `/${role}/complete-profile`;
+          console.log("🔄 Redirecting to complete-profile:", url.pathname);
+          return NextResponse.redirect(url);
+        }
+
+        // 2. If profile IS complete but NOT verified by admin, we let them proceed to dashboard
+        // The PendingApprovalOverlay in the layout will show the "Wait for approval" message
+        if (
+          isCompletedProfile &&
+          !isVerifyByAdmin &&
+          !pathname.startsWith("/api") &&
+          !pathname.includes("/complete-profile")
+        ) {
+          // We allow this, but if they are trying to access admin, that's already handled by canAccessPath
+          console.log("✅ Pending user, allowing dashboard access (overlay will show)");
+        }
+      }
+
       if (!canAccessPath(pathname, effectiveRoles)) {
         console.log("🚫 Access denied, redirecting to /unauthorized");
         url.pathname = "/unauthorized";

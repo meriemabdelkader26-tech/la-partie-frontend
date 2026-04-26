@@ -11,6 +11,13 @@ import { useQueryState } from "nuqs";
 import { graphqlClient, handleGraphQLError } from "@/lib/graphql-client";
 import { useMutation } from "@tanstack/react-query";
 import { Mail, Loader2, Sparkles, Shield } from "lucide-react";
+import Cookies from "js-cookie";
+import { useSessionStore } from "@/stores/use-session-store";
+import {
+  COOKIE_REFRESH_TOKEN_KEY,
+  COOKIE_TOKEN_KEY,
+  COOKIE_USER_ROLE_KEY,
+} from "@/config";
 
 const TIMER_SECONDS = 120;
 
@@ -28,6 +35,17 @@ mutation VerifyEmailWithToken($token: String!, $email: String!) {
   verifyEmailWithToken(token: $token, email: $email) {
     success
     message
+    token
+    refreshToken
+    user {
+      id
+      email
+      name
+      role
+      isStaff
+      isVerifyByAdmin
+      isCompletedProfile
+    }
   }
 }
 `;
@@ -43,6 +61,17 @@ interface VerifyTokenMutationResult {
   verifyEmailWithToken: {
     success: boolean;
     message: string;
+    token?: string;
+    refreshToken?: string;
+    user?: {
+      id: string;
+      email: string;
+      name: string;
+      role: string;
+      isStaff: boolean;
+      isVerifyByAdmin: boolean;
+      isCompletedProfile: boolean;
+    };
   };
 }
 
@@ -52,6 +81,8 @@ const VerifyEmailPage = () => {
   const token = useTokenVerifyEmail();
   const [resendTimer, setResendTimer] = useState<number>(TIMER_SECONDS);
   const [isVerifying, setIsVerifying] = useState<boolean>(false);
+
+  const { setLoggedIn, setCurrentUser } = useSessionStore();
 
   // Mutation for automatic verification via email link
   const verifyTokenMutation = useMutation<
@@ -66,14 +97,55 @@ const VerifyEmailPage = () => {
       );
     },
     onSuccess: (data) => {
-      if (data.verifyEmailWithToken.success) {
-        toast.success(data.verifyEmailWithToken.message || "Email verified successfully!");
-        // Redirect to login after 2 seconds
+      const result = data.verifyEmailWithToken;
+      if (result.success && result.token && result.user) {
+        const user = result.user;
+        const token = result.token;
+        const refreshToken = result.refreshToken;
+
+        // Auto-login after verification
+        setLoggedIn(true);
+        setCurrentUser({
+          email: user.email,
+          name: user.name,
+          exp: Math.floor(Date.now() / 1000) + 86400, // Placeholder expiry
+          id: user.id,
+          role: user.role,
+          isStaff: user.isStaff,
+          isVerifyByAdmin: user.isVerifyByAdmin,
+          isCompletedProfile: user.isCompletedProfile,
+        });
+
+      // Set cookies
+      const cookieOptions = {
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict" as const,
+      };
+
+      Cookies.set(COOKIE_TOKEN_KEY, token, { ...cookieOptions });
+      Cookies.set("access_token", token, { ...cookieOptions });
+      Cookies.set(COOKIE_USER_ROLE_KEY, user.role, { ...cookieOptions });
+      if (refreshToken) {
+        Cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, { ...cookieOptions });
+        Cookies.set("refresh_token", refreshToken, { ...cookieOptions });
+        localStorage.setItem("refreshToken", refreshToken);
+      }
+
+        toast.success("Email verified! Redirecting to profile completion...");
+        
+        // Redirection logic based on role
+        const role = user.role.toLowerCase();
+        setTimeout(() => {
+          window.location.href = `/${role}/complete-profile`;
+        }, 1500);
+      } else if (result.success) {
+        toast.success("Email verified successfully!");
         setTimeout(() => {
           window.location.href = "/login";
         }, 2000);
       } else {
-        toast.error(data.verifyEmailWithToken.message || "Verification failed");
+        toast.error(result.message || "Verification failed");
         setIsVerifying(false);
       }
     },

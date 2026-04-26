@@ -3,6 +3,7 @@
 import { usePathname } from "next/navigation";
 import Navbar from "./_components/Navbar";
 import Sidebar from "./_components/Sidebar";
+import { PendingApprovalOverlay } from "@/components/shared/PendingApprovalOverlay";
 
 interface Props {
   children: React.ReactNode;
@@ -17,6 +18,7 @@ const CompantLayout = ({ children }: Props) => {
 
   return (
     <div className="h-full bg-gray-50/50">
+      <PendingApprovalOverlay />
       <div className="h-20 md:pl-56 fixed inset-y-0 w-full z-50 bg-white/80 backdrop-blur-md border-b border-black/5">
         <Navbar />
       </div>

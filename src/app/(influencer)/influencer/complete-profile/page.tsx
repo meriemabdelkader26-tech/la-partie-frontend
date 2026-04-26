@@ -174,7 +174,7 @@ export default function CompleteProfilePage() {
           <StepReview
             categories={data?.allCategories.edges.map((edge) => edge.node)}
             formData={formData}
-            onComplete={() => router.push("/influencer")}
+            onComplete={() => window.location.href = "/influencer"}
           />
         );
       default:

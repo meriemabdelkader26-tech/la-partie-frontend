@@ -23,6 +23,13 @@ import { graphqlClient, handleGraphQLError } from "@/lib/graphql-client";
 import { useMutation } from "@tanstack/react-query";
 import { useState } from "react";
 import ErrorTriangle from "@/components/shared/ErrorTriangle";
+import Cookies from "js-cookie";
+import { useSessionStore } from "@/stores/use-session-store";
+import {
+  COOKIE_REFRESH_TOKEN_KEY,
+  COOKIE_TOKEN_KEY,
+  COOKIE_USER_ROLE_KEY,
+} from "@/config";
 
 interface Props {
   email: string;
@@ -36,6 +43,17 @@ mutation VerifyEmailWithCode($code: String!, $email: String!) {
   verifyEmailWithCode(code: $code, email: $email) {
     success
     message
+    token
+    refreshToken
+    user {
+      id
+      email
+      name
+      role
+      isStaff
+      isVerifyByAdmin
+      isCompletedProfile
+    }
   }
 }
 `;
@@ -44,11 +62,30 @@ interface VerifyMutationResult {
   verifyEmailWithCode: {
     success: boolean;
     message: string;
+    token?: string;
+    refreshToken?: string;
+    user?: {
+      id: string;
+      email: string;
+      name: string;
+      role: string;
+      isStaff: boolean;
+      isVerifyByAdmin: boolean;
+      isCompletedProfile: boolean;
+    };
   };
 }
 
+const cookieOptions = (exp: number) => ({
+  expires: new Date(exp * 1000),
+  path: "/",
+  secure: process.env.NODE_ENV === "production",
+  sameSite: "strict" as const,
+});
+
 const VerifyEmailForm = ({ formatTime, resendTimer, email }: Props) => {
   const [error, setError] = useState<string | null>(null);
+  const { setLoggedIn, setCurrentUser } = useSessionStore();
 
   const form = useForm<z.infer<typeof VerifyEmailSchema>>({
     resolver: zodResolver(VerifyEmailSchema),
@@ -70,9 +107,53 @@ const VerifyEmailForm = ({ formatTime, resendTimer, email }: Props) => {
         data
       );
     },
-    onSuccess: () => {
-      toast.success("Email verified successfully! You can now log in.");
-      window.location.href = "/login";
+    onSuccess: (data) => {
+      const result = data.verifyEmailWithCode;
+      if (result.success && result.token && result.user) {
+        const user = result.user;
+        const token = result.token;
+        const refreshToken = result.refreshToken;
+
+        // Auto-login after verification
+        setLoggedIn(true);
+        setCurrentUser({
+          email: user.email,
+          name: user.name,
+          exp: Math.floor(Date.now() / 1000) + 86400, // Placeholder expiry
+          id: user.id,
+          role: user.role,
+          isStaff: user.isStaff,
+          isVerifyByAdmin: user.isVerifyByAdmin,
+          isCompletedProfile: user.isCompletedProfile,
+        });
+
+      // Set cookies
+      const cookieOptions = {
+        path: "/",
+        secure: process.env.NODE_ENV === "production",
+        sameSite: "strict" as const,
+      };
+
+      Cookies.set(COOKIE_TOKEN_KEY, token, { ...cookieOptions });
+      Cookies.set("access_token", token, { ...cookieOptions });
+      Cookies.set(COOKIE_USER_ROLE_KEY, user.role, { ...cookieOptions });
+      if (refreshToken) {
+        Cookies.set(COOKIE_REFRESH_TOKEN_KEY, refreshToken, { ...cookieOptions });
+        Cookies.set("refresh_token", refreshToken, { ...cookieOptions });
+        localStorage.setItem("refreshToken", refreshToken);
+      }
+
+        toast.success("Email verified! Redirecting to profile completion...");
+        
+        // Redirection logic based on role
+        const role = user.role.toLowerCase();
+        setTimeout(() => {
+          window.location.href = `/${role}/complete-profile`;
+        }, 1500);
+      } else {
+        toast.success("Email verified successfully! You can now log in.");
+        window.location.href = "/login";
+      }
     },
     onError: (error) => {
       setError(handleGraphQLError(error).message);
@@ -83,8 +164,8 @@ const VerifyEmailForm = ({ formatTime, resendTimer, email }: Props) => {
     console.log("Form submitted with data:", data);
     setError(null);
     mutation.mutate({
-      code: data.code,
-      email: email,
+      code: data.code.trim(),
+      email: email.trim(),
     });
   }
   return (

@@ -33,6 +33,7 @@ const LOGIN_MUTATION = `
         emailVerified
         isBanned
         isVerifyByAdmin
+        isCompletedProfile
         isStaff
         name
         role
@@ -63,6 +64,7 @@ interface LoginMutationResult {
       emailVerified: boolean;
       isBanned: boolean;
       isVerifyByAdmin: boolean;
+      isCompletedProfile: boolean;
       isStaff: boolean;
       name: string;
       role: string;
@@ -121,6 +123,8 @@ const LoginFormBody = () => {
         id: user.id,
         role: user.role,
         isStaff: user.isStaff,
+        isVerifyByAdmin: user.isVerifyByAdmin,
+        isCompletedProfile: user.isCompletedProfile,
         profilePicture: user.influencerProfile?.images?.find(i => i.isDefault)?.url || user.influencerProfile?.images?.[0]?.url,
       });
 
@@ -144,13 +148,13 @@ const LoginFormBody = () => {
       } else if (user.isStaff) {
         targetUrl = "/admin/category";
       } else if (user.role === "INFLUENCER") {
-        if (!user.isVerifyByAdmin) {
+        if (!user.isCompletedProfile) {
           targetUrl = "/influencer/complete-profile";
         } else {
           targetUrl = "/influencer";
         }
       } else if (user.role === "COMPANY") {
-        if (!user.isVerifyByAdmin) {
+        if (!user.isCompletedProfile) {
           targetUrl = "/company/complete-profile";
         } else {
           targetUrl = "/company";
