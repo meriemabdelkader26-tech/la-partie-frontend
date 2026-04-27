@@ -1,6 +1,6 @@
 "use client";
 
-import { Layout, Users, Tags, ShieldUser } from "lucide-react";
+import { Layout, Users, Tags, ShieldUser, MessageSquare } from "lucide-react";
 
 import { SidebarItem } from "./SidebarItem";
 import { useQuery } from "@tanstack/react-query";
@@ -73,6 +73,16 @@ const routes = [
 
   },
 
+  {
+
+    label: "Messages",
+
+    icon: MessageSquare,
+
+    href: "/admin/chat",
+
+  },
+
 ];
 
 
@@ -104,6 +114,10 @@ const SidebarRoutes = () => {
       n.link.includes("/admin/offer")
   ).length;
 
+  const chatNotificationsCount = unreadNotifications.filter(
+    (n) => n.title.toLowerCase().includes("message") || n.link.includes("/admin/chat")
+  ).length;
+
   return (
 
     <div className="flex flex-col w-full py-6 px-2">
@@ -122,6 +136,7 @@ const SidebarRoutes = () => {
           notificationCount={
             route.label === "Users" ? userNotificationsCount :
             route.label === "Offers" ? offerNotificationsCount :
+            route.label === "Messages" ? chatNotificationsCount :
             undefined
           }
 

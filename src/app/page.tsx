@@ -1,4 +1,6 @@
 "use client";
+import { useEffect } from "react";
+import { useSessionStore } from "@/stores/use-session-store";
 import HomeNavbar from "./_components/HomeNavbar";
 import HomeHero from "./_components/HomeHero";
 import HomeService from "./_components/HomeService";
@@ -12,6 +14,16 @@ import HomeFooter from "./_components/HomeFooter";
 import HomeTrendingInfluencer from "./_components/HomeTrendingInfluencer";
 
 export default function Home() {
+  const { isLoggedIn, signOut } = useSessionStore();
+
+  useEffect(() => {
+    // If we're on the home page and not logged in according to our store,
+    // ensure all cookies are cleared to prevent "ghost" sessions.
+    if (!isLoggedIn) {
+      signOut();
+    }
+  }, [isLoggedIn, signOut]);
+
   return (
     <main className="min-h-screen pageBackgroundColor">
       <HomeNavbar />

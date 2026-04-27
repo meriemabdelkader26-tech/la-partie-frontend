@@ -47,7 +47,7 @@ export default function Page() {
       return graphqlClient.request(QUERY, {
         first: ITEMS_PER_PAGE,
         offset: (page - 1) * ITEMS_PER_PAGE,
-        nameIstartswith: search || undefined,
+        search: search || undefined,
         isActive:
           isActiveFilter === "all" ? undefined : isActiveFilter === "true",
         orderBy: orderBy,

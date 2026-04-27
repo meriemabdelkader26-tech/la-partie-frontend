@@ -106,6 +106,9 @@ const InfluencerCard = (props: Props) => {
         <div className="flex gap-2 mt-auto">
           <Button 
             className="flex-1 bg-white hover:bg-gray-50 border border-gray-200 text-gray-700 h-10 text-xs font-bold rounded-xl transition-all shadow-sm flex items-center gap-2"
+            onClick={() =>
+              router.push(`/admin/chat?userId=${influencer.user?.id}`)
+            }
           >
             <MessageCircle className="w-3.5 h-3.5" />
             Chat

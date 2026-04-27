@@ -1,16 +1,15 @@
 import { User } from "@/app/types";
 
 export const QUERY = `
-query AllUsers($first: Int, $offset: Int, $role: UserRoleEnum, $nameIcontains: String, $emailIcontains: String, $isActive: Boolean, $isBanned: Boolean, $orderBy: String, $isVerifyByAdmin: Boolean) {
+query AllUsers($first: Int, $offset: Int, $role: UserRoleEnum, $search: String, $isActive: Boolean, $isBanned: Boolean, $orderBy: String, $isVerifyByAdmin: Boolean) {
   allUsers(
     role: $role
     ordering: $orderBy
     offset: $offset
-    name_Icontains: $nameIcontains
+    search: $search
     isBanned: $isBanned
     isActive: $isActive
     first: $first
-    email_Icontains: $emailIcontains
     isVerifyByAdmin: $isVerifyByAdmin
   ) {
     edges {

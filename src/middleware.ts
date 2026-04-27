@@ -118,6 +118,25 @@ export async function middleware(req: NextRequest) {
     )
   ) {
     console.log("✅ Public route, allowing access");
+    
+    // 🧹 SPECIAL CLEANUP: If visiting login or register, we clear tokens to ensure a fresh start.
+    // For the landing page (/), we are more cautious to not log out active users, 
+    // unless they specifically hit it from a logged-out state (handled in frontend).
+    if (pathname === "/login" || pathname === "/register") {
+      const res = NextResponse.next();
+      const hasToken = req.cookies.has("token") || req.cookies.has("access_token");
+      if (hasToken) {
+        console.log("🧹 Cleaning old tokens on auth page:", pathname);
+        res.cookies.delete("token");
+        res.cookies.delete("access_token");
+        res.cookies.delete("refreshToken");
+        res.cookies.delete("refresh_token");
+        res.cookies.delete("userRole");
+        res.cookies.delete("isStaff");
+      }
+      return res;
+    }
+    
     return NextResponse.next();
   }
 

@@ -4,18 +4,15 @@ import { useSessionStore } from "@/stores/use-session-store";
 import { LogOut, Clock, ShieldCheck, Sparkles } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { useLogout } from "@/app/hooks/use-logout";
 
 export const PendingApprovalOverlay = () => {
-  const { signOut, currentUser } = useSessionStore();
+  const { currentUser } = useSessionStore();
+  const { logout, isLoading } = useLogout();
 
   if (!currentUser || currentUser.isVerifyByAdmin || currentUser.isStaff || currentUser.role === 'ADMIN') {
     return null;
   }
-
-  const handleLogout = () => {
-    signOut();
-    window.location.href = "/login";
-  };
 
   return (
     <div className="fixed inset-0 z-[9999] bg-white/60 backdrop-blur-md flex items-center justify-center p-4 overflow-hidden">
@@ -71,11 +68,12 @@ export const PendingApprovalOverlay = () => {
               You'll receive an email once your account is activated.
             </p>
             <Button
-              onClick={handleLogout}
-              className="w-full h-14 bg-black hover:bg-gray-800 text-white rounded-2xl font-bold text-base shadow-medium hover:shadow-large transition-all duration-300 flex items-center justify-center gap-2 group hover:scale-[1.02]"
+              onClick={logout}
+              disabled={isLoading}
+              className="w-full h-14 bg-black hover:bg-gray-800 text-white rounded-2xl font-bold text-base shadow-medium hover:shadow-large transition-all duration-300 flex items-center justify-center gap-2 group hover:scale-[1.02] disabled:opacity-50"
             >
               <LogOut className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-              Logout from account
+              {isLoading ? "Logging out..." : "Logout from account"}
             </Button>
           </div>
         </div>

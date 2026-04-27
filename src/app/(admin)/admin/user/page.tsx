@@ -59,8 +59,7 @@ const Page = () => {
       variables.role = role;
     }
     if (search && search !== "") {
-      variables.nameIcontains = search;
-      variables.emailIcontains = search;
+      variables.search = search;
     }
 
     if (verification === "verified") {

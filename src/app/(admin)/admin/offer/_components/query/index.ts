@@ -1,7 +1,7 @@
 import { Offer } from "@/app/types";
 
 export const QUERY = `
-query allOffers($first: Int, $offset: Int, $maxBudget: Decimal, $minBudget: Decimal, $ordering: String, $startDate: Date, $title: String, $endDate: Date) {
+query allOffers($first: Int, $offset: Int, $maxBudget: Decimal, $minBudget: Decimal, $ordering: String, $startDate: Date, $search: String, $endDate: Date) {
   allOffers(
     maxBudget: $maxBudget
     minBudget: $minBudget
@@ -9,7 +9,7 @@ query allOffers($first: Int, $offset: Int, $maxBudget: Decimal, $minBudget: Deci
     first: $first
     ordering: $ordering
     startDate: $startDate
-    title: $title
+    search: $search
     endDate: $endDate
   ) {
     edges {

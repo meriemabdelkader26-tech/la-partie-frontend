@@ -14,6 +14,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { DashboardGuide } from "@/app/_components/DashboardGuide";
+import { useLogout } from "@/app/hooks/use-logout";
 
 interface Props {
   name: string;
@@ -21,14 +22,10 @@ interface Props {
 }
 
 export default function AvatarDropdown({ email, name }: Props) {
-  const { signOut, currentUser } = useSessionStore();
+  const { currentUser } = useSessionStore();
+  const { logout, isLoading } = useLogout();
   const router = useRouter();
   const [isGuideOpen, setIsGuideOpen] = useState(false);
-
-  const loggout = () => {
-    signOut();
-    window.location.href = "/login";
-  };
 
   const handleSettingsClick = () => {
     if (currentUser?.role === 'INFLUENCER') {
@@ -88,11 +85,12 @@ export default function AvatarDropdown({ email, name }: Props) {
           <DropdownMenuSeparator className="bg-black/5 mx-2" />
           <div className="p-2">
             <button
-              className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white rounded-xl py-3 text-sm font-bold shadow-soft transition-all hover:scale-[1.02] group"
-              onClick={loggout}
+              className="w-full flex items-center justify-center gap-2 bg-red-600 hover:bg-red-700 text-white rounded-xl py-3 text-sm font-bold shadow-soft transition-all hover:scale-[1.02] group disabled:opacity-50"
+              onClick={logout}
+              disabled={isLoading}
             >
               <LogOut className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
-              Logout
+              {isLoading ? "Logging out..." : "Logout"}
             </button>
           </div>
         </DropdownMenuContent>

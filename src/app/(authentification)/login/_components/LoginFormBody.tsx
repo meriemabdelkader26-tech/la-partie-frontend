@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { LoginFormSchema } from "./schema";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSessionStore } from "@/stores/use-session-store";
 import { useMutation } from "@tanstack/react-query";
 import { graphqlClient, handleGraphQLError } from "@/lib/graphql-client";
@@ -90,7 +90,13 @@ const LoginFormBody = () => {
   const [error, setError] = useState<string | null>(null);
   const [showSuccess, setShowSuccess] = useState(false);
   const [redirectUrl, setRedirectUrl] = useState<string>("/");
-  const { setLoggedIn, setCurrentUser } = useSessionStore();
+  const { setLoggedIn, setCurrentUser, signOut } = useSessionStore();
+
+  // Clear any existing session when landing on login page
+  useEffect(() => {
+    signOut();
+  }, [signOut]);
+
   const form = useForm<z.infer<typeof LoginFormSchema>>({
     mode: "all",
     resolver: zodResolver(LoginFormSchema),

@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import Cookies from "js-cookie";
 import {
+  COOKIE_IS_STAFF_KEY,
   COOKIE_REFRESH_TOKEN_KEY,
   COOKIE_TOKEN_KEY,
   COOKIE_USER_ROLE_KEY,
@@ -35,10 +36,14 @@ export const useSessionStore = create<SessionState>()(
       setLoggedIn: (value) => set({ isLoggedIn: value }),
       setCurrentUser: (user) => set({ currentUser: user }),
       signOut: () => {
+        // Clear all possible cookie names for tokens
         Cookies.remove(COOKIE_TOKEN_KEY);
-        Cookies.remove(COOKIE_USER_ROLE_KEY);
-        Cookies.remove("isStaff");
+        Cookies.remove("access_token");
         Cookies.remove(COOKIE_REFRESH_TOKEN_KEY);
+        Cookies.remove("refresh_token");
+        Cookies.remove(COOKIE_USER_ROLE_KEY);
+        Cookies.remove(COOKIE_IS_STAFF_KEY);
+        Cookies.remove("isStaff");
 
         // Clear session state
         set({ isLoggedIn: false, currentUser: null });
@@ -48,6 +53,8 @@ export const useSessionStore = create<SessionState>()(
           localStorage.removeItem("session-storage");
           localStorage.removeItem("profile-form-storage");
           localStorage.removeItem("company-profile-form-storage");
+          // Clear any other potential storage
+          sessionStorage.clear();
         }
       },
     }),

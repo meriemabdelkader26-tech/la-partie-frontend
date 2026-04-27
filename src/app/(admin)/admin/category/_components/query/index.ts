@@ -1,12 +1,12 @@
 import { Category } from "@/app/types";
 
 export const QUERY = `
-query allCategories($isActive: Boolean, $offset: Int, $first: Int, $orderBy: String, $nameIstartswith: String) {
+query allCategories($isActive: Boolean, $offset: Int, $first: Int, $orderBy: String, $search: String) {
   allCategories(
     isActive: $isActive
     offset: $offset
     first: $first
-    name_Icontains: $nameIstartswith
+    search: $search
     ordering: $orderBy
   ) {
     edges {

@@ -61,7 +61,7 @@ export default function OffersPage() {
     queryFn: () => {
       const variables: Record<string, any> = {};
 
-      if (searchQuery) variables.title = searchQuery;
+      if (searchQuery) variables.search = searchQuery;
       if (minBudget) variables.minBudget = parseFloat(minBudget);
       if (maxBudget) variables.maxBudget = parseFloat(maxBudget);
       if (startDate) variables.startDate = format(startDate, "yyyy-MM-dd");
