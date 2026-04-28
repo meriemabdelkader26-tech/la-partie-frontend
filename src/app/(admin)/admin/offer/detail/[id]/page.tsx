@@ -55,6 +55,28 @@ const OfferDetailPage = () => {
   const offer = offerData?.offer;
   const applications = applicationsData?.applicationsForOffer.edges.map(e => e.node) || [];
 
+  if (!offer) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] w-full p-8">
+        <div className="bg-amber-50 border border-amber-100 p-10 rounded-[32px] flex flex-col items-center text-center max-w-md shadow-sm">
+          <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 mb-6">
+            <AlertTriangle className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Offer Not Found</h2>
+          <p className="text-gray-500 font-medium mb-8">
+            The campaign you are looking for does not exist or you don't have permission to view it.
+          </p>
+          <Button 
+            onClick={() => router.push("/admin/offer")}
+            className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold h-12 rounded-xl"
+          >
+            Back to Offers
+          </Button>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <motion.section 
       initial={{ opacity: 0, y: 10 }}
@@ -138,7 +160,7 @@ const OfferDetailPage = () => {
             </div>
             <div className="flex items-center gap-4 p-4 bg-gray-50 rounded-2xl border border-gray-100">
               <div className="w-12 h-12 rounded-full bg-white border border-gray-100 flex items-center justify-center text-lg font-black text-gray-400">
-                {offer?.createdBy?.name.substring(0, 2).toUpperCase()}
+                {offer?.createdBy?.name?.substring(0, 2).toUpperCase() || "??"}
               </div>
               <div className="flex flex-col">
                 <span className="text-sm font-bold text-gray-900">{offer?.createdBy?.name}</span>

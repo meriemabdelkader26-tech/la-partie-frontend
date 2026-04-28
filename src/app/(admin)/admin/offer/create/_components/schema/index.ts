@@ -30,7 +30,7 @@ export const MutationOfferSchema = z.object({
     .refine((val) => !isNaN(Number(val)), {
       message: "Number of influencers must be a valid number",
     }),
-  requirements: z
+  requirement: z
     .string()
     .min(10, "Requirements must be at least 10 characters long"),
   objectif: z.string().min(10, "Objective must be at least 10 characters long"),

@@ -10,8 +10,8 @@ interface Props {
 
 const OfferDetailOverview = (props: Props) => {
   const { offer } = props;
-  const remainingDays = daysRemaining(offer.endDate);
-  const isUrgent = remainingDays <= 7;
+  const remainingDays = offer?.endDate ? daysRemaining(offer.endDate) : 0;
+  const isUrgent = remainingDays <= 7 && remainingDays > 0;
 
   return (
     <div className="bg-white border border-gray-100 rounded-[32px] p-8 md:p-10 shadow-sm relative overflow-hidden">
@@ -29,7 +29,7 @@ const OfferDetailOverview = (props: Props) => {
                 </h2>
               </div>
               <p className="text-xl font-bold text-gray-900 leading-relaxed italic">
-                &ldquo;{offer.objectif}&rdquo;
+                &ldquo;{offer?.objectif || "No objective set"}&rdquo;
               </p>
             </div>
 
@@ -42,7 +42,7 @@ const OfferDetailOverview = (props: Props) => {
               </div>
               <div className="bg-gray-50 rounded-2xl p-5 border border-gray-100">
                 <ul className="space-y-3">
-                  {(offer.requirement || "No specific requirements listed.").split('\n').map((req, i) => (
+                  {(offer?.requirement || "No specific requirements listed.").split('\n').map((req, i) => (
                     <li key={i} className="flex items-start gap-3 text-sm font-medium text-gray-600 leading-relaxed">
                       <div className="w-1.5 h-1.5 rounded-full bg-indigo-400 mt-1.5 shrink-0" />
                       {req}
@@ -60,8 +60,8 @@ const OfferDetailOverview = (props: Props) => {
                 Budget Range
               </p>
               <p className="text-lg font-black text-gray-900 leading-tight">
-                ${Number(offer.minBudget).toLocaleString()} - <br/>
-                ${Number(offer.maxBudget).toLocaleString()}
+                ${offer?.minBudget ? Number(offer.minBudget).toLocaleString() : "0"} - <br/>
+                ${offer?.maxBudget ? Number(offer.maxBudget).toLocaleString() : "0"}
               </p>
             </div>
 
@@ -71,7 +71,7 @@ const OfferDetailOverview = (props: Props) => {
                 Open Slots
               </p>
               <p className="text-2xl font-black text-gray-900">
-                {offer.influencerNumber}
+                {offer?.influencerNumber || 0}
               </p>
               <p className="text-[10px] font-bold text-gray-400 uppercase">Influencers</p>
             </div>
@@ -82,7 +82,9 @@ const OfferDetailOverview = (props: Props) => {
                 Starts On
               </p>
               <p className="text-lg font-black text-gray-900">
-                {new Date(offer.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+                {offer?.startDate 
+                  ? new Date(offer.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+                  : "Not set"}
               </p>
             </div>
 

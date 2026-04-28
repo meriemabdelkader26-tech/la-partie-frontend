@@ -7,16 +7,17 @@ import { graphqlClient } from "@/lib/graphql-client";
 import { Offer } from "@/app/types";
 import Loading from "@/app/loading";
 import { motion } from "framer-motion";
-import { Edit3, ArrowLeft } from "lucide-react";
+import { Edit3, ArrowLeft, AlertTriangle } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
+import { OFFERS_KEY } from "@/constant";
 
 const Page = () => {
   const offerId = useId();
   const router = useRouter();
 
-  const { isFetching, data } = useQuery<DataType>({
-    queryKey: ["OFFERS_KEY", offerId],
+  const { isLoading, data } = useQuery<DataType>({
+    queryKey: [OFFERS_KEY, offerId],
     enabled: !!offerId,
     queryFn: () => {
       return graphqlClient.request(QUERY, {
@@ -25,11 +26,33 @@ const Page = () => {
     },
   });
 
-  if (isFetching) {
+  if (isLoading) {
     return <Loading />;
   }
 
   const offer = data?.offer;
+
+  if (!offer) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[60vh] w-full p-8">
+        <div className="bg-amber-50 border border-amber-100 p-10 rounded-[32px] flex flex-col items-center text-center max-w-md shadow-sm">
+          <div className="w-16 h-16 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600 mb-6">
+            <AlertTriangle className="w-8 h-8" />
+          </div>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">Offer Not Found</h2>
+          <p className="text-gray-500 font-medium mb-8">
+            The campaign you are trying to edit does not exist or you don't have permission to modify it.
+          </p>
+          <Button 
+            onClick={() => router.push("/admin/offer")}
+            className="w-full bg-gray-900 hover:bg-gray-800 text-white font-bold h-12 rounded-xl"
+          >
+            Back to Offers
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <motion.section

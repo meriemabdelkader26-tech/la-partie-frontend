@@ -46,7 +46,7 @@ const CreateFormOffer = () => {
     defaultValues: {
       title: "",
       objectif: "",
-      requirements: "",
+      requirement: "",
       minBudget: "",
       maxBudget: "",
       startDate: undefined,
@@ -57,16 +57,16 @@ const CreateFormOffer = () => {
   const router = useRouter();
   const queryClient = useQueryClient();
 
-  const refineMutation = useMutation<any, Error, { requirements: string }>({
-    mutationFn: async ({ requirements }) => {
-      return await graphqlClient.request<any>(
+  const refineMutation = useMutation<{ refineRequirements: { refinedRequirements: string } }, Error, { requirement: string }>({
+    mutationFn: async ({ requirement }) => {
+      return await graphqlClient.request<{ refineRequirements: { refinedRequirements: string } }>(
         MUTATION_REFINE_REQUIREMENTS,
-        { requirements }
+        { requirements: requirement }
       );
     },
     onSuccess: (data) => {
       if (data?.refineRequirements?.refinedRequirements) {
-        form.setValue("requirements", data.refineRequirements.refinedRequirements);
+        form.setValue("requirement", data.refineRequirements.refinedRequirements);
         toast.success("Requirements refined by AI!");
       }
     },
@@ -78,12 +78,12 @@ const CreateFormOffer = () => {
 
   const handleAiRefine = (e: React.MouseEvent) => {
     e.preventDefault();
-    const currentRequirements = form.getValues("requirements");
-    if (!currentRequirements || currentRequirements.length < 10) {
+    const currentRequirement = form.getValues("requirement");
+    if (!currentRequirement || currentRequirement.length < 10) {
       toast.error("Please enter at least some basic requirements for the AI to refine.");
       return;
     }
-    refineMutation.mutate({ requirements: currentRequirements });
+    refineMutation.mutate({ requirement: currentRequirement });
   };
 
   const mutation = useMutation<
@@ -113,7 +113,7 @@ const CreateFormOffer = () => {
     const mutationData: CreateOfferInput = {
       title: values.title,
       objectif: values.objectif,
-      requirement: values.requirements,
+      requirement: values.requirement,
       minBudget: values.minBudget,
       maxBudget: values.maxBudget,
       startDate: values.startDate.toISOString().split("T")[0],
@@ -130,7 +130,7 @@ const CreateFormOffer = () => {
           <div className="space-y-6">
             <CustomFormField
               name="title"
-              control={form.control}
+              control={form.control as any}
               fieldType={FormFieldType.INPUT}
               label="Campaign Title"
               placeholder="e.g. Summer Fashion Launch 2026"
@@ -139,7 +139,7 @@ const CreateFormOffer = () => {
 
             <CustomFormField
               name="objectif"
-              control={form.control}
+              control={form.control as any}
               fieldType={FormFieldType.SELECT}
               label="Primary Objective"
               placeholder="Select campaign goal"
@@ -155,7 +155,7 @@ const CreateFormOffer = () => {
             <div className="grid grid-cols-2 gap-4">
               <CustomFormField
                 name="minBudget"
-                control={form.control}
+                control={form.control as any}
                 fieldType={FormFieldType.INPUT}
                 label="Min Budget ($)"
                 placeholder="0"
@@ -163,7 +163,7 @@ const CreateFormOffer = () => {
               />
               <CustomFormField
                 name="maxBudget"
-                control={form.control}
+                control={form.control as any}
                 fieldType={FormFieldType.INPUT}
                 label="Max Budget ($)"
                 placeholder="100000"
@@ -176,14 +176,14 @@ const CreateFormOffer = () => {
             <div className="grid grid-cols-2 gap-4">
               <CustomFormField
                 name="startDate"
-                control={form.control}
+                control={form.control as any}
                 fieldType={FormFieldType.DATE_PICKER}
                 label="Start Date"
                 placeholder="Launch date"
               />
               <CustomFormField
                 name="endDate"
-                control={form.control}
+                control={form.control as any}
                 fieldType={FormFieldType.DATE_PICKER}
                 label="End Date"
                 placeholder="Expiration date"
@@ -192,7 +192,7 @@ const CreateFormOffer = () => {
 
             <CustomFormField
               name="influencerNumber"
-              control={form.control}
+              control={form.control as any}
               fieldType={FormFieldType.INPUT}
               label="Number of Influencers Needed"
               placeholder="e.g. 10"
@@ -201,8 +201,8 @@ const CreateFormOffer = () => {
 
             <div className="relative group">
               <CustomFormField
-                name="requirements"
-                control={form.control}
+                name="requirement"
+                control={form.control as any}
                 fieldType={FormFieldType.TEXTAREA}
                 label="Campaign Requirements"
                 placeholder="Detail what influencers need to do (e.g. 1 Reel, Tag brand, Use hashtags...)"
