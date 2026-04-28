@@ -2,7 +2,7 @@ import { Offer } from "@/app/types";
 import { OfferApplication } from "../types";
 
 export const QUERY = `
-query offer($id: ID!) {
+query GetOfferDetail($id: ID!) {
   offer(id: $id) {
     id
     createdAt
