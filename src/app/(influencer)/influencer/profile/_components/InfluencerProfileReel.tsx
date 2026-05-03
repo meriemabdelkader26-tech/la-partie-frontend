@@ -1,7 +1,7 @@
 import { InstagramReel } from "@/app/types";
 import { Card } from "@/components/ui/card";
 import { Heart, Play, BarChart3 } from "lucide-react";
-import Image from "next/image";
+import { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_IMAGE_PROXY } from "@/config";
 
 interface Props {
   reel: InstagramReel;
@@ -11,19 +11,24 @@ interface Props {
 
 const InfluencerProfileReel = (props: Props) => {
   const { reel, className, style } = props;
+  const imageUrl = reel.thumbnailUrl;
+  const isPlaceholder = !imageUrl || String(imageUrl).includes("placehold.co") || imageUrl === "/placeholder.svg";
 
   return (
     <Card 
       className={`bg-white border-2 border-black/5 rounded-[32px] overflow-hidden hover:border-black/20 hover:shadow-medium transition-all duration-500 group cursor-pointer ${className || ""}`}
       style={style}
     >
-      <div className="relative aspect-[9/16] w-full overflow-hidden bg-gray-50">
-        <Image
-          src={reel.thumbnailUrl || "/placeholder.svg"}
-          alt="Reel"
-          fill
-          className="object-cover group-hover:scale-110 transition-transform duration-700"
-          unoptimized
+      <div className="relative aspect-[9/16] w-full overflow-hidden bg-gray-50 flex items-center justify-center">
+        <img
+          src={!isPlaceholder ? imageUrl : "/placeholder.svg"}
+          alt={reel.postName || "Instagram Reel"}
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          referrerPolicy="no-referrer"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = "/placeholder.svg";
+          }}
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/10 group-hover:bg-black/30 transition-all duration-500 backdrop-blur-[1px] group-hover:backdrop-blur-[2px]">
           <div className="w-14 h-14 rounded-full bg-white/95 flex items-center justify-center shadow-medium transform scale-90 group-hover:scale-100 transition-all duration-500">
@@ -34,11 +39,11 @@ const InfluencerProfileReel = (props: Props) => {
           <div className="flex items-center gap-6 text-white font-black text-xs uppercase tracking-widest">
             <div className="flex items-center gap-2 group/stat">
               <Heart size={16} className="fill-white group-hover/stat:scale-125 transition-transform" />
-              <span>{reel.likes.toLocaleString()}</span>
+              <span>{(reel.likes || 0).toLocaleString()}</span>
             </div>
             <div className="flex items-center gap-2 group/stat">
               <BarChart3 size={16} className="text-white group-hover/stat:scale-125 transition-transform" />
-              <span>{reel.views.toLocaleString()}</span>
+              <span>{(reel.views || 0).toLocaleString()}</span>
             </div>
           </div>
           {reel.duration && (

@@ -91,6 +91,18 @@ query MyInfluencerProfile {
     }
     siteWeb
     typeContenu
+    statistiquesGlobales {
+      followersTotaux
+      engagementMoyenGlobal
+      croissanceMensuelle
+    }
+    statistiquesHistorique {
+      id
+      followersTotaux
+      engagementMoyenGlobal
+      croissanceMensuelle
+      mois
+    }
   }
 }
 `;

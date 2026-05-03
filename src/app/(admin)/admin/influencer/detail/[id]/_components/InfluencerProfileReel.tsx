@@ -1,7 +1,7 @@
 import { InstagramReel } from "@/app/types";
 import { Card } from "@/components/ui/card";
 import { Heart, Play } from "lucide-react";
-import Image from "next/image";
+import { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_IMAGE_PROXY } from "@/config";
 
 interface Props {
   reel: InstagramReel;
@@ -13,12 +13,15 @@ const InfluencerProfileReel = (props: Props) => {
   return (
     <Card className="group bg-white border border-gray-100 rounded-[20px] overflow-hidden shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-300 flex flex-col h-full cursor-pointer">
       <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-        <Image
-          src={reel.thumbnailUrl || "/placeholder.svg"}
+        <img
+          src={reel.thumbnailUrl && !reel.thumbnailUrl.includes("placehold.co") && reel.thumbnailUrl !== "/placeholder.svg" ? reel.thumbnailUrl : "/placeholder.svg"}
           alt="Reel"
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-          unoptimized
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          referrerPolicy="no-referrer"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = "/placeholder.svg";
+          }}
         />
         <div className="absolute inset-0 flex items-center justify-center bg-black/20 group-hover:bg-black/40 transition-colors">
           <div className="w-12 h-12 bg-white/20 backdrop-blur-md rounded-full flex items-center justify-center border border-white/30 transform transition-transform group-hover:scale-110">

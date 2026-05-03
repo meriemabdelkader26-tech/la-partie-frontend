@@ -32,6 +32,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { formatDate } from "date-fns";
+import { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_IMAGE_PROXY } from "@/config";
 import Image from "next/image";
 
 const formatNumber = (num: number | undefined | null) => {
@@ -263,11 +264,15 @@ export default function InfluencerProfilePage() {
                       transition={{ delay: idx * 0.05 }}
                       className="group relative aspect-square bg-gray-100 rounded-4xl overflow-hidden shadow-soft hover:shadow-large transition-all duration-500"
                     >
-                      <Image 
-                        src={post.imageUrl || post.thumbnailUrl || "/placeholder-image.jpg"} 
+                      <img 
+                        src={(post.imageUrl || post.thumbnailUrl) && !String(post.imageUrl || post.thumbnailUrl).includes("placehold.co") ? (post.imageUrl || post.thumbnailUrl) : "/placeholder.svg"} 
                         alt={post.postName || "Post"} 
-                        fill 
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/placeholder.svg";
+                        }}
                       />
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col items-center justify-center text-white gap-4">
                         <div className="flex items-center gap-6">
@@ -304,11 +309,15 @@ export default function InfluencerProfilePage() {
                       transition={{ delay: idx * 0.05 }}
                       className="group relative aspect-9/16 bg-gray-100 rounded-4xl overflow-hidden shadow-soft hover:shadow-large transition-all duration-500"
                     >
-                      <Image 
-                        src={reel.thumbnailUrl || "/placeholder-image.jpg"} 
+                      <img 
+                        src={reel.thumbnailUrl && !String(reel.thumbnailUrl).includes("placehold.co") ? reel.thumbnailUrl : "/placeholder.svg"} 
                         alt={reel.postName || "Reel"} 
-                        fill 
-                        className="object-cover transition-transform duration-700 group-hover:scale-110"
+                        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        referrerPolicy="no-referrer"
+                        onError={(e) => {
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/placeholder.svg";
+                        }}
                       />
                       <div className="absolute top-4 right-4 z-10">
                         <div className="bg-black/50 backdrop-blur-md text-white px-2 py-1 rounded-lg flex items-center gap-1.5">

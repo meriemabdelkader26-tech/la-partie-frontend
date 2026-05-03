@@ -10,6 +10,7 @@ import {
 import { createColumns } from "./TableColumns";
 import { cn } from "@/lib/utils";
 import AdvancedPagination from "@/components/ui/advanced-pagination";
+import BulkDeleteUsersButton from "./BulkDeleteUsersButton";
 
 type Props = {
   items: User[] | undefined;
@@ -38,6 +39,7 @@ export default function DataTableUser({
   onOrderChange,
 }: Props) {
   const [rowSelection, setRowSelection] = useState({});
+  const [isBulkDeleteOpen, setIsBulkDeleteOpen] = useState(false);
 
   const columns = createColumns(orderBy, onOrderChange);
 
@@ -54,6 +56,10 @@ export default function DataTableUser({
 
   const selectedRowsCount = Object.keys(rowSelection).length;
 
+  const getSelectedUserIds = () => {
+    return table.getSelectedRowModel().rows.map((row) => row.original.id);
+  };
+
   return (
     <div className="w-full flex flex-col gap-4">
       {/* Batch Actions Bar (Floating) */}
@@ -66,15 +72,25 @@ export default function DataTableUser({
             <button className="bg-white border border-gray-200 hover:bg-gray-50 text-gray-700 px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm">
               Export Selected
             </button>
-            <button className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5">
+            <button 
+              onClick={() => setIsBulkDeleteOpen(true)}
+              className="bg-rose-500 hover:bg-rose-600 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all shadow-sm flex items-center gap-1.5"
+            >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
-                <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
+                <path fillRule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1-1v6a1 1 0 102 0V8a1 1 0 00-1-1z" clipRule="evenodd" />
               </svg>
               Delete
             </button>
           </div>
         </div>
       )}
+
+      <BulkDeleteUsersButton
+        userIds={getSelectedUserIds()}
+        open={isBulkDeleteOpen}
+        onOpenChange={setIsBulkDeleteOpen}
+        onSuccess={() => setRowSelection({})}
+      />
 
       {/* Table Headers */}
       <div className="hidden lg:grid grid-cols-12 gap-4 px-6 py-3 bg-gray-50/80 border border-gray-100 rounded-2xl mb-1 sticky top-0 z-10 backdrop-blur-md">

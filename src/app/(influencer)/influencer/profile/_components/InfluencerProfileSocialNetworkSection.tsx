@@ -18,7 +18,7 @@ const InfluencerProfileSocialNetworkSection = (props: Props) => {
       </div>
 
       <div className="space-y-6">
-        {data?.reseauxSociaux.map((network, idx) => (
+        {data?.reseauxSociaux?.map((network, idx) => (
           <div 
             key={idx} 
             className="bg-gray-50 border border-black/5 rounded-[32px] p-8 hover:bg-white hover:border-black/10 hover:shadow-medium transition-all duration-500 group animate-fadeInUp"

@@ -16,7 +16,7 @@ const InfluencerProfileContentTypeSection = (props: Props) => {
       </div>
       
       <div className="flex flex-wrap gap-4">
-        {data?.typeContenu.map((type, idx) => (
+        {data?.typeContenu?.map((type, idx) => (
           <span
             key={type}
             className="bg-gray-50 text-black border-2 border-black/5 px-6 py-3 rounded-2xl font-black text-sm shadow-inner-soft hover:bg-black hover:text-white hover:border-black transition-all duration-300 cursor-default animate-scaleIn"

@@ -37,26 +37,26 @@ const InfluencerProfileHeaderSection = ({ data }: InfluencerProfileHeaderSection
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
             <InfluencerProfileStat
               label="Followers"
-              value={`${data?.reseauxSociaux[0]?.nombreAbonnes || '0'}`}
+              value={`${data?.statistiquesGlobales?.followersTotaux || data?.reseauxSociaux?.[0]?.nombreAbonnes || '0'}`}
               className="animate-fadeInUp"
               style={{ animationDelay: '400ms' }}
             />
             <InfluencerProfileStat
               label="Engagement Rate"
-              value={`${data?.reseauxSociaux[0]?.tauxEngagement || '0'}%`}
+              value={`${data?.statistiquesGlobales?.engagementMoyenGlobal?.toFixed(2) || data?.reseauxSociaux?.[0]?.tauxEngagement || '0'}%`}
               className="animate-fadeInUp"
               style={{ animationDelay: '500ms' }}
             />
             <InfluencerProfileStat
               label="Avg. Likes"
-              value={`${data?.reseauxSociaux[0]?.moyenneLikes || '0'}`}
+              value={`${data?.reseauxSociaux?.[0]?.moyenneLikes || '0'}`}
               className="animate-fadeInUp"
               style={{ animationDelay: '600ms' }}
             />
           </div>
 
           <div className="flex flex-wrap gap-3 animate-fadeInUp delay-700">
-            {data?.langues.map((lang: string, idx: number) => (
+            {data?.langues?.map((lang: string, idx: number) => (
               <InfluencerProfileLanguageChip key={lang} label={lang} />
             ))}
           </div>

@@ -1,7 +1,7 @@
 import { InstagramPost } from "@/app/types";
 import { Card } from "@/components/ui/card";
 import { Heart, MessageCircle } from "lucide-react";
-import Image from "next/image";
+import { NEXT_PUBLIC_BASE_URL, NEXT_PUBLIC_IMAGE_PROXY } from "@/config";
 
 interface Props {
   post: InstagramPost;
@@ -15,12 +15,15 @@ const InfluencerProfilePost = (props: Props) => {
       className="group bg-white border border-gray-100 rounded-[20px] overflow-hidden shadow-sm hover:shadow-lg hover:border-emerald-200 transition-all duration-300 flex flex-col h-full"
     >
       <div className="relative h-48 w-full overflow-hidden bg-gray-100">
-        <Image
-          src={post.imageUrl || "/placeholder.svg"}
+        <img
+          src={post.imageUrl && !post.imageUrl.includes("placehold.co") && post.imageUrl !== "/placeholder.svg" ? post.imageUrl : "/placeholder.svg"}
           alt={post.postName || "Post"}
-          fill
-          className="object-cover transition-transform duration-500 group-hover:scale-110"
-          unoptimized
+          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          referrerPolicy="no-referrer"
+          onError={(e) => {
+            const target = e.target as HTMLImageElement;
+            target.src = "/placeholder.svg";
+          }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
       </div>

@@ -4,7 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useState } from "react";
 import VerifyButton from "./VerifyButton";
 import ViewUserSheet from "./ViewUserSheet";
-import { CheckCircle2, Eye } from "lucide-react";
+import DeleteUserButton from "./DeleteUserButton";
+import { CheckCircle2, Eye, Trash2 } from "lucide-react";
 
 interface Props {
   user: User;
@@ -14,6 +15,7 @@ const ActionButtons = (props: Props) => {
   const { user } = props;
   const [isViewOpen, setIsViewOpen] = useState(false);
   const [isVerifyOpen, setIsVerifyOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   return (
     <>
@@ -36,6 +38,14 @@ const ActionButtons = (props: Props) => {
           <Eye className="w-3.5 h-3.5" />
           View
         </Button>
+        <Button
+          size="sm"
+          onClick={() => setIsDeleteOpen(true)}
+          className="bg-rose-50 hover:bg-rose-100 border border-rose-100 text-rose-600 h-8 text-xs font-semibold shadow-sm transition-all px-3 flex items-center gap-1.5 rounded-lg"
+        >
+          <Trash2 className="w-3.5 h-3.5" />
+          Delete
+        </Button>
       </div>
 
       <ViewUserSheet 
@@ -48,6 +58,12 @@ const ActionButtons = (props: Props) => {
         data={user} 
         open={isVerifyOpen} 
         onOpenChange={setIsVerifyOpen} 
+      />
+
+      <DeleteUserButton
+        data={user}
+        open={isDeleteOpen}
+        onOpenChange={setIsDeleteOpen}
       />
     </>
   );
