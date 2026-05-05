@@ -250,7 +250,7 @@ const DashboardPage = () => {
     return (
       <div className="flex items-center justify-center min-h-[60vh] p-4">
         <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="text-center space-y-8 max-w-md">
-          <div className="w-24 h-24 bg-rose-50 rounded-[2rem] flex items-center justify-center mx-auto border-2 border-rose-100 shadow-xl shadow-rose-100/50">
+          <div className="w-24 h-24 bg-rose-50 rounded-4xl flex items-center justify-center mx-auto border-2 border-rose-100 shadow-xl shadow-rose-100/50">
             <XCircle className="w-12 h-12 text-rose-500" />
           </div>
           <div className="space-y-3">
@@ -282,7 +282,7 @@ const DashboardPage = () => {
             </div>
             <span className="text-[10px] font-black text-black uppercase tracking-[0.3em]">Business Portal v2.0</span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black text-black tracking-[0.1em] mb-3 leading-none uppercase">
+          <h1 className="text-5xl md:text-7xl font-black text-black tracking-widest mb-3 leading-none uppercase">
             {company?.companyName || "Organization"}
           </h1>
           <p className="text-gray-400 font-black text-lg uppercase tracking-widest flex items-center gap-3">
@@ -297,8 +297,8 @@ const DashboardPage = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Link href="/company/campaigns/new">
-            <Button className="h-20 px-10 bg-black hover:bg-gray-800 text-white font-black text-xl rounded-[2rem] shadow-2xl hover:shadow-black/20 hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <Button className="h-20 px-10 bg-black hover:bg-gray-800 text-white font-black text-xl rounded-4xl shadow-2xl hover:shadow-black/20 hover:-translate-y-2 transition-all duration-500 group relative overflow-hidden">
+              <div className="absolute inset-0 bg-linear-to-r from-emerald-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               <Plus className="w-8 h-8 mr-4 group-hover:rotate-90 transition-transform duration-500" />
               Launch Campaign
             </Button>
@@ -395,21 +395,6 @@ const DashboardPage = () => {
                   <div className="text-8xl font-black text-rose-600 tracking-tighter leading-none">
                     {stats?.rejectedApplications || 0}
                   </div>
-                </div>
-              </Card>
-
-              <Card className="bg-black rounded-[3rem] p-10 shadow-2xl relative overflow-hidden group">
-                <div className="absolute top-0 right-0 p-8">
-                  <Sparkles className="w-12 h-12 text-white/20 animate-pulse" />
-                </div>
-                <div className="space-y-6 relative z-10">
-                  <h3 className="text-white/60 font-black text-xs uppercase tracking-[0.3em]">Campaign Intelligence</h3>
-                  <p className="text-white text-xl font-medium leading-relaxed">
-                    Influencers are <span className="text-emerald-400 font-black underline decoration-2">24% more likely</span> to apply to campaigns with clear visual requirements.
-                  </p>
-                  <Button variant="outline" className="w-full h-12 border-white/20 text-white hover:bg-white hover:text-black font-black rounded-xl transition-all">
-                    Get AI Optimization
-                  </Button>
                 </div>
               </Card>
             </div>
@@ -532,19 +517,19 @@ const DashboardPage = () => {
             className="pt-10 grid grid-cols-1 md:grid-cols-3 gap-6"
           >
             <Link href="/company/influencers/search" className="group">
-              <div className="p-6 bg-white border border-black/5 rounded-[2rem] shadow-soft group-hover:bg-black transition-all duration-500 flex flex-col gap-4">
+              <div className="p-6 bg-white border border-black/5 rounded-4xl shadow-soft group-hover:bg-black transition-all duration-500 flex flex-col gap-4">
                 <Search className="w-6 h-6 text-black group-hover:text-white transition-colors" />
                 <span className="text-sm font-black text-black group-hover:text-white uppercase tracking-widest transition-colors">Discover Talent</span>
               </div>
             </Link>
             <Link href="/company/analytics" className="group">
-              <div className="p-6 bg-white border border-black/5 rounded-[2rem] shadow-soft group-hover:bg-black transition-all duration-500 flex flex-col gap-4">
+              <div className="p-6 bg-white border border-black/5 rounded-4xl shadow-soft group-hover:bg-black transition-all duration-500 flex flex-col gap-4">
                 <TrendingUp className="w-6 h-6 text-black group-hover:text-white transition-colors" />
                 <span className="text-sm font-black text-black group-hover:text-white uppercase tracking-widest transition-colors">Market Insights</span>
               </div>
             </Link>
             <Link href="/company/profile" className="group">
-              <div className="p-6 bg-white border border-black/5 rounded-[2rem] shadow-soft group-hover:bg-black transition-all duration-500 flex flex-col gap-4">
+              <div className="p-6 bg-white border border-black/5 rounded-4xl shadow-soft group-hover:bg-black transition-all duration-500 flex flex-col gap-4">
                 <Briefcase className="w-6 h-6 text-black group-hover:text-white transition-colors" />
                 <span className="text-sm font-black text-black group-hover:text-white uppercase tracking-widest transition-colors">Brand Identity</span>
               </div>

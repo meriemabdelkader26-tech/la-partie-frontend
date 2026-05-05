@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { graphqlClient } from "@/lib/graphql-client";
-import { GET_MY_OFFERS } from "@/lib/queries/offer-queries";
+import { GET_MY_OFFERS, DELETE_OFFER } from "@/lib/queries/offer-queries";
 import { Offer, ApplicationStatus, GetMyOffersResponse, OfferEdge } from "@/lib/types/offer-types";
 import { 
   Megaphone, 
@@ -12,7 +12,8 @@ import {
   Plus, 
   Search, 
   CheckCircle, 
-  XCircle
+  XCircle,
+  Trash2
 } from "lucide-react";
 import Link from "next/link";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -22,8 +23,9 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
-const OfferCard = ({ offer, index }: { offer: Offer; index: number }) => {
+const OfferCard = ({ offer, index, onDelete }: { offer: Offer; index: number; onDelete: (id: string) => void }) => {
   const now = new Date();
   const startDate = new Date(offer.startDate);
   const endDate = new Date(offer.endDate);
@@ -102,7 +104,7 @@ const OfferCard = ({ offer, index }: { offer: Offer; index: number }) => {
             </div>
           </div>
           
-          <p className="text-slate-600 font-normal text-sm leading-relaxed line-clamp-2 min-h-[2.5rem]">
+          <p className="text-slate-600 font-normal text-sm leading-relaxed line-clamp-2 min-h-10">
             {offer.objectif}
           </p>
         </CardHeader>
@@ -192,6 +194,18 @@ const OfferCard = ({ offer, index }: { offer: Offer; index: number }) => {
                 </Link>
               )}
             </div>
+
+            <Button
+              variant="ghost"
+              onClick={(e) => {
+                e.stopPropagation();
+                onDelete(offer.id);
+              }}
+              className="w-full h-10 text-rose-500 hover:text-rose-600 hover:bg-rose-50 font-medium rounded-xl transition-all flex items-center justify-center gap-2 text-xs mt-1"
+            >
+              <Trash2 className="w-4 h-4" />
+              Delete Campaign
+            </Button>
           </div>
         </CardContent>
       </Card>
@@ -223,6 +237,25 @@ const CampaignsPage = () => {
       setError(errorMessage);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Are you sure you want to delete this campaign? This action cannot be undone.")) {
+      return;
+    }
+
+    try {
+      const response = await graphqlClient.request<{ deleteOffer: { success: boolean; message: string } }>(DELETE_OFFER, { id });
+      if (response.deleteOffer.success) {
+        toast.success("Campaign deleted successfully");
+        fetchOffers();
+      } else {
+        toast.error(response.deleteOffer.message || "Failed to delete campaign");
+      }
+    } catch (error) {
+      console.error("Error deleting campaign:", error);
+      toast.error("An error occurred while deleting the campaign");
     }
   };
 
@@ -391,7 +424,7 @@ const CampaignsPage = () => {
                 className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
               >
                 {results.map((offer, idx) => (
-                  <OfferCard key={offer.id} offer={offer} index={idx} />
+                  <OfferCard key={offer.id} offer={offer} index={idx} onDelete={handleDelete} />
                 ))}
               </motion.div>
             ) : (

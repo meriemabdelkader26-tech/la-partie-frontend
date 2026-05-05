@@ -28,8 +28,10 @@ import {
   GET_CONVERSATION_MESSAGES, 
   SEND_MESSAGE 
 } from "@/lib/queries/messages-queries";
+import { GET_ALL_INFLUENCERS } from "@/lib/queries/admin-queries";
 import { format, isToday, isYesterday } from "date-fns";
 import { useSearchParams, useRouter } from "next/navigation";
+import Link from "next/link";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -88,7 +90,13 @@ export default function MessagesPage() {
     refetchInterval: 10000, // Poll every 10 seconds
   });
 
+  const { data: influencersData } = useQuery({
+    queryKey: ["allInfluencersCount"],
+    queryFn: () => graphqlClient.request<{ allInfluencers: { totalCount: number } }>(GET_ALL_INFLUENCERS, { first: 0 }),
+  });
+
   const conversations = convData?.myConversations || [];
+  const influencerCount = influencersData?.allInfluencers?.totalCount || 500;
 
   // Fetch messages for selected conversation
   const { data: msgData, isLoading: isLoadingMsgs } = useQuery({
@@ -397,15 +405,17 @@ export default function MessagesPage() {
                 <p className="text-gray-500 font-medium leading-relaxed mb-10">
                   Select a talent from the sidebar to start collaborating. Our encrypted messenger keeps your business private.
                 </p>
-                <div className="flex items-center justify-center gap-3 px-8 py-4 bg-black text-white rounded-2xl shadow-xl group cursor-pointer hover:scale-105 transition-all">
-                  <div className="flex -space-x-2">
-                    {[1, 2, 3].map(i => (
-                      <div key={`influencer-dot-${i}`} className="size-6 rounded-full bg-white/20 border-2 border-black" />
-                    ))}
+                <Link href="/company/messages/new-chat">
+                  <div className="flex items-center justify-center gap-3 px-8 py-4 bg-black text-white rounded-2xl shadow-xl group cursor-pointer hover:scale-105 transition-all">
+                    <div className="flex -space-x-2">
+                      {[1, 2, 3].map(i => (
+                        <div key={`influencer-dot-${i}`} className="size-6 rounded-full bg-white/20 border-2 border-black" />
+                      ))}
+                    </div>
+                    <span className="text-[10px] font-black uppercase tracking-widest">+{influencerCount} verified influencers</span>
+                    <ChevronRight className="size-4 group-hover:translate-x-1 transition-transform" />
                   </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest">+500 verified influencers</span>
-                  <ChevronRight className="size-4 group-hover:translate-x-1 transition-transform" />
-                </div>
+                </Link>
               </div>
             </div>
           )}

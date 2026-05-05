@@ -1,3 +1,5 @@
+"use client";
+
 import { Influencer } from "@/app/types";
 import InfluencerProfileSwitcher from "./InfluencerProfileSwitcher";
 import InfluencerProfilePost from "./InfluencerProfilePost";

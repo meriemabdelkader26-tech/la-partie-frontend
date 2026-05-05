@@ -110,3 +110,33 @@ query MyInfluencerProfile {
 export type DataType = {
   myInfluencerProfile: Influencer;
 };
+
+export const UPDATE_PROFILE_PARTIAL = `
+mutation UpdateInfluencerProfilePartial($typeContenu: [String], $reseauxSociaux: [ReseauSocialInput], $langues: [String], $selectedCategories: [ID]) {
+  updateInfluencerProfilePartial(typeContenu: $typeContenu, reseauxSociaux: $reseauxSociaux, langues: $langues, selectedCategories: $selectedCategories) {
+    success
+    message
+    influencer {
+      id
+      typeContenu
+      langues
+      selectedCategories {
+        id
+        name
+        description
+      }
+      reseauxSociaux {
+        id
+        plateforme
+        urlProfil
+        nombreAbonnes
+        tauxEngagement
+        moyenneVues
+        moyenneLikes
+        moyenneCommentaires
+        frequencePublication
+      }
+    }
+  }
+}
+`;
